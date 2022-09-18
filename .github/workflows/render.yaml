@@ -18,7 +18,7 @@ jobs:
         run: pip install jinja2 --upgrade
       
       - name: Install Jupyter
-        run: pip install jupyterlab notebook PyQt5 sip GDAL
+        run: pip install jupyterlab notebook
 
       - name: Install PyQt5
         run: pip install PyQt5 sip
