@@ -1,0 +1,7 @@
+title: TODO
+author: Jan Caha
+version: 0.0.1
+contributes:
+  shortcodes:
+    - todo.lua
+    - links.lua
