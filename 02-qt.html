@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.1.251">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Tvorba GUI aplikací pro geoinformatiku - 2&nbsp; Knihovna Qt a její Python binding PyQt</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./03-aplikace-s-gui.html" rel="next">
+<link href="./01-uvod.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Knihovna <strong>Qt</strong> a její Python binding <strong>PyQt</strong></span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Tvorba GUI aplikací pro geoinformatiku</a> 
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Předmluva</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-uvod.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Úvod</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-qt.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Knihovna <strong>Qt</strong> a její Python binding <strong>PyQt</strong></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-aplikace-s-gui.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Aplikace s GUI</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-prvky-gui.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Prvky GUI</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-qmainwindow.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Jednoduchá aplikace</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-signály-sloty.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Signály a sloty</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-qwidget-kontejner.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">QWidget</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-narocne-operace.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Časově náročné operace v GUI</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summary.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Summary</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./literatura.html" class="sidebar-item-text sidebar-link">Literatura</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix.html" class="sidebar-item-text sidebar-link">Funkce GDAL</a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Obsah</h2>
+   
+  <ul>
+  <li><a href="#qt" id="toc-qt" class="nav-link active" data-scroll-target="#qt"><span class="toc-section-number">2.1</span>  Qt</a></li>
+  <li><a href="#pyqt" id="toc-pyqt" class="nav-link" data-scroll-target="#pyqt"><span class="toc-section-number">2.2</span>  PyQt</a></li>
+  <li><a href="#dokumentace" id="toc-dokumentace" class="nav-link" data-scroll-target="#dokumentace"><span class="toc-section-number">2.3</span>  Dokumentace</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Knihovna <strong>Qt</strong> a její Python binding <strong>PyQt</strong></span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<section id="qt" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="qt"><span class="header-section-number">2.1</span> Qt</h2>
+<p>Knihovna <span class="sw"><a href="https://www.qt.io/">Qt</a></span> je multiplatformní knihovnou jazyka C++ pro tvorbu uživatelského rozhraní a aplikací. Podporuje mimo jiné operační systémy Linux, Windows, Android, macOS a další. Tyto vlastnosti výrazně usnadňují vývoj, neboť lze jednu aplikaci aplikaci spouštět na vícero platformách bez nutnosti výraznějších úprav. Na vývoji knihovny se od roku 1991 podílelo několik firem, aktuálně má vývoj na starosti firma <em>The Qt Company</em>. Knihovna je k dispozici jak pod Open Source, tak i komerční licencí.</p>
+<div id="fig-Qt-logo" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="./figures/Qt_logo_2016.svg" class="img-fluid figure-img" style="width:20.0%"></p>
+<p></p><figcaption class="figure-caption">Obr.&nbsp;2.1: Qt Logo</figcaption><p></p>
+</figure>
+</div>
+<p>Samotná knihovna se dělí na několik dílčích částí, které obstarávají různou funkcionalitu aplikací. Existují např. speciální moduly pro GUI, Widgety (prvky uživatelského prostředí), multimédia, SQL a další. Pro potřeby menších aplikací je důležitých pouze několik hlavních modulů.</p>
+<p>Mezi software používající knihovnu <strong>Qt</strong> se řadí např. Autodesk 3ds Max, Calibre, Google Earth, QGIS, Scribus, Stellarium, VirtualBox, VLC media player, XnView MP a další. Knihovnu mimo jiné využívají i některé Linuxové distribuce pro tvorbu uživatelských rozhraní na obecnější úrovni, než jsou konkrétní aplikace. Tato široká základna softwarů, spoléhajících na <strong>Qt</strong>, by měla zajišťovat jak stabilitu knihovny tak i její vývoj do budoucna.</p>
+</section>
+<section id="pyqt" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="pyqt"><span class="header-section-number">2.2</span> PyQt</h2>
+<p><span class="sw">PyQt</span> je propojení (angl. binding) z Pythonu na C++ knihovnu <span class="sw">Qt</span> , vyvinuté zcela nezávisle na knihovně <span class="sw">Qt</span> firmou <em>Riverbank Computing</em>. Jedná se v podstatě pouze o překlopení a zpřístupnění C++ API v Pythonu. Existuje i alternativní binding v podobě knihovny <span class="sw"><a href="https://www.qt.io/qt-for-python">PySide</a></span>, což je konkurence <span class="sw">PyQt</span> přímo od tvůrců <span class="sw">Qt</span>, které je ale v praxi o něco méně používaná. Co se použitelnosti týká jsou obě knihovny velice podobné a mezi kódem obou knihoven lze poměrně snadno přecházet.</p>
+<div id="fig-Qt-logo" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="./figures/Python_and_Qt.svg" class="img-fluid figure-img" style="width:20.0%"></p>
+<p></p><figcaption class="figure-caption">Obr.&nbsp;2.2: PyQt Logo</figcaption><p></p>
+</figure>
+</div>
+<p>Pro psaní samotné aplikace budeme používat [PyQt5]]{.sw} (pro verzi Qt 5.x), ačkoliv již existuje i <span class="sw">PyQt6</span>, která zatím ale není příliš používána. Např. QGIS se připravuje v dohledné době na přechod z verze Qt 5.x na verzi 6.x. Přechod mezi verzemi by měl být v podstatě formalitou.</p>
+</section>
+<section id="dokumentace" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="dokumentace"><span class="header-section-number">2.3</span> Dokumentace</h2>
+<p>Vzhledem k tomu, že <span class="sw">PyQt</span> je pouze binding C++ knihovny, budeme odkazovat na dokumentaci přímo knihovny <span class="sw">Qt</span>, která je výrazně detailnější a více deskriptivní, než existující pythonové dokumentace <span class="sw">PyQt</span>.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./01-uvod.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Úvod</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./03-aplikace-s-gui.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Aplikace s GUI</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

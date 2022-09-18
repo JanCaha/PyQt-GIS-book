@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.1.251">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Tvorba GUI aplikací pro geoinformatiku - 5&nbsp; Jednoduchá aplikace</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 1em;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./06-signály-sloty.html" rel="next">
+<link href="./04-prvky-gui.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Jednoduchá aplikace</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Tvorba GUI aplikací pro geoinformatiku</a> 
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Předmluva</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-uvod.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Úvod</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-qt.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Knihovna <strong>Qt</strong> a její Python binding <strong>PyQt</strong></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-aplikace-s-gui.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Aplikace s GUI</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-prvky-gui.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Prvky GUI</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-qmainwindow.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Jednoduchá aplikace</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-signály-sloty.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Signály a sloty</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-qwidget-kontejner.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">QWidget</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-narocne-operace.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Časově náročné operace v GUI</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summary.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Summary</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./literatura.html" class="sidebar-item-text sidebar-link">Literatura</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix.html" class="sidebar-item-text sidebar-link">Funkce GDAL</a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Obsah</h2>
+   
+  <ul>
+  <li><a href="#qmainwindow" id="toc-qmainwindow" class="nav-link active" data-scroll-target="#qmainwindow"><span class="toc-section-number">5.1</span>  QMainWindow</a></li>
+  <li><a href="#aplikace" id="toc-aplikace" class="nav-link" data-scroll-target="#aplikace"><span class="toc-section-number">5.2</span>  Aplikace</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title d-none d-lg-block"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Jednoduchá aplikace</span></h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<p>V této kapitole sestavíme jednoduchou aplikaci, na níž budeme prakticky demonstrovat základní koncepty. Aplikace umožní uživateli vybrat soubor, následně zobrazí cestu k tomuto souboru a pokusí se soubor oveřít jako vektorový datový zdroj pomocí <strong>OGR</strong> a zobrazí informaci, zda-li je možné soubor otevřít pomocí OGR. Základem většiny aplikací je třída <a href="https://doc.qt.io/qt-5/qmainwindow.html" class="documentation" title="QMainWindow"><code>QMainWindow</code></a>.</p>
+<section id="qmainwindow" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="qmainwindow"><span class="header-section-number">5.1</span> QMainWindow</h2>
+<p><a href="https://doc.qt.io/qt-5/qmainwindow.html" class="documentation" title="QMainWindow"><code>QMainWindow</code></a> z modulu <code>PyQt5.QtWidgets</code> je třída, která poskytuje základní rozhraní aplikace. V tomto rozhraní jsou předchystané položky pro všechny v aplikacích obvyklé prvky (viz <a href="#fig-qmainwindow">Obr.&nbsp;<span>5.1</span></a>) např. menu (Menu bar), lišty s nástroji (Toolbars), uživatelsky umisťované widgety (Dock Widgets), též zvané dokovatelné widgety, stavový řádek (Status bar) a hlavní prostor aplikace (Central Widget).</p>
+<div id="fig-qmainwindow" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="./figures/qmainwindow.png" class="img-fluid figure-img" style="width:75.0%"></p>
+<p></p><figcaption class="figure-caption">Obr.&nbsp;5.1: Součásti QMainWindow. Zdroj: <span class="citation" data-cites="QtCompany2022">(<a href="literatura.html#ref-QtCompany2022" role="doc-biblioref">The Qt Company Ltd. 2022</a>)</span></figcaption><p></p>
+</figure>
+</div>
+<p>Mimo to může aplikace vytvářet další samostatná okna, s další funkcionalitou.</p>
+<div>
+<div class="callout-qgis callout callout-style-default callout-captioned">
+  <div class="callout-header d-flex align-content-center">
+  <div class="callout-icon-container">
+  <i class="callout-icon"></i>
+  </div>
+  <div class="callout-caption-container flex-fill">
+  QGIS
+  </div>
+  </div>
+  <div class="callout-body-container callout-body">
+  <p>
+</p><p>Jako samostatná okna fungují například <em>Atributová tabulka</em>, nebo <em>Rozvžení</em> (<em>Layout</em>) v <strong>QGIS</strong>.</p>
+<p></p>
+      </div>
+      </div>
+</div>
+<p>Základním stavebním prvkem GUI v <span class="sw">PyQt</span> je <a href="https://doc.qt.io/qt-5/qwidget.html" class="documentation" title="QWidget"><code>QWidget</code></a>, tento objekt je základem všech prvků uživatelského rozhraní a definuje obecné a pro všechny prvky GUI společné chování, nastavení a možnosti. Později si také ukážeme, jak lze na základě této třídy vytvářet vlastní prvky GUI. <!---
+doplnit odkaz na kapitolu
+--> Rozložení <a href="https://doc.qt.io/qt-5/qmainwindow.html" class="documentation" title="QMainWindow"><code>QMainWindow</code></a> umožňuje specifikaci jednoho hlavního widgetu (v <a href="#fig-qmainwindow">Obr.&nbsp;<span>5.1</span></a> položka Centra Widget). V tomto widgetu by se měla nacházet hlavní a nejdůležitější část aplikace.</p>
+<div>
+<div class="callout-qgis callout callout-style-default callout-captioned">
+  <div class="callout-header d-flex align-content-center">
+  <div class="callout-icon-container">
+  <i class="callout-icon"></i>
+  </div>
+  <div class="callout-caption-container flex-fill">
+  QGIS
+  </div>
+  </div>
+  <div class="callout-body-container callout-body">
+  <p>
+</p><p>V QGISu je hlavním widgetem mapové pole (třída <code>QgsMapCanvas</code>) spolu s několika drobnými widgety pod mapovým polem, kolem kterého jsou umístěně dokovatelné widgety <span class="settings">Prohlížeč</span>, <span class="settings">Vrstvy</span> a volitelně další, např. <span class="settings">Nástroje zpracování</span>.</p>
+<p></p>
+      </div>
+      </div>
+</div>
+</section>
+<section id="aplikace" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="aplikace"><span class="header-section-number">5.2</span> Aplikace</h2>
+<p>Většinu konceptů <a href="https://doc.qt.io/qt-5/qmainwindow.html" class="documentation" title="QMainWindow"><code>QMainWindow</code></a> si můžeme demonstrovat na jednoduché aplikaci. Sestavíme aplikaci, kde uživatel vybere soubor, aplikace zobrazí cestu k tomuto souboru a pokusí se soubor otevřít jako vektorový datový zdroj pomocí OGR a zobrazí informaci, zda-li jde soubor otevřít pomocí OGR.</p>
+<p>Samotný kód pro tuto aplikaci může vypadat následovně:</p>
+<div class="cell" data-execution_count="1">
+<details>
+<summary>Zdrojový kód</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> osgeo <span class="im">import</span> ogr</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> PyQt5.QtWidgets <span class="im">import</span> (QApplication, QMainWindow, QFormLayout,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>                             QToolButton, QLineEdit, QFileDialog, QWidget,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>                             QMenu, QAction)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MainWindow(QMainWindow):</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, <span class="op">*</span>args, <span class="op">**</span>kwargs):</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>(MainWindow, <span class="va">self</span>).<span class="fu">__init__</span>(<span class="op">*</span>args, <span class="op">**</span>kwargs)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.setWindowTitle(<span class="st">"První Aplikace"</span>)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.setMinimumSize(<span class="dv">500</span>, <span class="dv">200</span>)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.ds <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.init_gui()</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> init_gui(<span class="va">self</span>):</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>        menu <span class="op">=</span> QMenu(<span class="st">'Aplikace'</span>, <span class="va">self</span>)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.menuBar().addMenu(menu)</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.action_end <span class="op">=</span> QAction(<span class="st">"Ukončit"</span>, <span class="va">self</span>)</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.action_end.triggered.<span class="ex">connect</span>(<span class="va">self</span>.exit)</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>        menu.addAction(<span class="va">self</span>.action_end)</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.central_widget <span class="op">=</span> QWidget()</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.setCentralWidget(<span class="va">self</span>.central_widget)</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>        layout <span class="op">=</span> QFormLayout(<span class="va">self</span>.central_widget)</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.central_widget.setLayout(layout)</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.select_file <span class="op">=</span> QToolButton()</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.select_file.setText(<span class="st">"Vyberte soubor"</span>)</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.select_file.clicked.<span class="ex">connect</span>(<span class="va">self</span>.open_file)</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.file_path <span class="op">=</span> QLineEdit(<span class="st">""</span>)</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.file_path.setReadOnly(<span class="va">False</span>)</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.ogr_file <span class="op">=</span> QLineEdit(<span class="st">""</span>)</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.ogr_file.setReadOnly(<span class="va">False</span>)</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>        layout.addWidget(<span class="va">self</span>.select_file)</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>        layout.addRow(<span class="st">"Vybraný soubor:"</span>, <span class="va">self</span>.file_path)</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>        layout.addRow(<span class="st">"Otevřít pomocí OGR:"</span>, <span class="va">self</span>.ogr_file)</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> exit(<span class="va">self</span>):</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>        app <span class="op">=</span> QApplication.instance()</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>        app.quit()</span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> open_file(<span class="va">self</span>) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>        filename, _ <span class="op">=</span> QFileDialog.getOpenFileName(<span class="va">self</span>, <span class="st">"Vyberte soubor"</span>)</span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> filename:</span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.file_path.setText(filename)</span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.ds <span class="op">=</span> ogr.Open(filename, <span class="va">True</span>)</span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="va">self</span>.ds:</span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>                <span class="va">self</span>.ogr_file.setText(<span class="st">"Otevřeno OGR!"</span>)</span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>                <span class="va">self</span>.ogr_file.setText(<span class="st">"Nelze otevřít pomocí OGR!"</span>)</span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.statusBar().showMessage(</span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Soubor `</span><span class="sc">{}</span><span class="st">` vybrán a zkušebně otevřen."</span>.<span class="bu">format</span>(filename), <span class="dv">2000</span>)</span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.file_path.setText(<span class="st">""</span>)</span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.ogr_file.setText(<span class="st">""</span>)</span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
+<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a>    app <span class="op">=</span> QApplication(sys.argv)</span>
+<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a>    mw <span class="op">=</span> MainWindow()</span>
+<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a>    mw.show()</span>
+<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a>    sys.exit(app.<span class="bu">exec</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>Výsledná aplikace vypadá následovně:</p>
+<div id="fig-app_2" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="./figures/app_1.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Obr.&nbsp;5.2: Aplikace z předešlého kódu</figcaption><p></p>
+</figure>
+</div>
+<p>Hlavní částí aplikace je třída odvozená od <a href="https://doc.qt.io/qt-5/qmainwindow.html" class="documentation" title="QMainWindow"><code>QMainWindow</code></a>, kterou jsme pojmenovali <code>MainWindow</code>. Tato třída si ponechává veškeré svoje chování a lze ho rozšiřovat pomocí nově definovaných funkcí.</p>
+<p>V rámci funkce <code>__init__()</code>, nastavíme třídě titulek zobrazený v záhlaví aplikace a následně základní rozměr, který bude okno zabírat. V tomto případě <span class="math inline">\(800 \times 200\)</span> pixelů.</p>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.setWindowTitle(<span class="st">"První Aplikace"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.setMinimumSize(<span class="dv">500</span>, <span class="dv">200</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Následně vytvoříme funkci <code>init_gui()</code>, která se stará o vytvoření samotného GUI v třídě <code>MainWindow</code>. Základem pro GUI je prázdný <a href="https://doc.qt.io/qt-5/qwidget.html" class="documentation" title="QWidget"><code>QWidget</code></a>, který nastavíme jako centrální pro hlavní okno. Tento widget bude dále sloužit jako kontejner pro další prvky uživatelského rozhraní.</p>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.central_widget <span class="op">=</span> QWidget(<span class="va">self</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.setCentralWidget(<span class="va">self</span>.central_widget)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Základem uživatelského rozhraní je <strong>layout</strong>, který specifikuje, jak budou prvky rozloženy v rozhraní. Pro tuto jednoduchou aplikaci zvolíme <code>QFormLayout</code>, což je layout, kde přídáváme prvky do řádků, přičemž každý řádek obsahuje popisku a prvek GUI. Dříve vytvořenému widgetu přiřadíme vytvořený layout, který se postará o rozložení prvků. Při tvorbě jak <a href="https://doc.qt.io/qt-5/qformlayout.html" class="documentation" title="QFormLayout"><code>QFormLayout</code></a>, tak i <a href="https://doc.qt.io/qt-5/qwidget.html" class="documentation" title="QWidget"><code>QWidget</code></a>, předáváme jako parameter <code>self</code>, což je odkaz na vytvořenou instanci <code>MainWindow</code>. Tato položka slouží jako tzv. rodičovský prvek. Rodičovský prvek slouží v rámci <span class="sw">Qt</span> jako prevence, aby nebyly z paměti smazány objekty, pokud jsou ještě zapotřebí. Rodičovský prvek zajišťuje, že prvek nebude smazát, dokud není ke smazání z paměti určen prvek rodičovský. Při tvorbě některých prvků GUI se jedná o dobrou praxi, která předchází problémům s management existujících prvků GUI.</p>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>layout <span class="op">=</span> QFormLayout(<span class="va">self</span>.central_widget)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.central_widget.setLayout(layout)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Následně vytvoříme tři prvky GUI. Prvním bude <a href="https://doc.qt.io/qt-5/qtoolbutton.html" class="documentation" title="QToolButton"><code>QToolButton</code></a>, kterému přiřadíme popisku vysvětlující jeho účel. Následně propojíme událost na tomto prvku <code>clicked</code> s funkcí (<code>open_file()</code>), kterou jsme vytvořili v třídě <code>MainWindow</code>. Toto propojení se děje v terminologii <strong>Qt</strong> pomocí tzv. signálů a slotů, jejichž detaily budou vysvětleny později. Toto tlačítko je zároveň jediný opravdu interaktivní prvek v GUI, ostatní prvky jsou pasivní a budou pouze zobrazovat informace.</p>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.select_file <span class="op">=</span> QToolButton()</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.select_file.setText(<span class="st">"Vyberte soubor"</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.select_file.clicked.<span class="ex">connect</span>(<span class="va">self</span>.open_file)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Následně vytvoříme dva prvky typu <a href="https://doc.qt.io/qt-5/qlineedit.html" class="documentation" title="QLineEdit"><code>QLineEdit</code></a>, což prvek pro vstup textu, který je omezen na velikost jednoho řádku. Oba prvky ale nastavíme pouze pro čtení, čímž znemožníme uživateli, abych do těchto prvků psal. Budou složit pouze pro zobrazení textu, vytvořeného v rámci běhu programu.</p>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.file_path <span class="op">=</span> QLineEdit(<span class="st">""</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.file_path.setReadOnly(<span class="va">False</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.ogr_file <span class="op">=</span> QLineEdit(<span class="st">""</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.ogr_file.setReadOnly(<span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Všechny tři prvky následně vložíme do již existujícího layoutu. Tlačítko vložíme jako samostatný prvek, textové elementy spolu s popiskou.</p>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>layout.addWidget(<span class="va">self</span>.select_file)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>layout.addRow(<span class="st">"Vybraný soubor:"</span>, <span class="va">self</span>.file_path)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>layout.addRow(<span class="st">"Otevřít pomocí OGR:"</span>, <span class="va">self</span>.ogr_file)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Mimo to ještě v aplikaci vytvoříme menu (<a href="https://doc.qt.io/qt-5/qmenu.html" class="documentation" title="QMenu"><code>QMenu</code></a>) a vložíme do něj jednu položku ( <a href="https://doc.qt.io/qt-5/qaction.html" class="documentation" title="QAction"><code>QAction</code></a>). K této položce opět připojíme funkci z naší třídy (<code>exit()</code>).</p>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>menu <span class="op">=</span> QMenu(<span class="st">'Aplikace'</span>, <span class="va">self</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.menuBar().addMenu(menu)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.action_end <span class="op">=</span> QAction(<span class="st">"Ukončit"</span>, <span class="va">self</span>)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.action_end.triggered.<span class="ex">connect</span>(<span class="va">self</span>.exit)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>menu.addAction(<span class="va">self</span>.action_end)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Propojení slotu na signál
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Při propojení funkce na signál, ve funkci <code>connect()</code>, si povšimněte, že se na funkci odkazuje jako na <code>self.nazev_funkce</code> a nikoliv <code>self.nazev_funkce()</code>. Funkce <code>connect()</code> totiž požaduje odkaz na objekt, což v pythonu může být i funkce, a nikoliv volání (spuštění) funkce, což by byl druhý případ.</p>
+</div>
+</div>
+<p>Takto vytvořená třída by již mohla existovat a GUI by existovalo, nicméně dokud nedefinujeme dvě použité funkce, bude nefunkční a program se korektně nespustí. Pokud bychom zakomentovali dva řádky, kde se používá funkce <code>connect()</code> bylo by možné program spustit.</p>
+<p>Funkce propojená s položkou v menu, je velice jednoduchá. Získá objekt aplikace a ukončí ho. Prvek <code>QApplication</code> je tzv. singleton, což znamená že je v rámci běhu programu existuje pouze jednou, není tedy nutné ho předávat do dílčích tříd, ale lze ho vždy jednoduše získat voláním <code>QApplication.instance()</code>. To značně zjednodušuje jeho použití skrze celou aplikaci.</p>
+<div class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> exit(<span class="va">self</span>):</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    app <span class="op">=</span> QApplication.instance()</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    app.quit()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Druhá námi definovaná funkce, nechá uživatele vybrat soubor pomocí okna (které je svou strukturou známe, neboť se standardně používá). Pokud uživatel vybere soubor, bude proměnná <code>filename</code> obsahovat cestu a název souboru, v opačném případě bude mít hodnotu <code>None</code>. Textovému poli pro název souboru nastavíme cestu k souboru.Následně zkusíme soubor otevřít jako vektorová data, pomocí funkce <code>ogr.Open()</code>. Pokud se to povede nastavíme do textového pole informaci, že soubor byl pomocí <strong>OGR</strong> úspěšně otevřen. Pokud nelze soubor otevřít, zobrazíme o tom textovou zprávu. Následně do status baru (umistěného zcela dole v okně) zobrazíme zprávu, že byl soubor zkušebně otevřen. Zpráva bude zobrazena po dobu 2 vteřin (2000 milisekund).</p>
+<div class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> open_file(<span class="va">self</span>) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    filename, _ <span class="op">=</span> QFileDialog.getOpenFileName(<span class="va">self</span>, <span class="st">"Vyberte soubor"</span>)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> filename:</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.file_path.setText(filename)</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.ds <span class="op">=</span> ogr.Open(filename, <span class="va">True</span>)</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.ds:</span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.ogr_file.setText(<span class="st">"Otevřeno OGR!"</span>)</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.ogr_file.setText(<span class="st">"Nelze otevřít pomocí OGR!"</span>)</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.statusBar().showMessage(</span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Soubor `</span><span class="sc">{}</span><span class="st">` vybrán a zkušebně otevřen."</span>.<span class="bu">format</span>(filename), <span class="dv">2000</span>)</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.file_path.setText(<span class="st">""</span>)</span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.ogr_file.setText(<span class="st">""</span>)    </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Timto se nám povedlo vytvořit minimalistickou GUI aplikaci. Její funkcionalita je značně omezená, ale lze na ní vhodně demonstrovat důležité základní koncepty tvorby aplikací s použítím <strong>PyQt</strong>.</p>
+
+
+<!-- -->
+
+<div id="refs" class="references csl-bib-body" data-entry-spacing="1" role="doc-bibliography" style="display: none">
+<div id="ref-QtCompany2022" class="csl-entry" role="doc-biblioentry">
+THE QT COMPANY LTD., 2022. <em>Qt 5.15</em> [online] [cit.&nbsp;2022-08-13]. Dostupné z:&nbsp;<a href="https://doc.qt.io/qt-5/">https://doc.qt.io/qt-5/</a>
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./04-prvky-gui.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Prvky GUI</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./06-signály-sloty.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Signály a sloty</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb11" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co">  html: </span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="co">    code-tools:</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="co">    #   source: file://~/OneDrive/Quarto/App/app1/app.py </span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="co">        source: true</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="fu"># Jednoduchá aplikace</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>V této kapitole sestavíme jednoduchou aplikaci, na níž budeme prakticky demonstrovat základní koncepty. Aplikace umožní uživateli vybrat soubor, následně zobrazí cestu k tomuto souboru a pokusí se soubor oveřít jako vektorový datový zdroj pomocí **OGR** a zobrazí informaci, zda-li je možné soubor otevřít pomocí OGR. Základem většiny aplikací je třída {{&lt; qt-class QMainWindow &gt;}}.  </span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="fu">## QMainWindow</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>{{&lt; qt-class QMainWindow &gt;}} z modulu <span class="in">`PyQt5.QtWidgets`</span> je třída, která poskytuje základní rozhraní aplikace. V tomto rozhraní jsou předchystané položky pro všechny v aplikacích obvyklé prvky (viz @fig-qmainwindow) např. menu (Menu bar), lišty s nástroji (Toolbars), uživatelsky umisťované widgety (Dock Widgets), též zvané dokovatelné widgety, stavový řádek (Status bar) a hlavní prostor aplikace (Central Widget). </span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>!<span class="co">[</span><span class="ot">Součásti QMainWindow. Zdroj: [@QtCompany2022]</span><span class="co">](/figures/qmainwindow.png)</span>{#fig-qmainwindow width=75% fig-align="center"}</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>Mimo to může aplikace vytvářet další samostatná okna, s další funkcionalitou. </span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>:::{.qgis}</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>Jako samostatná okna fungují například _Atributová tabulka_, nebo _Rozvžení_ (_Layout_) v **QGIS**.</span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>Základním stavebním prvkem GUI v <span class="co">[</span><span class="ot">PyQt</span><span class="co">]</span>{.sw} je {{&lt; qt-class QWidget &gt;}}, tento objekt je základem všech prvků uživatelského rozhraní a definuje obecné a pro všechny prvky GUI společné chování, nastavení a možnosti. Později si také ukážeme, jak lze na základě této třídy vytvářet vlastní prvky GUI. </span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!---</span></span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a><span class="co">doplnit odkaz na kapitolu</span></span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a><span class="co">--&gt;</span></span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>Rozložení {{&lt; qt-class QMainWindow &gt;}} umožňuje specifikaci jednoho hlavního widgetu (v @fig-qmainwindow položka Centra Widget). V tomto widgetu by se měla nacházet hlavní a nejdůležitější část aplikace. </span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>:::{.qgis}</span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>V QGISu je hlavním widgetem mapové pole (třída <span class="in">`QgsMapCanvas`</span>) spolu s několika drobnými widgety pod mapovým polem, kolem kterého jsou umístěně dokovatelné widgety <span class="co">[</span><span class="ot">Prohlížeč</span><span class="co">]</span>{.settings}, <span class="co">[</span><span class="ot">Vrstvy</span><span class="co">]</span>{.settings} a volitelně další, např. <span class="co">[</span><span class="ot">Nástroje zpracování</span><span class="co">]</span>{.settings}.</span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a><span class="fu">## Aplikace</span></span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a>Většinu konceptů {{&lt; qt-class QMainWindow &gt;}} si můžeme demonstrovat na jednoduché aplikaci. Sestavíme aplikaci, kde uživatel vybere soubor, aplikace zobrazí cestu k tomuto souboru a pokusí se soubor otevřít jako vektorový datový zdroj pomocí OGR a zobrazí informaci, zda-li jde soubor otevřít pomocí OGR.  </span>
+<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a>Samotný kód pro tuto aplikaci může vypadat následovně:</span>
+<span id="cb11-42"><a href="#cb11-42" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb11-43"><a href="#cb11-43" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-fold: true</span></span>
+<span id="cb11-44"><a href="#cb11-44" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb11-45"><a href="#cb11-45" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
+<span id="cb11-46"><a href="#cb11-46" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> osgeo <span class="im">import</span> ogr</span>
+<span id="cb11-47"><a href="#cb11-47" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> PyQt5.QtWidgets <span class="im">import</span> (QApplication, QMainWindow, QFormLayout,</span>
+<span id="cb11-48"><a href="#cb11-48" aria-hidden="true" tabindex="-1"></a>                             QToolButton, QLineEdit, QFileDialog, QWidget,</span>
+<span id="cb11-49"><a href="#cb11-49" aria-hidden="true" tabindex="-1"></a>                             QMenu, QAction)</span>
+<span id="cb11-50"><a href="#cb11-50" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-51"><a href="#cb11-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-52"><a href="#cb11-52" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> MainWindow(QMainWindow):</span>
+<span id="cb11-53"><a href="#cb11-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-54"><a href="#cb11-54" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, <span class="op">*</span>args, <span class="op">**</span>kwargs):</span>
+<span id="cb11-55"><a href="#cb11-55" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>(MainWindow, <span class="va">self</span>).<span class="fu">__init__</span>(<span class="op">*</span>args, <span class="op">**</span>kwargs)</span>
+<span id="cb11-56"><a href="#cb11-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-57"><a href="#cb11-57" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.setWindowTitle(<span class="st">"První Aplikace"</span>)</span>
+<span id="cb11-58"><a href="#cb11-58" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.setMinimumSize(<span class="dv">500</span>, <span class="dv">200</span>)</span>
+<span id="cb11-59"><a href="#cb11-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-60"><a href="#cb11-60" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.ds <span class="op">=</span> <span class="va">None</span></span>
+<span id="cb11-61"><a href="#cb11-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-62"><a href="#cb11-62" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.init_gui()</span>
+<span id="cb11-63"><a href="#cb11-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-64"><a href="#cb11-64" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> init_gui(<span class="va">self</span>):</span>
+<span id="cb11-65"><a href="#cb11-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-66"><a href="#cb11-66" aria-hidden="true" tabindex="-1"></a>        menu <span class="op">=</span> QMenu(<span class="st">'Aplikace'</span>, <span class="va">self</span>)</span>
+<span id="cb11-67"><a href="#cb11-67" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.menuBar().addMenu(menu)</span>
+<span id="cb11-68"><a href="#cb11-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-69"><a href="#cb11-69" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.action_end <span class="op">=</span> QAction(<span class="st">"Ukončit"</span>, <span class="va">self</span>)</span>
+<span id="cb11-70"><a href="#cb11-70" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.action_end.triggered.<span class="ex">connect</span>(<span class="va">self</span>.exit)</span>
+<span id="cb11-71"><a href="#cb11-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-72"><a href="#cb11-72" aria-hidden="true" tabindex="-1"></a>        menu.addAction(<span class="va">self</span>.action_end)</span>
+<span id="cb11-73"><a href="#cb11-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-74"><a href="#cb11-74" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.central_widget <span class="op">=</span> QWidget()</span>
+<span id="cb11-75"><a href="#cb11-75" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.setCentralWidget(<span class="va">self</span>.central_widget)</span>
+<span id="cb11-76"><a href="#cb11-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-77"><a href="#cb11-77" aria-hidden="true" tabindex="-1"></a>        layout <span class="op">=</span> QFormLayout(<span class="va">self</span>.central_widget)</span>
+<span id="cb11-78"><a href="#cb11-78" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.central_widget.setLayout(layout)</span>
+<span id="cb11-79"><a href="#cb11-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-80"><a href="#cb11-80" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.select_file <span class="op">=</span> QToolButton()</span>
+<span id="cb11-81"><a href="#cb11-81" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.select_file.setText(<span class="st">"Vyberte soubor"</span>)</span>
+<span id="cb11-82"><a href="#cb11-82" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.select_file.clicked.<span class="ex">connect</span>(<span class="va">self</span>.open_file)</span>
+<span id="cb11-83"><a href="#cb11-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-84"><a href="#cb11-84" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.file_path <span class="op">=</span> QLineEdit(<span class="st">""</span>)</span>
+<span id="cb11-85"><a href="#cb11-85" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.file_path.setReadOnly(<span class="va">False</span>)</span>
+<span id="cb11-86"><a href="#cb11-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-87"><a href="#cb11-87" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.ogr_file <span class="op">=</span> QLineEdit(<span class="st">""</span>)</span>
+<span id="cb11-88"><a href="#cb11-88" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.ogr_file.setReadOnly(<span class="va">False</span>)</span>
+<span id="cb11-89"><a href="#cb11-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-90"><a href="#cb11-90" aria-hidden="true" tabindex="-1"></a>        layout.addWidget(<span class="va">self</span>.select_file)</span>
+<span id="cb11-91"><a href="#cb11-91" aria-hidden="true" tabindex="-1"></a>        layout.addRow(<span class="st">"Vybraný soubor:"</span>, <span class="va">self</span>.file_path)</span>
+<span id="cb11-92"><a href="#cb11-92" aria-hidden="true" tabindex="-1"></a>        layout.addRow(<span class="st">"Otevřít pomocí OGR:"</span>, <span class="va">self</span>.ogr_file)</span>
+<span id="cb11-93"><a href="#cb11-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-94"><a href="#cb11-94" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> exit(<span class="va">self</span>):</span>
+<span id="cb11-95"><a href="#cb11-95" aria-hidden="true" tabindex="-1"></a>        app <span class="op">=</span> QApplication.instance()</span>
+<span id="cb11-96"><a href="#cb11-96" aria-hidden="true" tabindex="-1"></a>        app.quit()</span>
+<span id="cb11-97"><a href="#cb11-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-98"><a href="#cb11-98" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> open_file(<span class="va">self</span>) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb11-99"><a href="#cb11-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-100"><a href="#cb11-100" aria-hidden="true" tabindex="-1"></a>        filename, _ <span class="op">=</span> QFileDialog.getOpenFileName(<span class="va">self</span>, <span class="st">"Vyberte soubor"</span>)</span>
+<span id="cb11-101"><a href="#cb11-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-102"><a href="#cb11-102" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> filename:</span>
+<span id="cb11-103"><a href="#cb11-103" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.file_path.setText(filename)</span>
+<span id="cb11-104"><a href="#cb11-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-105"><a href="#cb11-105" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.ds <span class="op">=</span> ogr.Open(filename, <span class="va">True</span>)</span>
+<span id="cb11-106"><a href="#cb11-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-107"><a href="#cb11-107" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> <span class="va">self</span>.ds:</span>
+<span id="cb11-108"><a href="#cb11-108" aria-hidden="true" tabindex="-1"></a>                <span class="va">self</span>.ogr_file.setText(<span class="st">"Otevřeno OGR!"</span>)</span>
+<span id="cb11-109"><a href="#cb11-109" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
+<span id="cb11-110"><a href="#cb11-110" aria-hidden="true" tabindex="-1"></a>                <span class="va">self</span>.ogr_file.setText(<span class="st">"Nelze otevřít pomocí OGR!"</span>)</span>
+<span id="cb11-111"><a href="#cb11-111" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-112"><a href="#cb11-112" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.statusBar().showMessage(</span>
+<span id="cb11-113"><a href="#cb11-113" aria-hidden="true" tabindex="-1"></a>            <span class="st">"Soubor `</span><span class="sc">{}</span><span class="st">` vybrán a zkušebně otevřen."</span>.<span class="bu">format</span>(filename), <span class="dv">2000</span>)</span>
+<span id="cb11-114"><a href="#cb11-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-115"><a href="#cb11-115" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb11-116"><a href="#cb11-116" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.file_path.setText(<span class="st">""</span>)</span>
+<span id="cb11-117"><a href="#cb11-117" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.ogr_file.setText(<span class="st">""</span>)</span>
+<span id="cb11-118"><a href="#cb11-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-119"><a href="#cb11-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-120"><a href="#cb11-120" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
+<span id="cb11-121"><a href="#cb11-121" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-122"><a href="#cb11-122" aria-hidden="true" tabindex="-1"></a>    app <span class="op">=</span> QApplication(sys.argv)</span>
+<span id="cb11-123"><a href="#cb11-123" aria-hidden="true" tabindex="-1"></a>    mw <span class="op">=</span> MainWindow()</span>
+<span id="cb11-124"><a href="#cb11-124" aria-hidden="true" tabindex="-1"></a>    mw.show()</span>
+<span id="cb11-125"><a href="#cb11-125" aria-hidden="true" tabindex="-1"></a>    sys.exit(app.<span class="bu">exec</span>())</span>
+<span id="cb11-126"><a href="#cb11-126" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb11-127"><a href="#cb11-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-128"><a href="#cb11-128" aria-hidden="true" tabindex="-1"></a>Výsledná aplikace vypadá následovně:</span>
+<span id="cb11-129"><a href="#cb11-129" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-130"><a href="#cb11-130" aria-hidden="true" tabindex="-1"></a><span class="al">![Aplikace z předešlého kódu](./figures/app_1.png)</span>{#fig-app_2 fig-align="center"}</span>
+<span id="cb11-131"><a href="#cb11-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-132"><a href="#cb11-132" aria-hidden="true" tabindex="-1"></a>Hlavní částí aplikace je třída odvozená od {{&lt; qt-class QMainWindow &gt;}}, kterou jsme pojmenovali <span class="in">`MainWindow`</span>. Tato třída si ponechává veškeré svoje chování a lze ho rozšiřovat pomocí nově definovaných funkcí. </span>
+<span id="cb11-133"><a href="#cb11-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-134"><a href="#cb11-134" aria-hidden="true" tabindex="-1"></a>V rámci funkce <span class="in">`__init__()`</span>, nastavíme třídě titulek zobrazený v záhlaví aplikace a následně základní rozměr, který bude okno zabírat. V tomto případě $800 \times 200$ pixelů.</span>
+<span id="cb11-137"><a href="#cb11-137" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb11-138"><a href="#cb11-138" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb11-139"><a href="#cb11-139" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.setWindowTitle(<span class="st">"První Aplikace"</span>)</span>
+<span id="cb11-140"><a href="#cb11-140" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.setMinimumSize(<span class="dv">500</span>, <span class="dv">200</span>)</span>
+<span id="cb11-141"><a href="#cb11-141" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb11-142"><a href="#cb11-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-143"><a href="#cb11-143" aria-hidden="true" tabindex="-1"></a>Následně vytvoříme funkci <span class="in">`init_gui()`</span>, která se stará o vytvoření samotného GUI v třídě <span class="in">`MainWindow`</span>. Základem pro GUI je prázdný {{&lt; qt-class QWidget &gt;}}, který nastavíme jako centrální pro hlavní okno. Tento widget bude dále sloužit jako kontejner pro další prvky uživatelského rozhraní.</span>
+<span id="cb11-146"><a href="#cb11-146" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb11-147"><a href="#cb11-147" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb11-148"><a href="#cb11-148" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.central_widget <span class="op">=</span> QWidget(<span class="va">self</span>)</span>
+<span id="cb11-149"><a href="#cb11-149" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.setCentralWidget(<span class="va">self</span>.central_widget)</span>
+<span id="cb11-150"><a href="#cb11-150" aria-hidden="true" tabindex="-1"></a><span class="in">```</span> </span>
+<span id="cb11-151"><a href="#cb11-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-152"><a href="#cb11-152" aria-hidden="true" tabindex="-1"></a>Základem uživatelského rozhraní je **layout**, který specifikuje, jak budou prvky rozloženy v rozhraní. Pro tuto jednoduchou aplikaci zvolíme <span class="in">`QFormLayout`</span>, což je layout, kde přídáváme prvky do řádků, přičemž každý řádek obsahuje popisku a prvek GUI. Dříve vytvořenému widgetu přiřadíme vytvořený layout, který se postará o rozložení prvků. Při tvorbě jak {{&lt; qt-class QFormLayout &gt;}}, tak i {{&lt; qt-class QWidget &gt;}}, předáváme jako parameter <span class="in">`self`</span>, což je odkaz na vytvořenou instanci <span class="in">`MainWindow`</span>. Tato položka slouží jako tzv. rodičovský prvek. Rodičovský prvek slouží v rámci <span class="co">[</span><span class="ot">Qt</span><span class="co">]</span>{.sw} jako prevence, aby nebyly z paměti smazány objekty, pokud jsou ještě zapotřebí. Rodičovský prvek zajišťuje, že prvek nebude smazát, dokud není ke smazání z paměti určen prvek rodičovský. Při tvorbě některých prvků GUI se jedná o dobrou praxi, která předchází problémům s management existujících prvků GUI. </span>
+<span id="cb11-155"><a href="#cb11-155" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb11-156"><a href="#cb11-156" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb11-157"><a href="#cb11-157" aria-hidden="true" tabindex="-1"></a>layout <span class="op">=</span> QFormLayout(<span class="va">self</span>.central_widget)</span>
+<span id="cb11-158"><a href="#cb11-158" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.central_widget.setLayout(layout)</span>
+<span id="cb11-159"><a href="#cb11-159" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb11-160"><a href="#cb11-160" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-161"><a href="#cb11-161" aria-hidden="true" tabindex="-1"></a>Následně vytvoříme tři prvky GUI. Prvním bude {{&lt; qt-class QToolButton &gt;}}, kterému přiřadíme popisku vysvětlující jeho účel. Následně propojíme událost na tomto prvku <span class="in">`clicked`</span> s funkcí (<span class="in">`open_file()`</span>), kterou jsme vytvořili v třídě <span class="in">`MainWindow`</span>. Toto propojení se děje v terminologii **Qt** pomocí tzv. signálů a slotů, jejichž detaily budou vysvětleny později. Toto tlačítko je zároveň jediný opravdu interaktivní prvek v GUI, ostatní prvky jsou pasivní a budou pouze zobrazovat informace. </span>
+<span id="cb11-164"><a href="#cb11-164" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb11-165"><a href="#cb11-165" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb11-166"><a href="#cb11-166" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.select_file <span class="op">=</span> QToolButton()</span>
+<span id="cb11-167"><a href="#cb11-167" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.select_file.setText(<span class="st">"Vyberte soubor"</span>)</span>
+<span id="cb11-168"><a href="#cb11-168" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.select_file.clicked.<span class="ex">connect</span>(<span class="va">self</span>.open_file)</span>
+<span id="cb11-169"><a href="#cb11-169" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb11-170"><a href="#cb11-170" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-171"><a href="#cb11-171" aria-hidden="true" tabindex="-1"></a>Následně vytvoříme dva prvky typu {{&lt; qt-class QLineEdit &gt;}}, což prvek pro vstup textu, který je omezen na velikost jednoho řádku. Oba prvky ale nastavíme pouze pro čtení, čímž znemožníme uživateli, abych do těchto prvků psal. Budou složit pouze pro zobrazení textu, vytvořeného v rámci běhu programu.</span>
+<span id="cb11-174"><a href="#cb11-174" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb11-175"><a href="#cb11-175" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb11-176"><a href="#cb11-176" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.file_path <span class="op">=</span> QLineEdit(<span class="st">""</span>)</span>
+<span id="cb11-177"><a href="#cb11-177" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.file_path.setReadOnly(<span class="va">False</span>)</span>
+<span id="cb11-178"><a href="#cb11-178" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.ogr_file <span class="op">=</span> QLineEdit(<span class="st">""</span>)</span>
+<span id="cb11-179"><a href="#cb11-179" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.ogr_file.setReadOnly(<span class="va">False</span>)</span>
+<span id="cb11-180"><a href="#cb11-180" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb11-181"><a href="#cb11-181" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-182"><a href="#cb11-182" aria-hidden="true" tabindex="-1"></a>Všechny tři prvky následně vložíme do již existujícího layoutu. Tlačítko vložíme jako samostatný prvek, textové elementy spolu s popiskou.</span>
+<span id="cb11-185"><a href="#cb11-185" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb11-186"><a href="#cb11-186" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb11-187"><a href="#cb11-187" aria-hidden="true" tabindex="-1"></a>layout.addWidget(<span class="va">self</span>.select_file)</span>
+<span id="cb11-188"><a href="#cb11-188" aria-hidden="true" tabindex="-1"></a>layout.addRow(<span class="st">"Vybraný soubor:"</span>, <span class="va">self</span>.file_path)</span>
+<span id="cb11-189"><a href="#cb11-189" aria-hidden="true" tabindex="-1"></a>layout.addRow(<span class="st">"Otevřít pomocí OGR:"</span>, <span class="va">self</span>.ogr_file)</span>
+<span id="cb11-190"><a href="#cb11-190" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb11-191"><a href="#cb11-191" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-192"><a href="#cb11-192" aria-hidden="true" tabindex="-1"></a>Mimo to ještě v aplikaci vytvoříme menu ({{&lt; qt-class QMenu &gt;}}) a vložíme do něj jednu položku ( {{&lt; qt-class QAction &gt;}}). K této položce opět připojíme funkci z naší třídy (<span class="in">`exit()`</span>). </span>
+<span id="cb11-195"><a href="#cb11-195" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb11-196"><a href="#cb11-196" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb11-197"><a href="#cb11-197" aria-hidden="true" tabindex="-1"></a>menu <span class="op">=</span> QMenu(<span class="st">'Aplikace'</span>, <span class="va">self</span>)</span>
+<span id="cb11-198"><a href="#cb11-198" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.menuBar().addMenu(menu)</span>
+<span id="cb11-199"><a href="#cb11-199" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.action_end <span class="op">=</span> QAction(<span class="st">"Ukončit"</span>, <span class="va">self</span>)</span>
+<span id="cb11-200"><a href="#cb11-200" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.action_end.triggered.<span class="ex">connect</span>(<span class="va">self</span>.exit)</span>
+<span id="cb11-201"><a href="#cb11-201" aria-hidden="true" tabindex="-1"></a>menu.addAction(<span class="va">self</span>.action_end)</span>
+<span id="cb11-202"><a href="#cb11-202" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb11-203"><a href="#cb11-203" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-204"><a href="#cb11-204" aria-hidden="true" tabindex="-1"></a>:::{.callout-important}</span>
+<span id="cb11-205"><a href="#cb11-205" aria-hidden="true" tabindex="-1"></a><span class="fu"># Propojení slotu na signál</span></span>
+<span id="cb11-206"><a href="#cb11-206" aria-hidden="true" tabindex="-1"></a>Při propojení funkce na signál, ve funkci <span class="in">`connect()`</span>, si povšimněte, že se na funkci odkazuje jako na <span class="in">`self.nazev_funkce`</span> a nikoliv <span class="in">`self.nazev_funkce()`</span>. Funkce <span class="in">`connect()`</span> totiž požaduje odkaz na objekt, což v pythonu může být i funkce, a nikoliv volání (spuštění) funkce, což by byl druhý případ.</span>
+<span id="cb11-207"><a href="#cb11-207" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb11-208"><a href="#cb11-208" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-209"><a href="#cb11-209" aria-hidden="true" tabindex="-1"></a>Takto vytvořená třída by již mohla existovat a GUI by existovalo, nicméně dokud nedefinujeme dvě použité funkce, bude nefunkční a program se korektně nespustí. Pokud bychom zakomentovali dva řádky, kde se používá funkce <span class="in">`connect()`</span> bylo by možné program spustit.</span>
+<span id="cb11-210"><a href="#cb11-210" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-211"><a href="#cb11-211" aria-hidden="true" tabindex="-1"></a>Funkce propojená s položkou v menu, je velice jednoduchá. Získá objekt aplikace a ukončí ho. Prvek <span class="in">`QApplication`</span> je tzv. singleton, což znamená že je v rámci běhu programu existuje pouze jednou, není tedy nutné ho předávat do dílčích tříd, ale lze ho vždy jednoduše získat voláním <span class="in">`QApplication.instance()`</span>. To značně zjednodušuje jeho použití skrze celou aplikaci.</span>
+<span id="cb11-214"><a href="#cb11-214" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb11-215"><a href="#cb11-215" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb11-216"><a href="#cb11-216" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> exit(<span class="va">self</span>):</span>
+<span id="cb11-217"><a href="#cb11-217" aria-hidden="true" tabindex="-1"></a>    app <span class="op">=</span> QApplication.instance()</span>
+<span id="cb11-218"><a href="#cb11-218" aria-hidden="true" tabindex="-1"></a>    app.quit()</span>
+<span id="cb11-219"><a href="#cb11-219" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb11-220"><a href="#cb11-220" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-221"><a href="#cb11-221" aria-hidden="true" tabindex="-1"></a>Druhá námi definovaná funkce, nechá uživatele vybrat soubor pomocí okna (které je svou strukturou známe, neboť se standardně používá). Pokud uživatel vybere soubor, bude proměnná <span class="in">`filename`</span> obsahovat cestu a název souboru, v opačném případě bude mít hodnotu <span class="in">`None`</span>. Textovému poli pro název souboru nastavíme cestu k souboru.Následně zkusíme soubor otevřít jako vektorová data, pomocí funkce <span class="in">`ogr.Open()`</span>. Pokud se to povede nastavíme do textového pole informaci, že soubor byl pomocí **OGR** úspěšně otevřen. Pokud nelze soubor otevřít, zobrazíme o tom textovou zprávu. Následně do status baru (umistěného zcela dole v okně) zobrazíme zprávu, že byl soubor zkušebně otevřen. Zpráva bude zobrazena po dobu 2 vteřin (2000 milisekund).</span>
+<span id="cb11-224"><a href="#cb11-224" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb11-225"><a href="#cb11-225" aria-hidden="true" tabindex="-1"></a><span class="co">#| eval: false</span></span>
+<span id="cb11-226"><a href="#cb11-226" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> open_file(<span class="va">self</span>) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb11-227"><a href="#cb11-227" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-228"><a href="#cb11-228" aria-hidden="true" tabindex="-1"></a>    filename, _ <span class="op">=</span> QFileDialog.getOpenFileName(<span class="va">self</span>, <span class="st">"Vyberte soubor"</span>)</span>
+<span id="cb11-229"><a href="#cb11-229" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-230"><a href="#cb11-230" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> filename:</span>
+<span id="cb11-231"><a href="#cb11-231" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.file_path.setText(filename)</span>
+<span id="cb11-232"><a href="#cb11-232" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-233"><a href="#cb11-233" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.ds <span class="op">=</span> ogr.Open(filename, <span class="va">True</span>)</span>
+<span id="cb11-234"><a href="#cb11-234" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-235"><a href="#cb11-235" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> <span class="va">self</span>.ds:</span>
+<span id="cb11-236"><a href="#cb11-236" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.ogr_file.setText(<span class="st">"Otevřeno OGR!"</span>)</span>
+<span id="cb11-237"><a href="#cb11-237" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb11-238"><a href="#cb11-238" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.ogr_file.setText(<span class="st">"Nelze otevřít pomocí OGR!"</span>)</span>
+<span id="cb11-239"><a href="#cb11-239" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-240"><a href="#cb11-240" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.statusBar().showMessage(</span>
+<span id="cb11-241"><a href="#cb11-241" aria-hidden="true" tabindex="-1"></a>        <span class="st">"Soubor `</span><span class="sc">{}</span><span class="st">` vybrán a zkušebně otevřen."</span>.<span class="bu">format</span>(filename), <span class="dv">2000</span>)</span>
+<span id="cb11-242"><a href="#cb11-242" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-243"><a href="#cb11-243" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb11-244"><a href="#cb11-244" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.file_path.setText(<span class="st">""</span>)</span>
+<span id="cb11-245"><a href="#cb11-245" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.ogr_file.setText(<span class="st">""</span>)    </span>
+<span id="cb11-246"><a href="#cb11-246" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb11-247"><a href="#cb11-247" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-248"><a href="#cb11-248" aria-hidden="true" tabindex="-1"></a>Timto se nám povedlo vytvořit minimalistickou GUI aplikaci. Její funkcionalita je značně omezená, ale lze na ní vhodně demonstrovat důležité základní koncepty tvorby aplikací s použítím **PyQt**.</span>
+</code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+
+
+
+</body></html>

@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.1.251">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Tvorba GUI aplikací pro geoinformatiku - 6&nbsp; Signály a sloty</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 1em;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./07-qwidget-kontejner.html" rel="next">
+<link href="./05-qmainwindow.html" rel="prev">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Signály a sloty</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="./">Tvorba GUI aplikací pro geoinformatiku</a> 
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Předmluva</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01-uvod.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Úvod</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./02-qt.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Knihovna <strong>Qt</strong> a její Python binding <strong>PyQt</strong></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./03-aplikace-s-gui.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Aplikace s GUI</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./04-prvky-gui.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Prvky GUI</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./05-qmainwindow.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Jednoduchá aplikace</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./06-signály-sloty.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Signály a sloty</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./07-qwidget-kontejner.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">QWidget</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./08-narocne-operace.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Časově náročné operace v GUI</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summary.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Summary</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./literatura.html" class="sidebar-item-text sidebar-link">Literatura</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./appendix.html" class="sidebar-item-text sidebar-link">Funkce GDAL</a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Obsah</h2>
+   
+  <ul>
+  <li><a href="#signál-bez-parameterů" id="toc-signál-bez-parameterů" class="nav-link active" data-scroll-target="#signál-bez-parameterů"><span class="toc-section-number">6.1</span>  Signál bez parameterů</a></li>
+  <li><a href="#signál-s-parametry" id="toc-signál-s-parametry" class="nav-link" data-scroll-target="#signál-s-parametry"><span class="toc-section-number">6.2</span>  Signál s parametry</a></li>
+  <li><a href="#dočasné-pozastavení-signálů" id="toc-dočasné-pozastavení-signálů" class="nav-link" data-scroll-target="#dočasné-pozastavení-signálů"><span class="toc-section-number">6.3</span>  Dočasné pozastavení signálů</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Signály a sloty</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    
+  </div>
+  
+
+</header>
+
+<p>V terminologii <span class="sw">Qt</span> jsou signály a sloty <span class="citation" data-cites="QtCompany2022a">(<a href="literatura.html#ref-QtCompany2022a" role="doc-biblioref">The Qt Company Ltd. 2022</a>)</span> v podstatě implementací návrhového vzoru Observer <span class="citation" data-cites="Wikipedia2022a">(<a href="literatura.html#ref-Wikipedia2022a" role="doc-biblioref">Wikipedia 2022</a>)</span>. Tento návrhový vzor řeší situaci, kdy na změny jednoho objektu má reagovat jeden či více jiných objektů, přičemž chceme minimalizovat provázanost mezi těmito objekty.</p>
+<div>
+<div class="callout-qgis callout callout-style-default callout-captioned">
+  <div class="callout-header d-flex align-content-center">
+  <div class="callout-icon-container">
+  <i class="callout-icon"></i>
+  </div>
+  <div class="callout-caption-container flex-fill">
+  QGIS
+  </div>
+  </div>
+  <div class="callout-body-container callout-body">
+  <p>
+</p><p>Příkladem těchto vazeb v QGIS může být např. manuální provedení selekce v atributové tabulce vrstvy. Na to musí zareagovat mapové pole QGIS a vykreslit vybrané prvky z vrstvy jako vybrané (typicky zvýrazněné ostře žlutou barvou), dále je nutné zpřístupnit nástroje a položky menu, které mají být aktivní pouze pokud na vrstvě existuje selekce (např. v kontextovém menu vrstvy je pod položkou <span class="settings">Export</span> -&gt; <span class="settings">Uložit vybrané prvky jako…</span> ). A recipročně, v momentě kdy se selekce na vrstvě zruší, je nutné zrušit zvýraznění prvků v mapovém poli a příslušné nástroje a prvky menu uživateli znepřístupnit.</p>
+<p></p>
+      </div>
+      </div>
+</div>
+<p>Signál je speciální objekt <span class="sw">Qt</span>, který má metodu <code>emit()</code>, jíž dáváme v daném kódu najevo, že nastala příslušná událost. Objekty mohou mít celou řadu signálů, pro různé situace či změny, které na těchto objektech mohou nastat. Pro použití s <span class="sw">PyQt</span> je důležité, že objekt, který chce signály používat, musí být odvozen od třídy <a href="https://doc.qt.io/qt-5/qobject.html" class="documentation" title="QObject"><code>QObject</code></a>, která implementuje základní chování signálů. Většina objektů <strong>PyQt</strong> je z této třídy odvozena, u prvků GUI se to týká zcela všech, takže pro tyto objekty se nejedná o problém. Nicméně pokud chce programátor použít signály na vlastních pythonových třídách, musí je odvodit od <a href="https://doc.qt.io/qt-5/qobject.html" class="documentation" title="QObject"><code>QObject</code></a>.</p>
+<section id="signál-bez-parameterů" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="signál-bez-parameterů"><span class="header-section-number">6.1</span> Signál bez parameterů</h2>
+<p>Nejlepším vysvětlením bude jednoduchý příklad. Vytvoříme jednoduchý object <code>Test</code>, který bude mít rodičovský prvek <a href="https://doc.qt.io/qt-5/qobject.html" class="documentation" title="QObject"><code>QObject</code></a>. V tomto prvku vytvoříme jednu proměnnou <code>value</code> a jeden signál <code>valueChanged</code>. Všimněte si, že signál se typicky vytváří mimo funkci <code>__init__()</code>, což je z pythonového hlediska nezvyklé, ale signál je proměnná celé třídy a nikoliv konkrétní instance <span class="citation" data-cites="Tagliaferri2021">(<a href="literatura.html#ref-Tagliaferri2021" role="doc-biblioref">Tagliaferri 2021</a>)</span>.</p>
+<p>Objektu vytvoříme jednu funkci <code>set_value()</code>, pomocí které budeme nastavovat hodnotu proměnné <code>value</code>. Jakmile tuto hodnotu nastavíme, vyvoláme příslušný signál (<code>self.valueChanged.emit()</code>).</p>
+<p>Samotné vyvolání signálu ale nevede k žádné akci, dokud k němu nepřipojíme slot. Slotem může být libovolná funkce v Pythonu, ať již navázaná na objekt, či existující samostatně. Pro tento příklad si vytvoříme jednoduchou funkci <code>print_value_changed()</code>, která pouze vytiskne před definovou zprávu.</p>
+<p>V běhové části kódu pak vytvoříme instanci třídy <code>Test</code> nazvanou jendoduše <code>o</code>, jako objekt. Pomocí konstrukce <code>o.valueChanged.connect(print_value_changed)</code> připojíme (<code>connect()</code>) k signálu <code>valueChanged</code> funkci <code>print_value_changed()</code>.</p>
+<div class="callout-important callout callout-style-default callout-captioned">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Propojení slotu na signál
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Při propojení funkce na signál, ve funkci <code>connect()</code>, si povšimněte, že se na funkci odkazuje jako na <code>nazev_funkce</code> a nikoliv <code>nazev_funkce()</code>. Funkce <code>connect()</code> totiž požaduje odkaz na objekt, což v pythonu může být i funkce, a nikoliv volání (spuštění) funkce, což by byl druhý případ.</p>
+</div>
+</div>
+<p>Když pak následně na objektu <code>o</code> zavoláme funkci <code>o.set_value(5)</code>, dojde automaticky k vypsání zprávy z funkce <code>print_value_changed()</code>. Tato funkce totiž čeká na vyvolání signálu a jakmile k němu dojde, zcela automaticky se funkce spustí.</p>
+<p>https://www.pythonguis.com/tutorials/pyqt-signals-slots-events/</p>
+<div class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> PyQt5.QtCore <span class="im">import</span> QObject, pyqtSignal</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Test(QObject):</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    valueChanged <span class="op">=</span> pyqtSignal()</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>(<span class="va">None</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.value <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> set_value(<span class="va">self</span>, value: <span class="bu">int</span>) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.value <span class="op">=</span> value</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.valueChanged.emit()</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> print_value_changed():</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Test object value changed"</span>)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    o <span class="op">=</span> Test()</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    o.valueChanged.<span class="ex">connect</span>(print_value_changed)</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    o.set_value(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Slot lze od signálu i odpojit pomocí konstrukce <code>o.valueChanged.disconnect(print_value_changed)</code>. Další volání funkce <code>o.set_value()</code> by pak již nevedlo k výpisu připravené textové zprávy.</p>
+</section>
+<section id="signál-s-parametry" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="signál-s-parametry"><span class="header-section-number">6.2</span> Signál s parametry</h2>
+<p>Kromě jednoduchých signálů, které jsou pouze vyvolány v určitý moment a spustí nějakou specifickou funkci, lze vytvářet signály, které jsou vyvolány se specifickými parametry, které se automaticky předají funkci na slotu.</p>
+<p>Použijeme stejný příklad jako výše. Pouze upravíme definici signálu tak, že bude přijímat dva paramtery typu <code>integer</code> a <code>datetime</code>. Když bude signál vyvoláván, předáme mu jako parametry hodnotu nastavovanou do proměnné a aktuální datum a čas. Následně upravíme funkci <code>print_value_changed()</code>, aby přijímala dva parametry příslušných typů a rozšíříme textovou zprávu o tyto dva údaje. Nyní tato funkce vytiskne infomaci o změně hodnoty na novou hodnotu (včetně hodnoty) a čas kdy se tato změna udála.</p>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datetime <span class="im">import</span> datetime</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> PyQt5.QtCore <span class="im">import</span> QObject, pyqtSignal</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Test(QObject):</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    valueChanged <span class="op">=</span> pyqtSignal(<span class="bu">int</span>, datetime)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>(<span class="va">None</span>)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.value <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> set_value(<span class="va">self</span>, value: <span class="bu">int</span>) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.value <span class="op">=</span> value</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.valueChanged.emit(value, datetime.now())</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> print_value_changed(value: <span class="bu">int</span>, date_time: datetime):</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Test object value changed to </span><span class="sc">{}</span><span class="st"> at </span><span class="sc">{}</span><span class="st">."</span>.<span class="bu">format</span>(</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>        value, date_time.isoformat()))</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="va">__name__</span> <span class="op">==</span> <span class="st">"__main__"</span>:</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    o <span class="op">=</span> Test()</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    o.valueChanged.<span class="ex">connect</span>(print_value_changed)</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>    o.set_value(<span class="dv">5</span>)</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>    o.set_value(<span class="dv">7</span>)</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>    o.valueChanged.disconnect(print_value_changed)</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>    o.set_value(<span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Pomocí tohoto principu lze mezi objekty v aplikaci předávat různá data i celé objekty.</p>
+</section>
+<section id="dočasné-pozastavení-signálů" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="dočasné-pozastavení-signálů"><span class="header-section-number">6.3</span> Dočasné pozastavení signálů</h2>
+<p>V některých situacích může být vhodné či nezbytné, aby jiné objekty či celá aplikace nereagovaly na signály určitého objektu. Toho lze docílit, voláním funkce <code>blockSignals(True)</code> tohoto objektu. Po tomto volání nebudou signály z objektu vyvolávány a tím pádem na ně další objekty nebudou reagovat. Reaktivace se provede voláním stejné funkce s opačným parametrem <code>blockSignals(False)</code>.</p>
+<p>Pokud do přechozí ukázky doplníte tyto řádky, nebude pro toto nastavení vytištěna zpráva, neboť signál objektu je pozastaven.</p>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>o.blockSignals(<span class="va">True</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>o.set_value(<span class="dv">15</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>o.blockSignals(<span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>V praxi se tohoto využívá např. v situaci, kdy se dva prvky navzájem ovlivňují. Změna na jednom se promítne do změny druhého a opačně, což ale může vést k nekonečné smyčce změn. Pozastavením signálů zamezíme vzniku takovéto nekonečné smyčky. U aplikací s uživatelským rozhraním často nechceme, aby prvky reagovaly na události vyvolané explicitně z kódu, nikoliv interakcí uživatele.</p>
+
+
+<div id="refs" class="references csl-bib-body" data-entry-spacing="1" role="doc-bibliography" style="display: none">
+<div id="ref-Tagliaferri2021" class="csl-entry" role="doc-biblioentry">
+TAGLIAFERRI, Lisa, 2021. <em>Understanding class and instance variables in python 3</em> [online] [cit.&nbsp;2022-08-13]. Dostupné z:&nbsp;<a href="https://www.digitalocean.com/community/tutorials/understanding-class-and-instance-variables-in-python-3">https://www.digitalocean.com/community/tutorials/understanding-class-and-instance-variables-in-python-3</a>
+</div>
+<div id="ref-QtCompany2022a" class="csl-entry" role="doc-biblioentry">
+THE QT COMPANY LTD., 2022. <em>Layout management</em> [online] [cit.&nbsp;2022-09-16]. Dostupné z:&nbsp;<a href="https://doc.qt.io/qt-5/layout.html">https://doc.qt.io/qt-5/layout.html</a>
+</div>
+<div id="ref-Wikipedia2022a" class="csl-entry" role="doc-biblioentry">
+WIKIPEDIA, 2022. <em>Observer pattern</em> [online] [cit.&nbsp;2022-09-12]. Dostupné z:&nbsp;<a href="https://en.wikipedia.org/wiki/Observer_pattern">https://en.wikipedia.org/wiki/Observer_pattern</a>
+</div>
+</div>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    setTimeout(function() {
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
+    tippyHover(ref, function() {
+      var popup = window.document.createElement('div');
+      cites.forEach(function(cite) {
+        var citeDiv = window.document.createElement('div');
+        citeDiv.classList.add('hanging-indent');
+        citeDiv.classList.add('csl-entry');
+        var biblioDiv = window.document.getElementById('ref-' + cite);
+        if (biblioDiv) {
+          citeDiv.innerHTML = biblioDiv.innerHTML;
+        }
+        popup.appendChild(citeDiv);
+      });
+      return popup.innerHTML;
+    });
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./05-qmainwindow.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Jednoduchá aplikace</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./07-qwidget-kontejner.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">QWidget</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>
