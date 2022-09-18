@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>487</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QWidget" name="layoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>371</width>
+     <height>461</height>
+    </rect>
+   </property>
+   <layout class="QFormLayout" name="formLayout">
+    <item row="1" column="1">
+     <widget class="QDial" name="dial"/>
+    </item>
+    <item row="2" column="1">
+     <widget class="QProgressBar" name="progressBar">
+      <property name="value">
+       <number>50</number>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1">
+     <widget class="QTimeEdit" name="timeEdit">
+      <property name="dateTime">
+       <datetime>
+        <hour>12</hour>
+        <minute>30</minute>
+        <second>45</second>
+        <year>2000</year>
+        <month>1</month>
+        <day>1</day>
+       </datetime>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="1">
+     <widget class="QDateTimeEdit" name="dateTimeEdit">
+      <property name="dateTime">
+       <datetime>
+        <hour>9</hour>
+        <minute>30</minute>
+        <second>0</second>
+        <year>2022</year>
+        <month>9</month>
+        <day>22</day>
+       </datetime>
+      </property>
+      <property name="displayFormat">
+       <string>dd.MM.yy H:mm:ss</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>QDial:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QLabel" name="label_2">
+      <property name="text">
+       <string>QProgressBar:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0">
+     <widget class="QLabel" name="label_3">
+      <property name="text">
+       <string>QTimeEdit:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="0">
+     <widget class="QLabel" name="label_4">
+      <property name="text">
+       <string>QTimeDateEdit:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="0">
+     <widget class="QLabel" name="label_5">
+      <property name="text">
+       <string>QDateEdit:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="1">
+     <widget class="QDateEdit" name="dateEdit">
+      <property name="dateTime">
+       <datetime>
+        <hour>0</hour>
+        <minute>0</minute>
+        <second>0</second>
+        <year>2022</year>
+        <month>9</month>
+        <day>19</day>
+       </datetime>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QSlider" name="horizontalSlider">
+      <property name="value">
+       <number>50</number>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QLabel" name="label_6">
+      <property name="text">
+       <string>QSlider:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="1">
+     <widget class="QFontComboBox" name="fontComboBox"/>
+    </item>
+    <item row="6" column="0">
+     <widget class="QLabel" name="label_7">
+      <property name="text">
+       <string>QFontComboBox:</string>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="1">
+     <widget class="QWebView" name="webView">
+      <property name="url">
+       <url>
+        <string>https://qgis.org/hu/site/</string>
+       </url>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="0">
+     <widget class="QLabel" name="label_8">
+      <property name="text">
+       <string>QWebView:</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>QWebView</class>
+   <extends>QWidget</extends>
+   <header location="global">QtWebKitWidgets/QWebView</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
