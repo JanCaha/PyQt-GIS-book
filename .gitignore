@@ -1,0 +1,4 @@
+*.sav.tmp
+*.bib.bak
+/.quarto/
+_book/

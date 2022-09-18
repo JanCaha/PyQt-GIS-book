@@ -1,0 +1,41 @@
+project:
+  type: book
+  output-dir: _book
+  
+crossref:
+  chapters: true
+
+book:
+  title: "Tvorba GUI aplikací pro geoinformatiku"
+  subtitle: "V Pythonu s použitím knihovny PyQt"
+  author: "Jan Caha"
+  date: today
+  date-format: iso
+  chapters:
+    - index.qmd
+    - 01-uvod.qmd
+    - 02-qt.qmd
+    - 03-aplikace-s-gui.qmd
+    - 04-prvky-gui.qmd
+    - 05-qmainwindow.qmd
+    - 06-signály-sloty.qmd
+    - 07-qwidget-kontejner.qmd
+    - 08-narocne-operace.qmd
+    - summary.qmd
+    - literatura.qmd
+    - appendix.qmd
+
+jupyter: python3
+
+bibliography: references.bib
+csl: iso690-author-date-cs.csl
+
+format:
+  html:
+    theme: [cosmo, my.scss]
+  # pdf:
+  #   documentclass: scrreprt
+
+filters:
+   - custom_filters
+
