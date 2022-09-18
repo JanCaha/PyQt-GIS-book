@@ -1,0 +1,39 @@
+/*-- scss:rules --*/
+div.callout-qgis.callout {
+    border-left-color: #589632;
+}
+
+div.callout-qgis.callout-style-default>.callout-header {
+    background-color: #ecf8e8;
+}
+
+div.callout-qgis.callout-captioned .callout-icon::before {
+    background-image: url('figures/qgis_logo.svg');
+}
+
+a.documentation {
+    font-family: var(--bs-font-monospace);
+    padding: 0.2em;
+    color: #cb162e;
+    text-decoration: none;
+}
+
+a.documentation:hover {
+    color: #c53c4e;
+    text-decoration: underline;
+}
+
+span.sw {
+    font-weight: bolder;
+    // font-style: italic;
+}
+
+span.publication {
+    font-style: italic;
+}
+
+span.settings {
+    font-size: 0.9em;
+    font-style: italic;
+    font-family: var(--bs-font-monospace);
+}

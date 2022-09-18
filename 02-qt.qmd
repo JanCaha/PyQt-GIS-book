@@ -1,0 +1,23 @@
+# Knihovna **Qt** a její Python binding **PyQt**
+
+## Qt
+
+Knihovna [[Qt](https://www.qt.io/)]{.sw} je multiplatformní knihovnou jazyka C++ pro tvorbu uživatelského rozhraní a aplikací. Podporuje mimo jiné operační systémy Linux, Windows, Android, macOS a další. Tyto vlastnosti výrazně usnadňují vývoj, neboť lze jednu aplikaci aplikaci spouštět na vícero platformách bez nutnosti výraznějších úprav. Na vývoji knihovny se od roku 1991 podílelo několik firem, aktuálně má vývoj na starosti firma _The Qt Company_. Knihovna je k dispozici jak pod Open Source, tak i komerční licencí.
+
+![Qt Logo](./figures/Qt_logo_2016.svg){#fig-Qt-logo width=20% fig-align="center"}
+
+Samotná knihovna se dělí na několik dílčích částí, které obstarávají různou funkcionalitu aplikací. Existují např. speciální moduly pro GUI, Widgety (prvky uživatelského prostředí), multimédia, SQL a další. Pro potřeby menších aplikací je důležitých pouze několik hlavních modulů.
+
+Mezi software používající knihovnu **Qt** se řadí např. Autodesk 3ds Max, Calibre, Google Earth, QGIS, Scribus, Stellarium, VirtualBox, VLC media player, XnView MP a další. Knihovnu mimo jiné využívají i některé Linuxové distribuce pro tvorbu uživatelských rozhraní na obecnější úrovni, než jsou konkrétní aplikace. Tato široká základna softwarů, spoléhajících na **Qt**, by měla zajišťovat jak stabilitu knihovny tak i její vývoj do budoucna.
+
+## PyQt
+
+[PyQt]{.sw} je propojení (angl. binding) z Pythonu na C++ knihovnu [Qt]{.sw} , vyvinuté zcela nezávisle na knihovně [Qt]{.sw} firmou _Riverbank Computing_. Jedná se v podstatě pouze o překlopení a zpřístupnění C++ API v Pythonu. Existuje i alternativní binding v podobě knihovny [[PySide](https://www.qt.io/qt-for-python)]{.sw}, což je konkurence [PyQt]{.sw} přímo od tvůrců [Qt]{.sw}, které je ale v praxi o něco méně používaná. Co se použitelnosti týká jsou obě knihovny velice podobné a mezi kódem obou knihoven lze poměrně snadno přecházet. 
+
+![PyQt Logo](./figures/Python_and_Qt.svg){#fig-Qt-logo width=20% fig-align="center"}
+
+Pro psaní samotné aplikace budeme používat [PyQt5]]{.sw} (pro verzi Qt 5.x), ačkoliv již existuje i [PyQt6]{.sw}, která zatím ale není příliš používána. Např. QGIS se připravuje v dohledné době na přechod z verze Qt 5.x na verzi 6.x. Přechod mezi verzemi by měl být v podstatě formalitou.
+
+## Dokumentace
+
+Vzhledem k tomu, že [PyQt]{.sw} je pouze binding C++ knihovny, budeme odkazovat na dokumentaci přímo knihovny [Qt]{.sw}, která je výrazně detailnější a více deskriptivní, než existující pythonové dokumentace [PyQt]{.sw}.

@@ -1,0 +1,37 @@
+# Úvod
+
+V této knize se zaměříme na základy tvorby aplikací s uživatelským rozhraním v programovacím jazyku [[Python](https://www.python.org/)]{.sw} s využitím knihovny [[PyQt](https://riverbankcomputing.com/software/pyqt/)]{.sw}. Hlavním důvod pro tuto kombinaci je fakt, že [Python]{.sw} se řadí mezi nejrozšířenější a nejsnaději použitelné jazyky s širokým spektrem knihoven a frameworků, které usnadňují práci. Z hlediska geoinformatiky je Python zajímavý proto, že většina knihoven a softwarů pro zpracování prostorových dat poskytuje pro tento jazyk API (např. [[GDAL](https://gdal.org/)]{.sw}, [[PROJ](https://proj.org/)]{.sw}, [[GEOS](https://libgeos.org/)]{.sw} a další), většina GIS softwarů pak umožňuje pomocí Pythonu vytvářet extenze či skripty (např. [[GRASS](https://grass.osgeo.org/)]{.sw}, [[QGIS](https://www.qgis.org/en/site/)]{.sw} a další). [PyQt]{.sw} je jedna z knihoven, skrze kterou lze v Pythonu tvořit aplikace s uživatelským rozhraním. Alternativami jsou např. [[Tkinter](https://wiki.python.org/moin/TkInter)]{.sw}, [[Kivy](https://kivy.org)]{.sw}, [[wxPython](https://www.wxpython.org/)]{.sw} a další [@Costa2020]. Důvodem pro volbu [PyQt]]{.sw} jsou jednak široké možnosti, které knihovna poskytuje (přes 440 tříd a cca 6000 funkcí), a také fakt, že kromě API (Application Programming Interface) pro samotné GUI (Graphical User Interface) poskytuje i doplňkovou funkcinalitu pro management běhu a funkčnosti aplikace. Tato knihovna je pro geoinformatiky zajímavá, protože [QGIS]{.sw} je vytvořen s použitím knihovny [Qt]{.sw}, a v případě tvorby pluginů programátor pracuje právě s [PyQT]{.sw}.   
+
+Kombinace [Pythonu]{.sw}, [PyQt]{.sw} a geoinformatických knihoven tak poskytuje pro geoinformatiky ideální sadu nástrojů pro tvorbu jak jednoduchých, tak i komplexnějších desktopových aplikací s uživatelským rozhraním. 
+
+## Předpoklady
+
+Text předpokládá, že čtenář je obeznámen s principy programování (zejména objektově orientovaného programování), programovacím jazykem Python, základní znalostí typů prvků uživatelského rozhraní a alespoň základní znalostí knihovny GDAL [@GDALOGR2022] a jejího Pythonového API. S ohledem na zaměření na geoinformatiku, se také předpokládá že čtenář je obeznámen se softwarem [QGIS]{.sw}, který bude používán jako příklad pro vysvětlení některých principů. Tyto poznámky odkazující na [QGIS]{.sw} vypadají následně.
+
+:::{.qgis}
+Poznámky odkazující k QGISu.
+:::
+
+Pro seznámení s Python API GDAL lze doporučit publikaci [Python GDAL/OGR Cookbok]{.publication} [@Erickson1993], která na praktických případech demonstruje základní principy použití této knihovny. Podobné příklady lze pak najít i v knize [Geoprocessing With Python]{.publication} [@Garrard2016].  
+
+Při práci s [PyQt]]{.sw} je mnoho situací, kdy lze volit mezi použitím funkcí z [PyQt]{.sw} a pythonových knihoven. Volba mezi nimi je v takovém případě spíše osobní volbou programátora, jeho obeznámenosti s danou technologií, či propojením na další použité nástroje a knihovny. V mnoha situacích nelze specificky určit, že by jeden z přístupů byl lepší či vhodnější. Autor se ve většině případů kloní spíše k použití pythonových knihoven, a tento přístup se bude promítat do ukázkových kódů v publikaci.
+
+:::{.callout-note}
+## QT Třídy vs. Python třídy nebo moduly
+
+Příkladem zaměnitelné funkcionality může být např. třída {{< qt-class `QDir()` >}} (z modulu {{< qt-module PyQt5.QtCore >}}) a třída {{< python-class Path() pathlib concrete-paths >}} (z modulu {{< python-module pathlib >}} ). Obě položky poskytují v principu velice podobné funkce a možnosti. 
+:::
+
+Při psaní kódu v Pythonu budeme používat modul {{< python-module typing >}} [@PythonSoftwareFoundation2022], a typovat proměnné, jednak z důvodu zlepšení čitelnosti kódu a jednak proto, že většina IDE v takovém případě bude lépe napovídat funkce, argumenty atd. Ukázka pythonového kódu s typováním parametrů, návratového typu a proměnných: 
+
+```{python}
+#| eval: false
+
+def layer_count(filename: str) -> int:
+    ds: ogr.Datasource = ogr.Open(filename)
+    return ds.GetLayerCount()
+```
+
+<!-- ## Co spadá do rozsahu těchto skript -->
+
+<!-- ## Co nespadá do rozsahu těchto s -->

@@ -1,0 +1,228 @@
+---
+format:
+  html: 
+    code-tools:
+    #   source: file://~/OneDrive/Quarto/App/app1/app.py 
+        source: true
+---
+
+# Jednoduchá aplikace
+
+V této kapitole sestavíme jednoduchou aplikaci, na níž budeme prakticky demonstrovat základní koncepty. Aplikace umožní uživateli vybrat soubor, následně zobrazí cestu k tomuto souboru a pokusí se soubor oveřít jako vektorový datový zdroj pomocí **OGR** a zobrazí informaci, zda-li je možné soubor otevřít pomocí OGR. Základem většiny aplikací je třída {{< qt-class QMainWindow >}}.  
+
+## QMainWindow
+
+{{< qt-class QMainWindow >}} z modulu `PyQt5.QtWidgets` je třída, která poskytuje základní rozhraní aplikace. V tomto rozhraní jsou předchystané položky pro všechny v aplikacích obvyklé prvky (viz @fig-qmainwindow) např. menu (Menu bar), lišty s nástroji (Toolbars), uživatelsky umisťované widgety (Dock Widgets), též zvané dokovatelné widgety, stavový řádek (Status bar) a hlavní prostor aplikace (Central Widget). 
+
+![Součásti QMainWindow. Zdroj: [@QtCompany2022]](/figures/qmainwindow.png){#fig-qmainwindow width=75% fig-align="center"}
+
+Mimo to může aplikace vytvářet další samostatná okna, s další funkcionalitou. 
+
+:::{.qgis}
+Jako samostatná okna fungují například _Atributová tabulka_, nebo _Rozvžení_ (_Layout_) v **QGIS**.
+:::
+
+Základním stavebním prvkem GUI v [PyQt]{.sw} je {{< qt-class QWidget >}}, tento objekt je základem všech prvků uživatelského rozhraní a definuje obecné a pro všechny prvky GUI společné chování, nastavení a možnosti. Později si také ukážeme, jak lze na základě této třídy vytvářet vlastní prvky GUI. 
+<!---
+doplnit odkaz na kapitolu
+-->
+Rozložení {{< qt-class QMainWindow >}} umožňuje specifikaci jednoho hlavního widgetu (v @fig-qmainwindow položka Centra Widget). V tomto widgetu by se měla nacházet hlavní a nejdůležitější část aplikace. 
+
+:::{.qgis}
+V QGISu je hlavním widgetem mapové pole (třída `QgsMapCanvas`) spolu s několika drobnými widgety pod mapovým polem, kolem kterého jsou umístěně dokovatelné widgety [Prohlížeč]{.settings}, [Vrstvy]{.settings} a volitelně další, např. [Nástroje zpracování]{.settings}.
+:::
+
+## Aplikace
+
+Většinu konceptů {{< qt-class QMainWindow >}} si můžeme demonstrovat na jednoduché aplikaci. Sestavíme aplikaci, kde uživatel vybere soubor, aplikace zobrazí cestu k tomuto souboru a pokusí se soubor otevřít jako vektorový datový zdroj pomocí OGR a zobrazí informaci, zda-li jde soubor otevřít pomocí OGR.  
+
+Samotný kód pro tuto aplikaci může vypadat následovně:
+```{python}
+#| code-fold: true
+#| eval: false
+import sys
+from osgeo import ogr
+from PyQt5.QtWidgets import (QApplication, QMainWindow, QFormLayout,
+                             QToolButton, QLineEdit, QFileDialog, QWidget,
+                             QMenu, QAction)
+
+
+class MainWindow(QMainWindow):
+
+    def __init__(self, *args, **kwargs):
+        super(MainWindow, self).__init__(*args, **kwargs)
+
+        self.setWindowTitle("První Aplikace")
+        self.setMinimumSize(500, 200)
+
+        self.ds = None
+
+        self.init_gui()
+
+    def init_gui(self):
+
+        menu = QMenu('Aplikace', self)
+        self.menuBar().addMenu(menu)
+
+        self.action_end = QAction("Ukončit", self)
+        self.action_end.triggered.connect(self.exit)
+
+        menu.addAction(self.action_end)
+
+        self.central_widget = QWidget()
+        self.setCentralWidget(self.central_widget)
+
+        layout = QFormLayout(self.central_widget)
+        self.central_widget.setLayout(layout)
+
+        self.select_file = QToolButton()
+        self.select_file.setText("Vyberte soubor")
+        self.select_file.clicked.connect(self.open_file)
+
+        self.file_path = QLineEdit("")
+        self.file_path.setReadOnly(False)
+
+        self.ogr_file = QLineEdit("")
+        self.ogr_file.setReadOnly(False)
+
+        layout.addWidget(self.select_file)
+        layout.addRow("Vybraný soubor:", self.file_path)
+        layout.addRow("Otevřít pomocí OGR:", self.ogr_file)
+
+    def exit(self):
+        app = QApplication.instance()
+        app.quit()
+
+    def open_file(self) -> None:
+
+        filename, _ = QFileDialog.getOpenFileName(self, "Vyberte soubor")
+
+        if filename:
+            self.file_path.setText(filename)
+
+            self.ds = ogr.Open(filename, True)
+
+            if self.ds:
+                self.ogr_file.setText("Otevřeno OGR!")
+            else:
+                self.ogr_file.setText("Nelze otevřít pomocí OGR!")
+
+            self.statusBar().showMessage(
+            "Soubor `{}` vybrán a zkušebně otevřen.".format(filename), 2000)
+
+        else:
+            self.file_path.setText("")
+            self.ogr_file.setText("")
+
+
+if __name__ == "__main__":
+
+    app = QApplication(sys.argv)
+    mw = MainWindow()
+    mw.show()
+    sys.exit(app.exec())
+```
+
+Výsledná aplikace vypadá následovně:
+
+![Aplikace z předešlého kódu](./figures/app_1.png){#fig-app_2 fig-align="center"}
+
+Hlavní částí aplikace je třída odvozená od {{< qt-class QMainWindow >}}, kterou jsme pojmenovali `MainWindow`. Tato třída si ponechává veškeré svoje chování a lze ho rozšiřovat pomocí nově definovaných funkcí. 
+
+V rámci funkce `__init__()`, nastavíme třídě titulek zobrazený v záhlaví aplikace a následně základní rozměr, který bude okno zabírat. V tomto případě $800 \times 200$ pixelů.
+```{python}
+#| eval: false
+self.setWindowTitle("První Aplikace")
+self.setMinimumSize(500, 200)
+```
+
+Následně vytvoříme funkci `init_gui()`, která se stará o vytvoření samotného GUI v třídě `MainWindow`. Základem pro GUI je prázdný {{< qt-class QWidget >}}, který nastavíme jako centrální pro hlavní okno. Tento widget bude dále sloužit jako kontejner pro další prvky uživatelského rozhraní.
+```{python}
+#| eval: false
+self.central_widget = QWidget(self)
+self.setCentralWidget(self.central_widget)
+``` 
+
+Základem uživatelského rozhraní je **layout**, který specifikuje, jak budou prvky rozloženy v rozhraní. Pro tuto jednoduchou aplikaci zvolíme `QFormLayout`, což je layout, kde přídáváme prvky do řádků, přičemž každý řádek obsahuje popisku a prvek GUI. Dříve vytvořenému widgetu přiřadíme vytvořený layout, který se postará o rozložení prvků. Při tvorbě jak {{< qt-class QFormLayout >}}, tak i {{< qt-class QWidget >}}, předáváme jako parameter `self`, což je odkaz na vytvořenou instanci `MainWindow`. Tato položka slouží jako tzv. rodičovský prvek. Rodičovský prvek slouží v rámci [Qt]{.sw} jako prevence, aby nebyly z paměti smazány objekty, pokud jsou ještě zapotřebí. Rodičovský prvek zajišťuje, že prvek nebude smazát, dokud není ke smazání z paměti určen prvek rodičovský. Při tvorbě některých prvků GUI se jedná o dobrou praxi, která předchází problémům s management existujících prvků GUI. 
+```{python}
+#| eval: false
+layout = QFormLayout(self.central_widget)
+self.central_widget.setLayout(layout)
+```
+
+Následně vytvoříme tři prvky GUI. Prvním bude {{< qt-class QToolButton >}}, kterému přiřadíme popisku vysvětlující jeho účel. Následně propojíme událost na tomto prvku `clicked` s funkcí (`open_file()`), kterou jsme vytvořili v třídě `MainWindow`. Toto propojení se děje v terminologii **Qt** pomocí tzv. signálů a slotů, jejichž detaily budou vysvětleny později. Toto tlačítko je zároveň jediný opravdu interaktivní prvek v GUI, ostatní prvky jsou pasivní a budou pouze zobrazovat informace. 
+```{python}
+#| eval: false
+self.select_file = QToolButton()
+self.select_file.setText("Vyberte soubor")
+self.select_file.clicked.connect(self.open_file)
+```
+
+Následně vytvoříme dva prvky typu {{< qt-class QLineEdit >}}, což prvek pro vstup textu, který je omezen na velikost jednoho řádku. Oba prvky ale nastavíme pouze pro čtení, čímž znemožníme uživateli, abych do těchto prvků psal. Budou složit pouze pro zobrazení textu, vytvořeného v rámci běhu programu.
+```{python}
+#| eval: false
+self.file_path = QLineEdit("")
+self.file_path.setReadOnly(False)
+self.ogr_file = QLineEdit("")
+self.ogr_file.setReadOnly(False)
+```
+
+Všechny tři prvky následně vložíme do již existujícího layoutu. Tlačítko vložíme jako samostatný prvek, textové elementy spolu s popiskou.
+```{python}
+#| eval: false
+layout.addWidget(self.select_file)
+layout.addRow("Vybraný soubor:", self.file_path)
+layout.addRow("Otevřít pomocí OGR:", self.ogr_file)
+```
+
+Mimo to ještě v aplikaci vytvoříme menu ({{< qt-class QMenu >}}) a vložíme do něj jednu položku ( {{< qt-class QAction >}}). K této položce opět připojíme funkci z naší třídy (`exit()`). 
+```{python}
+#| eval: false
+menu = QMenu('Aplikace', self)
+self.menuBar().addMenu(menu)
+self.action_end = QAction("Ukončit", self)
+self.action_end.triggered.connect(self.exit)
+menu.addAction(self.action_end)
+```
+
+:::{.callout-important}
+# Propojení slotu na signál
+Při propojení funkce na signál, ve funkci `connect()`, si povšimněte, že se na funkci odkazuje jako na `self.nazev_funkce` a nikoliv `self.nazev_funkce()`. Funkce `connect()` totiž požaduje odkaz na objekt, což v pythonu může být i funkce, a nikoliv volání (spuštění) funkce, což by byl druhý případ.
+:::
+
+Takto vytvořená třída by již mohla existovat a GUI by existovalo, nicméně dokud nedefinujeme dvě použité funkce, bude nefunkční a program se korektně nespustí. Pokud bychom zakomentovali dva řádky, kde se používá funkce `connect()` bylo by možné program spustit.
+
+Funkce propojená s položkou v menu, je velice jednoduchá. Získá objekt aplikace a ukončí ho. Prvek `QApplication` je tzv. singleton, což znamená že je v rámci běhu programu existuje pouze jednou, není tedy nutné ho předávat do dílčích tříd, ale lze ho vždy jednoduše získat voláním `QApplication.instance()`. To značně zjednodušuje jeho použití skrze celou aplikaci.
+```{python}
+#| eval: false
+def exit(self):
+    app = QApplication.instance()
+    app.quit()
+```
+
+Druhá námi definovaná funkce, nechá uživatele vybrat soubor pomocí okna (které je svou strukturou známe, neboť se standardně používá). Pokud uživatel vybere soubor, bude proměnná `filename` obsahovat cestu a název souboru, v opačném případě bude mít hodnotu `None`. Textovému poli pro název souboru nastavíme cestu k souboru.Následně zkusíme soubor otevřít jako vektorová data, pomocí funkce `ogr.Open()`. Pokud se to povede nastavíme do textového pole informaci, že soubor byl pomocí **OGR** úspěšně otevřen. Pokud nelze soubor otevřít, zobrazíme o tom textovou zprávu. Následně do status baru (umistěného zcela dole v okně) zobrazíme zprávu, že byl soubor zkušebně otevřen. Zpráva bude zobrazena po dobu 2 vteřin (2000 milisekund).
+```{python}
+#| eval: false
+def open_file(self) -> None:
+
+    filename, _ = QFileDialog.getOpenFileName(self, "Vyberte soubor")
+
+    if filename:
+        self.file_path.setText(filename)
+
+        self.ds = ogr.Open(filename, True)
+
+        if self.ds:
+            self.ogr_file.setText("Otevřeno OGR!")
+        else:
+            self.ogr_file.setText("Nelze otevřít pomocí OGR!")
+
+        self.statusBar().showMessage(
+        "Soubor `{}` vybrán a zkušebně otevřen.".format(filename), 2000)
+
+    else:
+        self.file_path.setText("")
+        self.ogr_file.setText("")    
+```
+
+Timto se nám povedlo vytvořit minimalistickou GUI aplikaci. Její funkcionalita je značně omezená, ale lze na ní vhodně demonstrovat důležité základní koncepty tvorby aplikací s použítím **PyQt**.

@@ -1,0 +1,306 @@
+# QWidget
+
+{{< qt-class QWidget >}} je základní třída, z níž většina dalších prvků GUI (widgetů) odvozuje základní chování. Sem patří např. reakce na události v GUI, změny v rozměrech GUI, vykreslení samotné komponenty atd.  
+
+Základní možností, jak používat {{< qt-class QWidget >}} je využít tento prvek jako kontejner pro jiné prvky, s cílem vytvoření nového prvku GUI. Příkladem může být prvek pro výběr souboru, na němž si budeme demonstrovat postup tvorby widgetu. Tento ukázkový widget se bude skládat z textového prvku, zobrazujícího cestu k souboru a jeho název, a tlačítka, které otevře okno pro výběr souboru. Mimo to přidáme ikonu zobrazující, zda-li je aktuálně vybrán soubor. Uživatel bude mít i možnost manuálně zapsat cestu k souboru do textového pole. Výsledný widget by měl být schopný dát okolí vědět, že byl vybrán soubor, i že byl výběr souboru zrušen.
+
+:::{.qgis}
+V API QGISu velice podobný prvek existuje s názvem `QgsFileWidget`. Je možné jej vidět např. při volbě vektorové nebo rastrové vrstvy. Tento prvek nese značnou doplňkovou funkcionalitu.
+:::
+
+Samotný widget můžeme testovat spouštěním následující kódu:
+```{python}
+#| code-fold: true
+#| eval: false
+import sys
+from PyQt5.QtWidgets import QApplication, QWidget
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    w = QWidget()
+    w.show()
+    sys.exit(app.exec())
+```
+Namísto hlavního okna vytvoříme aplikaci s oknem obsahujícím pouze widget. Pro testování a případně velice jednoduché aplikace je toto možné řešení.
+
+## Widget pro výběr souboru
+
+```{python}
+#| code-fold: true
+#| eval: false
+from functools import partial
+import sys
+import typing
+from pathlib import Path
+
+from PyQt5.QtWidgets import (QApplication, QWidget, QHBoxLayout, QToolButton,
+                             QLineEdit, QFileDialog, QAction, QStyle, QLabel)
+from PyQt5.QtCore import Qt, pyqtSignal
+
+
+class FileSelector(QWidget):
+
+    fileSelected = pyqtSignal(str)
+    fileCleared = pyqtSignal()
+
+    def __init__(
+        self,
+        parent: typing.Optional[QWidget] = None,
+        flags: typing.Union[Qt.WindowFlags,
+                            Qt.WindowType] = Qt.WindowType.Widget
+    ) -> None:
+        super().__init__(parent, flags)
+
+        self.init_gui()
+
+        self.dialog = QFileDialog(self, self.tr("Select File"))
+        self.dialog.setFileMode(QFileDialog.ExistingFile)
+
+        icon = self.style().standardIcon(QStyle.SP_DialogCloseButton)
+        self.clear_action = QAction(icon, self.tr("Clear Selection"), self)
+        self.clear_action.setCheckable(False)
+        self.clear_action.triggered.connect(self.clear_value)
+
+        self.path_file = None
+
+    def init_gui(self) -> None:
+        self.setContentsMargins(0, 0, 0, 0)
+
+        layout = QHBoxLayout(self)
+        self.setLayout(layout)
+
+        self.button = QToolButton(self)
+        self.button.setText("...")
+        self.button.clicked.connect(self.show_process_file_dialog)
+        
+        self.text = QLineEdit(self)
+        self.text.setMinimumWidth(150)
+        self.text.textChanged.connect(self.path_defined)
+
+        self.file_selected_label = QLabel()
+        self.set_file_selected_label_icon(False)
+
+        layout.addWidget(self.text)
+        layout.addWidget(self.button)
+        layout.addWidget(self.file_selected_label)
+
+    def set_file_selected_label_icon(self, ok: bool) -> None:
+        if ok:
+            icon = self.style().standardIcon(QStyle.SP_DialogApplyButton)
+        else:
+            icon = self.style().standardIcon(QStyle.SP_CustomBase)
+        self.file_selected_label.setPixmap(
+            icon.pixmap(self.file_selected_label.size()))
+
+    def set_selected_file_dialog(self) -> None:
+        if self.path_file:
+            self.dialog.selectFile(self.path_file)
+        else:
+            self.dialog.setDirectory(Path().expanduser().as_posix())
+            self.dialog.selectFile(None)
+
+    def show_process_file_dialog(self) -> None:
+        self.set_selected_file_dialog()
+        result = self.dialog.exec()
+
+        if result == self.dialog.Accepted:
+            file_name = self.dialog.selectedFiles()[0]
+            if file_name:
+                self.set_existing_file(file_name)
+                self.show_file_path(file_name)
+                self.show_clear_action()
+            else:
+                self.fileCleared.emit()
+
+    def show_clear_action(self) -> None:
+        self.text.addAction(self.clear_action,
+                            QLineEdit.ActionPosition.TrailingPosition)
+
+    def set_existing_file(self, file_name: str) -> None:
+        self.path_file = file_name
+        self.fileSelected.emit(self.path_file)
+        self.set_file_selected_label_icon(True)
+
+    def show_file_path(self, path: str) -> None:
+        self.text.blockSignals(True)
+        self.text.setText(path)
+        self.text.blockSignals(False)
+
+    def path_defined(self) -> None:
+        self.show_clear_action()
+        path = Path(self.text.text())
+
+        if path.exists() and path.is_file():
+            if path.absolute().as_posix() != self.path_file:
+                self.set_existing_file(self.text.text())
+        else:
+            self.clear_file()
+
+    def clear_file(self) -> None:
+        shouldSignalEmit = self.path_file is not None
+        self.path_file = None
+        self.set_file_selected_label_icon(False)
+        if shouldSignalEmit:
+            self.fileCleared.emit()
+
+    def clear_value(self) -> None:
+        self.show_file_path("")
+        self.text.removeAction(self.clear_action)
+        self.clear_file()
+
+
+def print_file(file: str) -> None:
+    print(file)
+
+
+if __name__ == "__main__":
+
+    app = QApplication(sys.argv)
+    w = FileSelector()
+    w.fileSelected.connect(print_file)
+    w.fileCleared.connect(partial(print_file, "Cleared"))
+    w.show()
+    sys.exit(app.exec())
+```
+
+Při vytvoření objektu se zaměříme na dvě hlavní položky. Inicializace uživatelského rozhraní pomocí funkce `init_gui()` a následně dalších objektů a proměnných pro widget. 
+
+Ve funkci `init_gui()` je většina kódu už známá z předchozích kapitol. Pouze několik, řádků zaslouží krátké vysvětlení. Následující řádek, nastaví odsazení prvků widgetu od okrajů na 0, což znamená, že prvky zcela vyplní widget. To zabrání "odsazení" dílčích částí widgetu od odstaních položek komplexnějšího uživatelského rozhraní.
+
+```{python}
+#| eval: false
+self.setContentsMargins(0, 0, 0, 0)
+```
+
+Pro prvky widgetu použijeme layout, který řadí prvky horizontálně do jedné linie.
+
+```{python}
+#| eval: false
+layout = QHBoxLayout(self)
+```
+
+Mimo to si ve widgetu vytvoříme proměnné s objekty dialogového okna pro výběr souboru, které nastavíme na možnost výběru pouze jednoho souboru, a akci, kterou budeme používat pro vymázání textového pole. K této akci připojíme funkci `self.clear_value()`. Posledním prvkem, který vytvoříme, je proměnná, v níž bude uložena cesta k vybranému souboru. Do začátku tato hodnota bude `None`, neboť soubor není vybrán. 
+
+```{python}
+#| eval: false
+self.dialog = QFileDialog(self, self.tr("Select File"))
+self.dialog.setFileMode(QFileDialog.ExistingFile)
+
+icon = self.style().standardIcon(QStyle.SP_DialogCloseButton)
+self.clear_action = QAction(icon, self.tr("Clear Selection"), self)
+self.clear_action.setCheckable(False)
+self.clear_action.triggered.connect(self.clear_value)
+
+self.path_file = None
+```
+
+Funkce vytvořeného widgetu jsou relativně jednoduché, ale jejich propojení vytváří komplexní funkcinalitu. Pokusíme se shrnout účel a použití jednotlivých funkcí.
+
+Funkce `show_clear_action()` se stará o připojení vytvořené akce (`self.clear_action`) k textovému poli pro zápis cesty k souboru (v proměnné `self.text`). Funkci jsme vytvořili proto, aby se nám tento kód neopakoval na různých místech v kódu.
+```{python}
+#| eval: false
+def show_clear_action(self) -> None:
+    self.text.addAction(self.clear_action,
+                        QLineEdit.ActionPosition.TrailingPosition)
+```
+
+Další funkcí modifikující, jak widget vypadá, je funkce `set_file_selected_label_icon()`. Tato funkce nastaví ikonu, zde používáme standardní ikony **Qt**, dle vstupní proměnné funkce. Tuto ikonu, respektive její vykreslenou podobu, vložíme do dříve vytvořené proměnné `self.file_selected_label`. V případě, že vstupní proměnná `ok` byla hodnoty `True` použijeme ikonu "zatrženo", v opačném případě použijeme prázdnou ikonu.
+```{python}
+#| eval: false
+def set_file_selected_label_icon(self, ok: bool) -> None:
+    if ok:
+        icon = self.style().standardIcon(QStyle.SP_DialogApplyButton)
+    else:
+        icon = self.style().standardIcon(QStyle.SP_CustomBase)
+    self.file_selected_label.setPixmap(
+        icon.pixmap(self.file_selected_label.size()))
+```
+
+Další funkcí, kterou budeme potřebovat, je nastavení cesty k souboru do textového pole (`self.text`), v situaci, kdy ho uživatel vybere skrze dialogové okno. To není problematické, ale je třeba si uvědomit, že na signálu daného objektu je připojený slot (funkce) a dočasně pozastavit signály, aby nebyly vyvolány nezamýšlené akce. 
+```{python}
+#| eval: false
+def show_file_path(self, path: str) -> None:
+    self.text.blockSignals(True)
+    self.text.setText(path)
+    self.text.blockSignals(False)
+```
+
+Pro dialogové okno, kde uživatel vybírá soubor, můžeme připravit zajímavou pomocnou funkci. Pokud máme ve widgetu už vybraný soubor, přednastavíme dialogové okno do lokace soubor a tento soubor předvybereme. Pokud nemáme vybraný soubor přednastavíme cestu do lokace uživatelských dat (závislé na platformě a uživatelském nastavení v systému).
+
+```{python}
+#| eval: false
+def set_selected_file_dialog(self) -> None:
+    if self.path_file:
+        self.dialog.selectFile(self.path_file)
+    else:
+        self.dialog.setDirectory(Path().expanduser().as_posix())
+        self.dialog.selectFile(None)
+```
+
+Další funkcí, kterou potřebujeme je funce, která nastavíme widgetu vybraný soubor, vyvolá signál výběru souboru a nastaví ikonu, vybraného souboru.
+
+```{python}
+#| eval: false
+def set_existing_file(self, file_name: str) -> None:
+    self.path_file = file_name
+    self.fileSelected.emit(self.path_file)
+    self.set_file_selected_label_icon(True)
+```
+
+Následně už se můžeme věnovat funkci, která otevře dialogové okno. Nejdříve oknu nastavíme vhodnou výchozí cestu a případně vybraný soubor. Pak samotné okno otevřeme. Funkce `self.dialog.exec()` po zavření okna vrací hodnotu, kterou uložíme do proměnné. Pokud bylo okno zavřeno potvrzením, pak informace dále zpracováváme. Pokud bylo zavřeno jinak, žadné další akce neprovádíme. V případně korektního výběru souboru nám funkce `self.dialog.selectedFiles()` vrátí seznam vybraných souborů. Tím, že jsme se omezili pouze na výběr jednoho, můžeme rovnou ze seznamu extrahovat první prvek, jímž je absolutní cesta k vybranému souboru. Následně voláním funkcí nastavíme widgetu do stavu, v němž má být po výběru souboru. Pokud by první prvek seznamu souborů neexistoval, vyvoláme signál informující, že není vybrán žádný soubor.
+
+```{python}
+#| eval: false
+def show_process_file_dialog(self) -> None:
+    self.set_selected_file_dialog()
+    result = self.dialog.exec()
+
+    if result == self.dialog.Accepted:
+        file_name = self.dialog.selectedFiles()[0]
+        if file_name:
+            self.set_existing_file(file_name)
+            self.show_file_path(file_name)
+            self.show_clear_action()
+        else:
+            self.fileCleared.emit()
+```
+
+Další možností, jak může být soubor ve widgetu zadán, je uživatelsky zapsaná cesta k existujícímu souboru. Ke slotu `textChanged` proměnné `text` připojíme funkci, která verifikuje, zda-li zapsaná cesta odpovídá existujícímu souboru. Pokud ano, cestu k souboru uložíme do proměnné a vyvoláme odpovídající signál. Pokud soubor neexistuje, zavolám funkci, která se postará o nastavení widgetu do vychózího stavu.
+
+```{python}
+#| eval: false
+def path_defined(self) -> None:
+    self.show_clear_action()
+    path = Path(self.text.text())
+
+    if path.exists() and path.is_file():
+        if path.absolute().as_posix() != self.path_file:
+            self.set_existing_file(self.text.text())
+    else:
+        self.clear_file()
+```
+
+Poslední dvě funkce, které nám zbyvají ve widgetu, jsou funkce `clear_value()` a `clear_file()`.  První z nich je napojená na akci (`QAction`) `clear_action`, která se stará o odstranění textu z proměnné `text`, skrytí ikony příslušné akce, a následně odstranění souboru z příslušné proměnné. O toto odstranění souboru se stará funkce `clear_file()`, která nastavuje proměnou `path_file` na hodnotu `None`, odstraní ikonu z widgetu a pokud je to nutné vyvolá signál `fileCleared`.
+
+```{python}
+#| eval: false
+def clear_value(self) -> None:
+    self.show_file_path("")
+    self.text.removeAction(self.clear_action)
+    self.clear_file()
+
+def clear_file(self) -> None:
+    shouldSignalEmit = self.path_file is not None
+    self.path_file = None
+    self.set_file_selected_label_icon(False)
+    if shouldSignalEmit:
+        self.fileCleared.emit()
+```
+
+Na tomto jednoduchém widgetu, lze demonstrovat komplexnost tvorby prvků UI. Ačkoliv se jedná o poměrně jednoduchý widget, jeho funkcionalitu pokrývá řada funkcí, které musejí předpokládat řadu možných situací, které mohou nastat.
+
+:::{.qgis}
+QGIS obsahuje celou řadu prvků UI, které jsou pro tento software specifické, nebo upravují chování běžných prvků **Qt**. Výpis všech těchto prvů je v nápovědě [modulu `qgis.gui`](https://qgis.org/pyqgis/master/gui/index.html).
+:::
+
+{{< todo "Problém k vyřešení." >}}

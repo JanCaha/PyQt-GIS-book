@@ -1,0 +1,83 @@
+# Časově náročné operace v GUI
+
+[Jedním]{.border} ze základních problémů aplikací s uživatelským rozhraním, je responzivita, což je schopnost reagovat na akce uživatele v reálném čase [@Ramos2021]. Pakliže nebude aplikace reagovat na akce uživatele v reálném čase, pak nebude příliš uživatelsky přívětivá a ani použitelná [@Fitzpatrick2021]. Tuto situaci v praxi znají všichni uživatelé, aplikace občas "zamrzne, zatuhne", přičemž v některých případech dojde po chvíli k obnovení responzivity a někdy je nutné aplikaci nestandardně ukončit (např. použitím [Task manageru]{.settings}). Důvody proč k tomuto dochází mohou být různé, od chyb až po náročnost některých operací.
+
+V této kapitole se specificky zaměříme na operace, které trvají delší dobu, a z hlediska uživatele by způsobovaly "zamrznutí" aplikace. V této terminologii lze za dlouho běžící operaci označit jakoukoliv operaci, jejíž zpracování překročí cca 0.5 vteřiny. Tento čas už uživatel zvládne vnímat a rozpozná, že v aplikaci "něco nefunguje". Běžné změny v GUI, vykreslení prvků GUI atd. obvykle zaberou řádově pouze setiny vteřiny, proto je vhodné cokoliv delšího spouštět tak, aby to neomezovalo uživatele v interakci s GUI, zároveň je ale nezbytné dát uživateli nějakým způsobem vědět, že operace probíhá na pozadí a pokud je to možné, tak ho informovat o stavu této operace (např. zpracovaná procenta). 
+
+:::{.qgis}
+V QGIS jsou takto řešeny [Nástroje zpracování]{.settings}, které se spouští tak, aby neblokovaly uživatelovu interakci s GUI. Zároveň je ve spodní liště zobrazen ukazatel zpracování, který uživatele informuje, kolik procent dané úlohy je zpracováno.
+:::
+
+
+## Spouštení procesu bez blokace GUI
+
+Základním krokem je vytvoření objektu, který odvodíme z třídy {{< qt-class QRunnable >}}. Tato třída vytváří objekty, obsahující komplexní úlohy, které je možné snadno spouštět. Klíčovou roli hraje funkce `run` třídy {{< qt-class QRunnable >}}, která se spouští a měla by obsahovat dlouho běžící úlohu.
+
+V příkladu pod odstavcem vytvoříme třídu `Worker`, pro kterou vytvoříme konstruktor, abychom demonstrovali, jak je možné do úlohy předat data. Mimo to v této třídě vytvoříme tři signály, s ohledem na omezení kombinace [Pythonu]{.software} a [PyQt]]{.software} nelze signály vytvořit přímo na objektu {{< qt-class QRunnable >}}. Je nutné pro signály vytvořit vlastní třídu a tu následně použít jako proměnnou ve třídě odvozené od {{< qt-class QRunnable >}} [@Fitzpatrick2021]. Jeden informuje o ukončení této úlohy, druhý předává výslednou hodnotu a třetí slouží pro informování kolik procent úlohy už je zpracováno a název `Worker`, který běží. V tomto případě používáme jako vstup i výstup jednoduché texty, ale lze takto předávat i komplexnější data či celé objekty. `Worker` v ukázkovém příkladu nic specifického nevykonává, pouze 10 krát jednu sekundu vyčkává, abychom demonstrovali dlouho běžící process.
+
+```{python}
+#| code-fold: true
+#| eval: false
+import time
+
+from PyQt5.QtCore import QRunnable, pyqtSignal
+
+class WorkerSignals(QObject):
+    finished = pyqtSignal()
+    percentDone = pyqtSignal(str, float)
+    result = pyqtSignal(str)
+
+class Worker(QRunnable):
+
+    def __init__(self, job_name: str):
+        super(Worker, self).__init__()
+        self.signal = WorkerSignals()
+        self.job_name = job_name
+
+    def run(self):
+        for i in range(10):
+            time.sleep(1)
+            self.signal.percentDone.emit(self.job_name, (i / 10) * 100)
+        self.signal.finished.emit()
+        self.signal.result.emit("Job `{}` is done.".format(self.job_name))
+```
+
+Tuto vytvořenou třídu může následně využít. Lze ji použít přímo z hlavního okna aplikace, či jakékoliv jiné dílčí komponenty. Je pouze nutné při inicializaci této komponenty vytvořit proměnnou třídy {{< qt-class QThreadPool >}}, která se postará o spouštění tříd odvozených z {{< qt-class QRunnable >}}. Tvorba této proměnné vypadá následovně. 
+
+```{python}
+#| eval: false
+self.threadpool = QThreadPool()
+```
+
+Mimo je nutné vytvořit v této třídě funkci, která bude instance třídy `Worker` vytvářet a předávat je ke spuštění do třídy {{< qt-class QThreadPool >}}. To je nezbytné minimum, nad rámec toho je možné k signálům třídy `Worker` připojit sloty (funkce), které budou na vyvolání signálů reagovat. V tomto ukázkovém případě pouze tiskem informačních zpráv, nicméně funkce mohou být libovolně komplexní.
+
+V kódu používáme {{< python-module uuid >}}, pomocí nějž generujeme náhodné unikátní označení `uuid.uuid4()`, respektive jeho část, pro každou instanci třídy `Worker`.
+
+Výsledné funkce, které použijeme v kódu příslušné třídy, pak vypadají následovně:
+
+```{python}
+#| eval: false
+import uuid
+
+def run_worker(self):
+    worker_id = str(uuid.uuid4()).split("-")[0]
+    worker = Worker(worker_id)
+
+    worker.signal.result.connect(self.print_worker_output)
+    worker.signal.finished.connect(self.worker_finished)
+    worker.signal.percentDone.connect(self.worker_percent_done)
+
+    self.threadpool.start(worker)
+
+def print_worker_output(self, output: str):
+    print(output)
+
+def worker_finished(self):
+    print("Worker finished!")
+
+def worker_percent_done(self, worker_name: str, percent: float):
+    msg = "Done {}%. ({})".format(percent, worker_name)
+    print(msg)
+```
+
+Tento postup funguje v momentech kdy jednotlivé instance třídy `Worker` neupravují stejná data a ani si jinak vzájemně nekonkurují, co se týká zdrojů. Pakliže by bylo nutné řešit konkurenci úloh, jsou nutné pokročilejší postupy a přístupy k managementu dat a procesů [@Moore2019,@Ramos2021].

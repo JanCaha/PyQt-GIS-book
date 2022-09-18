@@ -1,0 +1,116 @@
+# Signály a sloty
+
+V terminologii [Qt]{.sw} jsou signály a sloty [@QtCompany2022a] v podstatě implementací návrhového vzoru Observer [@Wikipedia2022a]. Tento návrhový vzor řeší situaci, kdy na změny jednoho objektu má reagovat jeden či více jiných objektů, přičemž chceme minimalizovat provázanost mezi těmito objekty.
+
+:::{.qgis}
+Příkladem těchto vazeb v QGIS může být např. manuální provedení selekce v atributové tabulce vrstvy. Na to musí zareagovat mapové pole QGIS a vykreslit vybrané prvky z vrstvy jako vybrané (typicky zvýrazněné ostře žlutou barvou), dále je nutné zpřístupnit nástroje a položky menu, které mají být aktivní pouze pokud na vrstvě existuje selekce (např. v kontextovém menu vrstvy je pod položkou [Export]{.settings} ->  [Uložit vybrané prvky jako...]{.settings} ). A recipročně, v momentě kdy se selekce na vrstvě zruší, je nutné zrušit zvýraznění prvků v mapovém poli a příslušné nástroje a prvky menu uživateli znepřístupnit. 
+:::
+
+Signál je speciální objekt [Qt]{.sw}, který má metodu `emit()`, jíž dáváme v daném kódu najevo, že nastala příslušná událost. Objekty mohou mít celou řadu signálů, pro různé situace či změny, které na těchto objektech mohou nastat. Pro použití s [PyQt]{.sw} je důležité, že objekt, který chce signály používat, musí být odvozen od třídy {{< qt-class QObject >}}, která implementuje základní chování signálů. Většina objektů **PyQt** je z této třídy odvozena, u prvků GUI se to týká zcela všech, takže pro tyto objekty se nejedná o problém. Nicméně pokud chce programátor použít signály na vlastních pythonových třídách, musí je odvodit od {{< qt-class QObject >}}.
+
+## Signál bez parameterů
+
+Nejlepším vysvětlením bude jednoduchý příklad. Vytvoříme jednoduchý object `Test`, který bude mít rodičovský prvek {{< qt-class QObject >}}. V tomto prvku vytvoříme jednu proměnnou `value` a jeden signál `valueChanged`. Všimněte si, že signál se typicky vytváří mimo funkci `__init__()`, což je z pythonového hlediska nezvyklé, ale signál je proměnná celé třídy a nikoliv konkrétní instance [@Tagliaferri2021]. 
+
+Objektu vytvoříme jednu funkci `set_value()`, pomocí které budeme nastavovat hodnotu proměnné `value`. Jakmile tuto hodnotu nastavíme, vyvoláme příslušný signál (`self.valueChanged.emit()`). 
+
+Samotné vyvolání signálu ale nevede k žádné akci, dokud k němu nepřipojíme slot. Slotem může být libovolná funkce v Pythonu, ať již navázaná na objekt, či existující samostatně. Pro tento příklad si vytvoříme jednoduchou funkci `print_value_changed()`, která pouze vytiskne před definovou zprávu.
+
+V běhové části kódu pak vytvoříme instanci třídy `Test` nazvanou jendoduše `o`, jako objekt. Pomocí konstrukce `o.valueChanged.connect(print_value_changed)` připojíme (`connect()`) k signálu `valueChanged` funkci `print_value_changed()`.
+
+:::{.callout-important}
+# Propojení slotu na signál
+Při propojení funkce na signál, ve funkci `connect()`, si povšimněte, že se na funkci odkazuje jako na `nazev_funkce` a nikoliv `nazev_funkce()`. Funkce `connect()` totiž požaduje odkaz na objekt, což v pythonu může být i funkce, a nikoliv volání (spuštění) funkce, což by byl druhý případ.
+:::
+
+Když pak následně na objektu `o` zavoláme funkci `o.set_value(5)`, dojde automaticky k vypsání zprávy z funkce `print_value_changed()`. Tato funkce totiž čeká na vyvolání signálu a jakmile k němu dojde, zcela automaticky se funkce spustí.
+
+https://www.pythonguis.com/tutorials/pyqt-signals-slots-events/
+
+```{python}
+#| eval: false
+from PyQt5.QtCore import QObject, pyqtSignal
+
+
+class Test(QObject):
+
+    valueChanged = pyqtSignal()
+
+    def __init__(self) -> None:
+        super().__init__(None)
+        self.value = 0
+
+    def set_value(self, value: int) -> None:
+        self.value = value
+        self.valueChanged.emit()
+
+
+def print_value_changed():
+    print("Test object value changed")
+
+
+if __name__ == "__main__":
+    o = Test()
+    o.valueChanged.connect(print_value_changed)
+    o.set_value(5)
+```
+
+Slot lze od signálu i odpojit pomocí konstrukce `o.valueChanged.disconnect(print_value_changed)`. Další volání funkce `o.set_value()` by pak již nevedlo k výpisu připravené textové zprávy.
+
+## Signál s parametry
+
+Kromě jednoduchých signálů, které jsou pouze vyvolány v určitý moment a spustí nějakou specifickou funkci, lze vytvářet signály, které jsou vyvolány se specifickými parametry, které se automaticky předají funkci na slotu.
+
+Použijeme stejný příklad jako výše. Pouze upravíme definici signálu tak, že bude přijímat dva paramtery typu `integer` a `datetime`. Když bude signál vyvoláván, předáme mu jako parametry hodnotu nastavovanou do proměnné a aktuální datum a čas. Následně upravíme funkci `print_value_changed()`, aby přijímala dva parametry příslušných typů a rozšíříme textovou zprávu o tyto dva údaje. Nyní tato funkce vytiskne infomaci o změně hodnoty na novou hodnotu (včetně hodnoty) a čas kdy se tato změna udála.
+
+```{python}
+#| eval: false
+from datetime import datetime
+
+from PyQt5.QtCore import QObject, pyqtSignal
+
+
+class Test(QObject):
+
+    valueChanged = pyqtSignal(int, datetime)
+
+    def __init__(self) -> None:
+        super().__init__(None)
+        self.value = 0
+
+    def set_value(self, value: int) -> None:
+        self.value = value
+        self.valueChanged.emit(value, datetime.now())
+
+
+def print_value_changed(value: int, date_time: datetime):
+    print("Test object value changed to {} at {}.".format(
+        value, date_time.isoformat()))
+
+
+if __name__ == "__main__":
+    o = Test()
+    o.valueChanged.connect(print_value_changed)
+    o.set_value(5)
+    o.set_value(7)
+    o.valueChanged.disconnect(print_value_changed)
+    o.set_value(10)
+```
+
+Pomocí tohoto principu lze mezi objekty v aplikaci předávat různá data i celé objekty. 
+
+## Dočasné pozastavení signálů
+
+V některých situacích může být vhodné či nezbytné, aby jiné objekty či celá aplikace nereagovaly na signály určitého objektu. Toho lze docílit,
+voláním funkce `blockSignals(True)` tohoto objektu. Po tomto volání nebudou signály z objektu vyvolávány a tím pádem na ně další objekty nebudou reagovat. Reaktivace se provede voláním stejné funkce s opačným parametrem `blockSignals(False)`. 
+
+Pokud do přechozí ukázky doplníte tyto řádky, nebude pro toto nastavení vytištěna zpráva, neboť signál objektu je pozastaven.
+
+```{python}
+#| eval: false
+o.blockSignals(True)
+o.set_value(15)
+o.blockSignals(False)
+```
+
+V praxi se tohoto využívá např. v situaci, kdy se dva prvky navzájem ovlivňují. Změna na jednom se promítne do změny druhého a opačně, což ale může vést k nekonečné smyčce změn. Pozastavením signálů zamezíme vzniku takovéto nekonečné smyčky. U aplikací s uživatelským rozhraním často nechceme, aby prvky reagovaly na události vyvolané explicitně z kódu, nikoliv interakcí uživatele. 

@@ -1,0 +1,34 @@
+# Prvky GUI
+
+Knihovna [Qt]{.sw} poskytuje řadu prvků uživatelského rozhraní. Pro přehled prvků lze použít [Qt Designer]{.sw}, což je grafický nástroj pro tvorbu uživatelského rozhraní. 
+
+Mezi tyto prvky se řadí např: popisky ({{< qt-class QLabel >}}), tlačítka ({{< qt-class QPushButton >}}), přepínače ({{< qt-class QRadioButton >}}), zaškrtávací pole ({{< qt-class QCheckBox >}}), několik druhů prvků pro editaci text (např. {{< qt-class QLineEdit >}}, {{< qt-class QPlainTextEdit >}} či {{< qt-class QTextEdit >}}), rozbalovací seznam ({{< qt-class QComboBox >}}), spinnery pro celá a desetinná čísla ({{< qt-class QSpinBox >}} a {{< qt-class QDoubleSpinBox >}}) (viz [@fig-ui-elemets-1]), posuvníky ({{< qt-class QSlider >}} či {{< qt-class QDial >}}), ukazatel postupu ({{< qt-class QProgressBar >}}), prvky pro výběr času či data ({{< qt-class QTimeEdit >}}, ({{< qt-class QDateEdit >}} a ({{< qt-class QDateTimeEdit >}}). Mimo to existují ještě specializované varianty prvků, například {{< qt-class QFontComboBox >}} jako varianta {{< qt-class QComboBox >}} speciálně zaměřená na výběr fontů, či speciální prvky pro rendrování HTML stránek - {{< qt-class QWebView >}} (viz [@fig-ui-elemets-2]). 
+
+![Ukázky základních prvků UI - 1](./figures/ui-elements-1.png){#fig-ui-elemets-1 width=50% fig-align="center"}
+
+![Ukázky základních prvků UI - 2](./figures/ui-elements-2.png){#fig-ui-elemets-2 width=50% fig-align="center"}
+
+
+:::{.callout-note}
+## Modifikace prvků GUI
+
+Prvky GUI lze poměrně jednoduše modifikovat, ať už vizuálně nebo jejich chování, vytvářením tříd, které odvozují z jichž existujících tříd. V takto odvozených třídách lze vytvářet nové funkce či modifikovat chování funkcí existujících. Tímto postupem lze poměrně snadno vytvářet více či méně modifikované prvky GUI, poskytující funkcionalitu, která je aktuálně potřebná. 
+:::
+
+Dále pak existují prvky pro zobrazení komplexnějších struktur jako jsou např. seznamy ({{< qt-class QListWidget >}} nebo {{< qt-class QListView >}}), tabulky ({{< qt-class QTableView >}} nebo {{< qt-class QTableWidget >}}) či stromové struktury ({{< qt-class QTreeView >}} nebo {{< qt-class QTreeWidget >}}) ale i jiné (viz [@fig-ui-elemets-3]).
+
+![Ukázky základních prvků UI - 3](./figures/ui-elements-3.png){#fig-ui-elemets-3 width=50% fig-align="center"}
+
+Dále pak existují prvky, které umožňují různé strukturování GUI, respektive prvků v něm. Mezi ty patří např. {{< qt-class QGroupBox >}}, {{< qt-class QGroupBox >}}, {{< qt-class QTabWidget >}}, {{< qt-class QStackedWidget >}} a další.
+
+:::{.qgis}
+Qgis definuje celou řadu vlastních GUI prvků, které se přímo zaměřují na práci s geodaty či funkcionalitu GIS. Všechny se nachází v modulu `qgis.gui`.
+:::
+
+## Rozložení prvků GUI
+
+Prvky GUI v aplikaci neexistují samy o sobě, ale vždy uspořádané do nějaké struktury. Základem této struktury je třída {{< qt-class QLayout >}}, která specifikuje základní chování rozvržení (layoutu) [@QtCompany2022a]. Základní rozvržení, existující přímo jako [Qt]{.software} třídy jsou {{< qt-class QHBoxLayout >}} a {{< qt-class QVBoxLayout >}}, které skládají prvky do horizontální potažmo vertikální struktury, {{< qt-class QFormLayout >}}, používá dva sloupce - popisku a samotné prvky, a {{< qt-class QGridLayout >}}, což je nejkomplexnější layout, kde je možné specifikovat počet sloupců, řádků a následně přiřazovat prvky GUI do jedné či několik takto vzniklých buněk.
+
+![Ukázky jednotlivých rozvržení](./figures/layouts.png){#fig-layouts width=50% fig-align="center"}
+
+V rámci jednoho {{< qt-class QWidget >}}, či jiného GUI prvku může existovat několik layoutů, které do sebe mohou být i různě zanořené. Tím vznikají komplexní prvky GUI.

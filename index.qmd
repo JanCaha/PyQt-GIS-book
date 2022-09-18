@@ -1,0 +1,7 @@
+Verze **{{< var version >}}** knihy.
+
+# Předmluva {.unnumbered}
+
+U programování, stejně jako u mnoha jiných dovedností, lze rozlišovat různé úrovně komplexnosti, na nichž lze tuto dovednost provozovat. 
+
+To learn more about Quarto books visit <https://quarto.org/docs/books>.
