@@ -5,3 +5,5 @@ contributes:
   shortcodes:
     - todo.lua
     - links.lua
+    - example.lua
+    
