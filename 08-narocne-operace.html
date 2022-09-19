@@ -113,7 +113,7 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./summary.html" rel="next">
+<link href="./09-pretrvavajici_nastaveni_aplikace.html" rel="next">
 <link href="./07-qwidget-kontejner.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -213,7 +213,7 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./07-qwidget-kontejner.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">QWidget</span></a>
+  <a href="./07-qwidget-kontejner.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">QWidget jako základ pro nové prvky</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -223,7 +223,12 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./summary.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Summary</span></a>
+  <a href="./09-pretrvavajici_nastaveni_aplikace.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Přetrvávající nastavení aplikace</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summary.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Summary</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -246,6 +251,7 @@ div.csl-indent {
    
   <ul>
   <li><a href="#spouštení-procesu-bez-blokace-gui" id="toc-spouštení-procesu-bez-blokace-gui" class="nav-link active" data-scroll-target="#spouštení-procesu-bez-blokace-gui"><span class="toc-section-number">8.1</span>  Spouštení procesu bez blokace GUI</a></li>
+  <li><a href="#praktická-ukázka" id="toc-praktická-ukázka" class="nav-link" data-scroll-target="#praktická-ukázka"><span class="toc-section-number">8.2</span>  Praktická ukázka</a></li>
   </ul>
 </nav>
     </div>
@@ -296,7 +302,7 @@ div.csl-indent {
 <summary>Zdrojový kód</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> time</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> PyQt5.QtCore <span class="im">import</span> QRunnable, pyqtSignal</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> PyQt5.QtCore <span class="im">import</span> QRunnable, pyqtSignal, QObject</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> WorkerSignals(QObject):</span>
 <span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    finished <span class="op">=</span> pyqtSignal()</span>
@@ -349,6 +355,16 @@ div.csl-indent {
 <span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(msg)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Tento postup funguje v momentech kdy jednotlivé instance třídy <code>Worker</code> neupravují stejná data a ani si jinak vzájemně nekonkurují, co se týká zdrojů. Pakliže by bylo nutné řešit konkurenci úloh, jsou nutné pokročilejší postupy a přístupy k managementu dat a procesů <span class="citation" data-cites="Moore2019">Ramos (<a href="literatura.html#ref-Ramos2021" role="doc-biblioref">2021</a>)</span>.</p>
+</section>
+<section id="praktická-ukázka" class="level2" data-number="8.2">
+<h2 data-number="8.2" class="anchored" data-anchor-id="praktická-ukázka"><span class="header-section-number">8.2</span> Praktická ukázka</h2>
+<p>Ukázkou aplikace, na níž je možné demonstrovat výše zmíněné koncepty a úskalí práce s GUI je ukázka <a href="https://github.com/JanCaha/PyQt-GIS-book/tree/main/examples/long_running_tasks.py" class="example" title="long_running_tasks.py">long_running_tasks.py</a>. Tato aplikace umožňuje vyzkoušení jak se chová aplikace při spuštění naivní úlohy (tlačítko <strong>Create Long Running Taks</strong>) v porovnání s úlohou spouštěnou skrze <a href="https://doc.qt.io/qt-5/threadpool.html" class="documentation" title="Threadpool"><code>Threadpool</code></a> (tlačítko <strong>Create Worker</strong>) (viz <a href="#fig-app_long_running_tasks">Obr.&nbsp;<span>8.1</span></a>). Během toho, co jsou tyto úlohy aktivní, lze otestovat zda-li je aplikace responzivní pomocí tlačítka <strong>Test Interactivity</strong>, které by mělo okamžitě vypsat text <em>Clicked at: aktuální datum a čas</em> do <a href="https://doc.qt.io/qt-5/qplaintextedit.html" class="documentation" title="QPlainTextEdit"><code>QPlainTextEdit</code></a> umístěného pod tímto tlačítkem.</p>
+<div id="fig-app_long_running_tasks" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="./figures/app_long_running_task.png" class="img-fluid figure-img"></p>
+<p></p><figcaption class="figure-caption">Obr.&nbsp;8.1: Aplikace pro testování interaktivity pro déle běžící úlohy</figcaption><p></p>
+</figure>
+</div>
 
 
 <div id="refs" class="references csl-bib-body" data-entry-spacing="1" role="doc-bibliography" style="display: none">
@@ -466,12 +482,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
       <a href="./07-qwidget-kontejner.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">QWidget</span></span>
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">QWidget jako základ pro nové prvky</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./summary.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Summary</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./09-pretrvavajici_nastaveni_aplikace.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Přetrvávající nastavení aplikace</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Tvorba GUI aplikací pro geoinformatiku - 3&nbsp; Aplikace s GUI</title>
+<title>Tvorba GUI aplikací pro geoinformatiku - 9&nbsp; Přetrvávající nastavení aplikace</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -93,8 +93,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./04-prvky-gui.html" rel="next">
-<link href="./02-qt.html" rel="prev">
+<link href="./summary.html" rel="next">
+<link href="./08-narocne-operace.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -133,7 +133,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Aplikace s GUI</span></h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Přetrvávající nastavení aplikace</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -173,7 +173,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./03-aplikace-s-gui.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Aplikace s GUI</span></a>
+  <a href="./03-aplikace-s-gui.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Aplikace s GUI</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -203,7 +203,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./09-pretrvavajici_nastaveni_aplikace.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Přetrvávající nastavení aplikace</span></a>
+  <a href="./09-pretrvavajici_nastaveni_aplikace.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Přetrvávající nastavení aplikace</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -230,7 +230,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">Obsah</h2>
    
   <ul>
-  <li><a href="#aplikace-bez-gui" id="toc-aplikace-bez-gui" class="nav-link active" data-scroll-target="#aplikace-bez-gui"><span class="toc-section-number">3.1</span>  Aplikace bez GUI</a></li>
+  <li><a href="#praktická-ukázka" id="toc-praktická-ukázka" class="nav-link active" data-scroll-target="#praktická-ukázka"><span class="toc-section-number">9.1</span>  Praktická ukázka</a></li>
   </ul>
 </nav>
     </div>
@@ -239,7 +239,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Aplikace s GUI</span></h1>
+<h1 class="title d-none d-lg-block"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Přetrvávající nastavení aplikace</span></h1>
 </div>
 
 
@@ -253,71 +253,42 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<p>Zásadní odlišností aplikací s uživatelským rozhraním a menšími skripty, či aplikacemi pro příkazovou řádku, spočívá ve faktu, že zatímco tyto jednodušší aplikace mají jasně určený počátek a konec a kód mezi nimi je prováděn lineárně, v GUI aplikacích se kód vykonává na základě interakce uživatele s programem. To vyžaduje principiálně jiný přístup ke kódu, jednak z hlediska managentu kódu, ale i mentálně. Běh programu není v tomto případě řízen pouze strukturou kódu, ale navíc i akcemi, které se uživatel provede v GUI.</p>
-<p>GUI aplikace po spuštění inicializují nekonečnou smyčku, která čeká na vstupy (v podobě interakce s GUI) od uživatele, na něž následně reaguje, obvykle spouštěním dílčích částí kódu aplikace. Tato nekonečná smyčka končí až uzavřením aplikace. Už pouze tato funkcinalita je na vytvoření netriviální, naštěstí <span class="sw">PyQt</span> tento process zjednodušuje na naprosté minimum. V modulu <code>PyQt5.QtWidgets</code> existuje třída <a href="https://doc.qt.io/qt-5/qapplication.html" class="documentation" title="QApplication"><code>QApplication</code></a>, která se postará o vytvoření aplikace a management akcí v této aplikaci, aniž by bylo nutné ze strany programátora do tohoto procesu výrazněji zasahovat.</p>
-<p>V pythonu vytvoříme aplikaci jednoduše:</p>
-<div id="code-minimal_app" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> PyQt5.QtWidgets <span class="im">import</span> QApplication</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>app <span class="op">=</span> QApplication(sys.argv)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>sys.exit(app.<span class="bu">exec</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>Jedním nedostatkem, kterým může aplikace trpět, je že po startu se bude vždy nacházet ve výchozím stavu. Což reálně znamená, že si aplikace nepřenáší mezi jednotlivými spuštěními žádnou informaci o svém stavu. U jednoduchých aplikací to nemusí vadit, byť i zde si lze představit informace, které by si aplikace mohla přenést, např. velikost a umístění okna na obrazovce.</p>
+<p>Pro uložení nejen těchto, ale libovolných jiných, informací applikace je možné použít třídu <a href="https://doc.qt.io/qt-5/qsettings.html" class="documentation" title="QSettings"><code>QSettings</code></a>, která je přímo pro tyto situace vytvořena. Tato třída má dva režimy, ve kterých může fungovat. Jednou variantou je vytvoření <strong>.ini</strong> soubor v definovaném umístění, což je textový soubor, do které se nastavení zapisují. Takovýto soubor vytvoříme následovně:</p>
+<div class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> pathlib <span class="im">import</span> Path</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> PyQt5.QtCore <span class="im">import</span> QSettings</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> PyQt5.QtGui <span class="im">import</span> (QResizeEvent, QMoveEvent)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>settings_file <span class="op">=</span> Path(<span class="va">__file__</span>).parent <span class="op">/</span> <span class="st">"app_settings.ini"</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>settings <span class="op">=</span> QSettings(settings_file.as_posix(), QSettings.Format.IniFormat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>V tomto bloku kódu je vhodné vysvětlit několik konstrukcí. <code>sys.argv</code> jsou argumenty příkazové řádky, ve formě seznamu s textovými hodnotami, s nimiž byl tento python spuštěný. Pokud aplikace nemusí podporovat argumenty příkazové řádky, lze zde předat i prázdný seznam <code>[]</code>. Samotná aplikace se spustí příkazem <code>app.exec()</code>.</p>
-<div class="callout-warning callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-caption-container flex-fill">
-Warning
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Ve starších verzích pythonu se používala i verze <code>app.exec_()</code>, neboť příkaz <code>exec()</code> byl vyhrazené klíčové slovo. Od verze Pythonu 3.x už toto není problém a lze používat obě verze volání zaměnitelně.</p>
-</div>
-</div>
-<p>Tímto voláním se spustí samotná aplikace a její nekončná smyčka, pro interakci s uživatelem. Takto vytvořená aplikace poběží do nekonečna a není ani jak zjevně ukončit, neboť jsme jí nepřiřadili žádné GUI. Konstrukce <code>sys.exit()</code> ukončí Python v momentě kdy se ukončí příkaz uvnitř závorek. V tomto případě se Python ukončí jakmile se ukončí aplikace.</p>
-<p>Chceme-li vytvořené aplikaci přidat nějaké GUI vytvoříme tzv. hlavní okno (<a href="https://doc.qt.io/qt-5/qmainwindow.html" class="documentation" title="QMainWindow"><code>QMainWindow</code></a>). Každá aplikace by ideálně měla mít takovéto hlavní okno s nímž uživatel pracuje. Existence hlavního okna není nezbytnou podmínkou, aplikace může fungovat i bez něj, pouze s dílčími okny, ale z uživatelského hlediska je rozumnější, pokud toho hlavní okno existuje.</p>
-<div id="code-minimal_gui_app" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> PyQt5.QtWidgets <span class="im">import</span> QApplication, QMainWindow</span>
+<p>Druhou variantou je nastavení proměnných <a href="https://doc.qt.io/qt-5/qapplication.html" class="documentation" title="QApplication"><code>QApplication</code></a> organizace, domény a názvu aplikace, a následně vytvoření <code>settings</code> bez udání dalších informací. V tomto případě Qt{.software} zvolí umístění souboru dle systému a několika dalších informací autonomně a formát nebude textový <strong>.ini</strong> soubor. Tato varianta je obecnější, ale náročnější, protože programátor nemá k přímo přístup k souboru a informacím v něm uloženým.</p>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> PyQt5.QtCore <span class="im">import</span> QSettings</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> PyQt5.QtWidgets <span class="im">import</span> QApplication</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>app <span class="op">=</span> QApplication(sys.argv)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>mw <span class="op">=</span> QMainWindow()</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>mw.setWindowTitle(<span class="st">"První Aplikace"</span>)</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>mw.show()</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>sys.exit(app.<span class="bu">exec</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>QApplication.setOrganizationName(<span class="st">"MySoft"</span>)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>QApplication.setOrganizationDomain(<span class="st">"mysoft.com"</span>)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>QApplication.setApplicationName(<span class="st">"Star Runner"</span>)</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>settings <span class="op">=</span> QSettings()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div id="fig-app_1" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="./figures/minimal_app.png" class="img-fluid figure-img"></p>
-<p></p><figcaption class="figure-caption">Obr.&nbsp;3.1: Hlavní okno aplikace</figcaption><p></p>
-</figure>
+<p>Jakmile existuje proměnná s nastaveními, je důležité znát několik základních funkcí pro práci s nastaveními. Samotná třída <a href="https://doc.qt.io/qt-5/qapplication.html" class="documentation" title="QApplication"><code>QApplication</code></a> obsahuje širší funkcionalitu, ale tyto funkce jsou zásadní. Základními funkcemi je zápis a přečtení proměnné, což je realizováno funkcemi <code>setValue()</code> a <code>value()</code>. Obě tyto funkce mají jako první parameter název příslušného nastavení, v němž je možné použít <code>/</code> jako oddělovač úrovní. Funkce <code>value()</code> umožňuje jako druhý parametr definovat defaultní hodnotu nastavení, pokud zatím není nastavená a neexistuje.</p>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>settings.value(<span class="st">"mainwindow/value"</span>, <span class="dv">0</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>settings.setValue(<span class="st">"mainwindow/value"</span>, <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Při spuštění tohoto kódu se již aplikace zobrazí, byť s prázdným oknem (<a href="#fig-app_1">Obr.&nbsp;<span>3.1</span></a>), a lze i ji korektně ukončit kliknutím na ikonu křížku (či jiného prvku, dle nastavení systému). Aplikace je otevřená v poměrně malém okně, což je výchozí stav, protože neobsahuje žádné GUI elementy. <span class="sw">PyQT</span> řeší základní funkčnost aplikace, tzv. minimalizaci, maximalizaci GUI a ukončení aplikace. Díky tomu těmto položkám nemusí věnovat pozornost programátor. Mimo to v aplikaci běží již zmíněná smyčka, čekající na interakci s uživatelem. Díky ní bude, jakmile do aplikace přidáme ovládací prvky, možné s aplikací interagovat.</p>
-<p>Ukázkový kód pro tuto aplikaci je dostupný jako příklad: <a href="https://github.com/JanCaha/PyQt-GIS-book/tree/main/examples/empty_application.py" class="example" title="empty_application.py">empty_application.py</a>.</p>
-<p>Aplikace přejímají nativně vzhled ze systému, aby se co nejlépe integrovaly do stávajícího vizuálního stylu operačního systému. Toto chování lze změnit. Pro potřeby těchto skript budeme předpokládat, že je žádoucí, aby aplikace používaly systémový vzhled.</p>
-<div>
-<div class="callout-qgis callout callout-style-default callout-captioned">
-  <div class="callout-header d-flex align-content-center">
-  <div class="callout-icon-container">
-  <i class="callout-icon"></i>
-  </div>
-  <div class="callout-caption-container flex-fill">
-  QGIS
-  </div>
-  </div>
-  <div class="callout-body-container callout-body">
-  <p>
-</p><p>V QGIS lze mezi různými styly vzhledu přepínat v menu <span class="settings">Nastavení</span> -&gt; <span class="settings">Nastavení</span>, záložka <span class="settings">Obecné</span>, položka <span class="settings">Styl</span>. Výchozí nastavení se určí při prvním spuštění QGIS dle platformy.</p>
-<p></p>
-      </div>
-      </div>
+<p>Dvě další zásadní funkce jsou vymazání proměnné (<code>remove()</code>) a kontrola, zdali proměnná existuje (<code>contains()</code>), obě funkce přijímají jako první parameter název nastavení.</p>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>settings.contains(<span class="st">"mainwindow/value"</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>settings.remove(<span class="st">"mainwindow/value"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="aplikace-bez-gui" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="aplikace-bez-gui"><span class="header-section-number">3.1</span> Aplikace bez GUI</h2>
-<p><span class="sw">Qt</span> řeší i problematiku aplikací, které nemají GUI, ale přesto vyžadují běhovou smyčku, která reaguje na vnější vstupy. Typicky se jedná o aplikace, které čekají na zprávu, kterou obvykle obdrží po síti. Na základě této zprávy, spustí aplikace odpovídající řetězec akcí. Stejně tak může aplikace v pravidelném intervalu kontrolovat data a v případě jejich změny provést nějakou akci. Tento typ aplikací nemusí řešit interakce s GUI, je tedy funkčně značně jednodušší. V modulu <code>PyQt5.QtCore</code> je pro tyto situace třída <a href="https://doc.qt.io/qt-5/qcoreapplication.html" class="documentation" title="QCoreApplication"><code>QCoreApplication</code></a>, která je určena pro tvorbu aplikací bez uživatelského rozhraní.</p>
+<p>Qt{.software} umožňuje do nastavení ukládat a následně načítat i některé komplexnější objekty, např. velikost (třída <a href="https://doc.qt.io/qt-5/qsize.html" class="documentation" title="QSize"><code>QSize</code></a>) či umístění (třída <a href="https://doc.qt.io/qt-5/qpoint.html" class="documentation" title="QPoint"><code>QPoint</code></a>), což značně usnadňuje mnoho operací. Např. je tak možné jednoduše ukládat do nastavení velikost a umístění oken na obrazovce.</p>
+<section id="praktická-ukázka" class="level2" data-number="9.1">
+<h2 data-number="9.1" class="anchored" data-anchor-id="praktická-ukázka"><span class="header-section-number">9.1</span> Praktická ukázka</h2>
+<p>Praktická ukázka zde zahrnuje prázdnou aplikaci, která si pamatuje svoje umístění a velikost na obrazovce. Ukázka je dostupná: <a href="https://github.com/JanCaha/PyQt-GIS-book/tree/main/examples/empty_application_with_settings.py" class="example" title="empty_application_with_settings.py">empty_application_with_settings.py</a>. V ukázce je podstatné, že velikost a umístění okna se zapisují do nastavení při každé jejich změně, a načítají se při vytvoření hlavní okna aplikace.</p>
 
 
 </section>
@@ -423,13 +394,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./02-qt.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Knihovna <strong>Qt</strong> a její Python binding <strong>PyQt</strong></span></span>
+      <a href="./08-narocne-operace.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Časově náročné operace v GUI</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./04-prvky-gui.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Prvky GUI</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./summary.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Summary</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

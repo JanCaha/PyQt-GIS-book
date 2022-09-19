@@ -213,7 +213,7 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./07-qwidget-kontejner.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">QWidget</span></a>
+  <a href="./07-qwidget-kontejner.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">QWidget jako základ pro nové prvky</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -223,7 +223,12 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./summary.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Summary</span></a>
+  <a href="./09-pretrvavajici_nastaveni_aplikace.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Přetrvávající nastavení aplikace</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summary.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Summary</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -379,13 +384,14 @@ Propojení slotu na signál
 <section id="dočasné-pozastavení-signálů" class="level2" data-number="6.3">
 <h2 data-number="6.3" class="anchored" data-anchor-id="dočasné-pozastavení-signálů"><span class="header-section-number">6.3</span> Dočasné pozastavení signálů</h2>
 <p>V některých situacích může být vhodné či nezbytné, aby jiné objekty či celá aplikace nereagovaly na signály určitého objektu. Toho lze docílit, voláním funkce <code>blockSignals(True)</code> tohoto objektu. Po tomto volání nebudou signály z objektu vyvolávány a tím pádem na ně další objekty nebudou reagovat. Reaktivace se provede voláním stejné funkce s opačným parametrem <code>blockSignals(False)</code>.</p>
-<p>Pokud do přechozí ukázky doplníte tyto řádky, nebude pro toto nastavení vytištěna zpráva, neboť signál objektu je pozastaven.</p>
+<p>Pokud do předchozí ukázky doplníte tyto řádky, nebude pro toto nastavení vytištěna zpráva, neboť signál objektu je pozastaven.</p>
 <div class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>o.blockSignals(<span class="va">True</span>)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>o.set_value(<span class="dv">15</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>o.blockSignals(<span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>V praxi se tohoto využívá např. v situaci, kdy se dva prvky navzájem ovlivňují. Změna na jednom se promítne do změny druhého a opačně, což ale může vést k nekonečné smyčce změn. Pozastavením signálů zamezíme vzniku takovéto nekonečné smyčky. U aplikací s uživatelským rozhraním často nechceme, aby prvky reagovaly na události vyvolané explicitně z kódu, nikoliv interakcí uživatele.</p>
+<p>Tento příklad je dostupný jako: <a href="https://github.com/JanCaha/PyQt-GIS-book/tree/main/examples/signals_slots.py" class="example" title="signals_slots.py">signals_slots.py</a></p>
 
 
 <div id="refs" class="references csl-bib-body" data-entry-spacing="1" role="doc-bibliography" style="display: none">
@@ -508,7 +514,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   </div>
   <div class="nav-page nav-page-next">
       <a href="./07-qwidget-kontejner.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">QWidget</span></span> <i class="bi bi-arrow-right-short"></i>
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">QWidget jako základ pro nové prvky</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
