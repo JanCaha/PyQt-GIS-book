@@ -44,6 +44,8 @@ sys.exit(app.exec())
 
 Při spuštění tohoto kódu se již aplikace zobrazí, byť s prázdným oknem (@fig-app_1), a lze i ji korektně ukončit kliknutím na ikonu křížku (či jiného prvku, dle nastavení systému). Aplikace je otevřená v poměrně malém okně, což je výchozí stav, protože neobsahuje žádné GUI elementy. [PyQT]{.sw} řeší základní funkčnost aplikace, tzv. minimalizaci, maximalizaci GUI a ukončení aplikace. Díky tomu těmto položkám nemusí věnovat pozornost programátor. Mimo to v aplikaci běží již zmíněná smyčka, čekající na interakci s uživatelem. Díky ní bude, jakmile do aplikace přidáme ovládací prvky, možné s aplikací interagovat.
 
+Ukázkový kód pro tuto aplikaci je dostupný jako příklad: {{< example-code empty_application.py >}}.
+
 Aplikace přejímají nativně vzhled ze systému, aby se co nejlépe integrovaly do stávajícího vizuálního stylu operačního systému. Toto chování lze změnit. Pro potřeby těchto skript budeme předpokládat, že je žádoucí, aby aplikace používaly systémový vzhled.
 
 :::{.qgis}

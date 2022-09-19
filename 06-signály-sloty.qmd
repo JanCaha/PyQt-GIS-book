@@ -104,7 +104,7 @@ Pomocí tohoto principu lze mezi objekty v aplikaci předávat různá data i ce
 V některých situacích může být vhodné či nezbytné, aby jiné objekty či celá aplikace nereagovaly na signály určitého objektu. Toho lze docílit,
 voláním funkce `blockSignals(True)` tohoto objektu. Po tomto volání nebudou signály z objektu vyvolávány a tím pádem na ně další objekty nebudou reagovat. Reaktivace se provede voláním stejné funkce s opačným parametrem `blockSignals(False)`. 
 
-Pokud do přechozí ukázky doplníte tyto řádky, nebude pro toto nastavení vytištěna zpráva, neboť signál objektu je pozastaven.
+Pokud do předchozí ukázky doplníte tyto řádky, nebude pro toto nastavení vytištěna zpráva, neboť signál objektu je pozastaven.
 
 ```{python}
 #| eval: false
@@ -114,3 +114,5 @@ o.blockSignals(False)
 ```
 
 V praxi se tohoto využívá např. v situaci, kdy se dva prvky navzájem ovlivňují. Změna na jednom se promítne do změny druhého a opačně, což ale může vést k nekonečné smyčce změn. Pozastavením signálů zamezíme vzniku takovéto nekonečné smyčky. U aplikací s uživatelským rozhraním často nechceme, aby prvky reagovaly na události vyvolané explicitně z kódu, nikoliv interakcí uživatele. 
+
+Tento příklad je dostupný jako: {{< example-code signals_slots.py >}}

@@ -303,4 +303,4 @@ Na tomto jednoduchém widgetu, lze demonstrovat komplexnost tvorby prvků UI. A�
 QGIS obsahuje celou řadu prvků UI, které jsou pro tento software specifické, nebo upravují chování běžných prvků **Qt**. Výpis všech těchto prvů je v nápovědě [modulu `qgis.gui`](https://qgis.org/pyqgis/master/gui/index.html).
 :::
 
-{{< todo "Problém k vyřešení." >}}
+Výsledný widget je spustitelný z této ukázky: {{< example-code file_select_widget.py >}}.
