@@ -20,7 +20,7 @@ V příkladu pod odstavcem vytvoříme třídu `Worker`, pro kterou vytvoříme 
 #| eval: false
 import time
 
-from PyQt5.QtCore import QRunnable, pyqtSignal
+from PyQt5.QtCore import QRunnable, pyqtSignal, QObject
 
 class WorkerSignals(QObject):
     finished = pyqtSignal()
@@ -81,3 +81,9 @@ def worker_percent_done(self, worker_name: str, percent: float):
 ```
 
 Tento postup funguje v momentech kdy jednotlivé instance třídy `Worker` neupravují stejná data a ani si jinak vzájemně nekonkurují, co se týká zdrojů. Pakliže by bylo nutné řešit konkurenci úloh, jsou nutné pokročilejší postupy a přístupy k managementu dat a procesů [@Moore2019,@Ramos2021].
+
+## Praktická ukázka
+
+Ukázkou aplikace, na níž je možné demonstrovat výše zmíněné koncepty a úskalí práce s GUI je ukázka {{< example-code long_running_tasks.py >}}. Tato aplikace umožňuje vyzkoušení jak se chová aplikace při spuštění naivní úlohy (tlačítko **Create Long Running Taks**) v porovnání s úlohou spouštěnou skrze {{< qt-class Threadpool >}} (tlačítko **Create Worker**) (viz [@fig-app_long_running_tasks]). Během toho, co jsou tyto úlohy aktivní, lze otestovat zda-li je aplikace responzivní pomocí tlačítka **Test Interactivity**, které by mělo okamžitě vypsat text _Clicked at: aktuální datum a čas_ do {{< qt-class QPlainTextEdit >}} umístěného pod tímto tlačítkem.
+
+![Aplikace pro testování interaktivity pro déle běžící úlohy](./figures/app_long_running_task.png){#fig-app_long_running_tasks fig-align="center"}
