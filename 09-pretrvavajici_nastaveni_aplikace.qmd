@@ -1,0 +1,51 @@
+# Přetrvávající nastavení aplikace
+
+Jedním nedostatkem, kterým může aplikace trpět, je že po startu se bude vždy nacházet ve výchozím stavu. Což reálně znamená, že si aplikace nepřenáší mezi jednotlivými spuštěními žádnou informaci o svém stavu. U jednoduchých aplikací to nemusí vadit, byť i zde si lze představit informace, které by si aplikace mohla přenést, např. velikost a umístění okna na obrazovce. 
+
+Pro uložení nejen těchto, ale libovolných jiných, informací applikace je možné použít třídu {{< qt-class QSettings >}}, která je přímo pro tyto situace vytvořena. Tato třída má dva režimy, ve kterých může fungovat. Jednou variantou je vytvoření **.ini** soubor v definovaném umístění, což je textový soubor, do které se nastavení zapisují. Takovýto soubor vytvoříme následovně:
+
+```{python}
+#| eval: false
+from pathlib import Path
+
+from PyQt5.QtCore import QSettings
+from PyQt5.QtGui import (QResizeEvent, QMoveEvent)
+
+settings_file = Path(__file__).parent / "app_settings.ini"
+settings = QSettings(settings_file.as_posix(), QSettings.Format.IniFormat)
+```
+
+Druhou variantou je nastavení proměnných {{< qt-class QApplication >}} organizace, domény a názvu aplikace, a následně vytvoření `settings` bez udání dalších informací. V tomto případě Qt{.software} zvolí umístění souboru dle systému a několika dalších informací autonomně a formát nebude textový **.ini** soubor. Tato varianta je obecnější, ale náročnější, protože programátor nemá k přímo přístup k souboru a informacím v něm uloženým. 
+
+```{python}
+#| eval: false
+from PyQt5.QtCore import QSettings
+from PyQt5.QtWidgets import QApplication
+
+QApplication.setOrganizationName("MySoft")
+QApplication.setOrganizationDomain("mysoft.com")
+QApplication.setApplicationName("Star Runner")
+
+settings = QSettings()
+```
+
+Jakmile existuje proměnná s nastaveními, je důležité znát několik základních funkcí pro práci s nastaveními. Samotná třída {{< qt-class QApplication >}} obsahuje širší funkcionalitu, ale tyto funkce jsou zásadní. Základními funkcemi je zápis a přečtení proměnné, což je realizováno funkcemi `setValue()` a `value()`. Obě tyto funkce mají jako první parameter název příslušného nastavení, v němž je možné použít `/` jako oddělovač úrovní. Funkce `value()` umožňuje jako druhý parametr definovat defaultní hodnotu nastavení, pokud zatím není nastavená a neexistuje. 
+
+```{python}
+#| eval: false
+settings.value("mainwindow/value", 0)
+settings.setValue("mainwindow/value", 1)
+```
+
+Dvě další zásadní funkce jsou vymazání proměnné (`remove()`) a kontrola, zdali proměnná existuje (`contains()`), obě funkce přijímají jako první parameter název nastavení.
+
+```{python}
+settings.contains("mainwindow/value")
+settings.remove("mainwindow/value")
+```
+
+Qt{.software} umožňuje do nastavení ukládat a následně načítat i některé komplexnější objekty, např. velikost (třída {{< qt-class QSize >}}) či umístění (třída {{< qt-class QPoint >}}), což značně usnadňuje mnoho operací. Např. je tak možné jednoduše ukládat do nastavení velikost a umístění oken na obrazovce.
+
+## Praktická ukázka
+
+Praktická ukázka zde zahrnuje prázdnou aplikaci, která si pamatuje svoje umístění a velikost na obrazovce. Ukázka je dostupná: {{< example-code empty_application_with_settings.py >}}. V ukázce je podstatné, že velikost a umístění okna se zapisují do nastavení při každé jejich změně, a načítají se při vytvoření hlavní okna aplikace.

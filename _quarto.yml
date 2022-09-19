@@ -21,6 +21,7 @@ book:
     - 06-signály-sloty.qmd
     - 07-qwidget-kontejner.qmd
     - 08-narocne-operace.qmd
+    - 09-pretrvavajici_nastaveni_aplikace.qmd
     - summary.qmd
     - literatura.qmd
     - appendix.qmd
