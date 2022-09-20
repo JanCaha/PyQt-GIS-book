@@ -32,3 +32,13 @@ Prvky GUI v aplikaci neexistují samy o sobě, ale vždy uspořádané do nějak
 ![Ukázky jednotlivých rozvržení](./figures/layouts.png){#fig-layouts width=50% fig-align="center"}
 
 V rámci jednoho {{< qt-class QWidget >}}, či jiného GUI prvku může existovat několik layoutů, které do sebe mohou být i různě zanořené. Tím vznikají komplexní prvky GUI.
+
+## Samostatná okna
+
+Aplikace mohou vytvářet další doplňková okna, která napomáhají uživateli interagovat s programem. Jedná se o prvky odvozené od třídy {{< qt-class QDialog >}}. Tato třída poskytuje základní funkcionalitu pro tvorbu doplňkových oken. Doplňková okna lze rozdělit na dva typy: okna, která blokují hlavní aplikaci a musí být ukončena, pro návrat do hlavní okna (v terminologii Qt{.software} **modeless dialogs**), a okna, která existují samostatně a mohou být otevřena současně s dalšími okny (v terminologii Qt{.software} **modal dialogs**). Rozdíl mezi těmito okny je v tom, jakou funkcí se spouští, zatímco okna typu **modeless** se spouští funkcí `exec()`, která převezme hlavní běhovou smyčku programu a je nutné toto okno zavřít, aby byla předána zpět rodičovskému oknu, okna typue **modal** se pouze zobrazují funkcí `show()`, což umožní jejich souběh s dalšími okny.
+
+:::{.qgis}
+V QGIS najdeme řadu příkladů obou typů těchto oken. Např. [Atributová tabulka]{.settings} je příklad okna typu **modal**, které může existovat spolu s dalšími okny a neblokuje funkcionalitu dalších oken. Příkladem **modeless** okna je třeba [Nastavení]{.settings}, což je okno, které zablokuje, až do svého uzavření, veškerou jinou funkcionalitu QGIS. 
+:::
+
+Okna typu **Modal** při svém uzavření vrací hodnotu. Tyto okna často disponují tlačítky, které umožňují zavření okna přijetím, či odmítnutím nějaké akce. Typicky například okna informující o přepsaní souboru při jeho uložení, kde má uživatel možnost potvrdit, nebo odmítnou přepsání souboru. Dle návratové hodnoty okna se pak dále větví příslušný hlavní program. Tento případ je demonstrován v ukázce: {{< example-code empty_application_with_settings_dialog.py >}}, jenž je podrobněji popsán v @sec-settings.  
