@@ -87,3 +87,11 @@ Tento postup funguje v momentech kdy jednotlivé instance třídy `Worker` neupr
 Ukázkou aplikace, na níž je možné demonstrovat výše zmíněné koncepty a úskalí práce s GUI je ukázka {{< example-code long_running_tasks.py >}}. Tato aplikace umožňuje vyzkoušení jak se chová aplikace při spuštění naivní úlohy (tlačítko **Create Long Running Taks**) v porovnání s úlohou spouštěnou skrze {{< qt-class Threadpool >}} (tlačítko **Create Worker**) (viz [@fig-app_long_running_tasks]). Během toho, co jsou tyto úlohy aktivní, lze otestovat zda-li je aplikace responzivní pomocí tlačítka **Test Interactivity**, které by mělo okamžitě vypsat text _Clicked at: aktuální datum a čas_ do {{< qt-class QPlainTextEdit >}} umístěného pod tímto tlačítkem.
 
 ![Aplikace pro testování interaktivity pro déle běžící úlohy](./figures/app_long_running_task.png){#fig-app_long_running_tasks fig-align="center"}
+
+V této aplikaci pro jednoduchost existuje pouze jeden {{< qt-class QProgressBar >}} a jedna {{< qt-class QLabel >}}, které ukazují stav řešení i pro vícero současně spuštěných úloh. Takže se zprávy a procenta dokončení místy poměrně dynamicky střídají. V tomto případě je cílem jednoduchost UI, ne komplexnost řešení.
+
+:::{.qgis}
+V QGIS existuje komponenta, která zobrazuje procenta dokončení spuštěných [Nástrojů zpracování]{.settings}. Tento widget je výrazně komplexnější, neboť zobrazuje pro vícero procesů souhrn procent dokončení a při kliknutí zobrazí okno s výpisem všech úloh a stavu jejich dokončení.
+
+Komponenta se v GUI QGIS zobrazuje pouze pokud je aktivní ve stavovém řádku, před komponentou [Souřadnice]{.settings}.
+:::
