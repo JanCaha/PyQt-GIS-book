@@ -1,4 +1,4 @@
-# Přetrvávající nastavení aplikace
+# Přetrvávající nastavení aplikace {#sec-settings}
 
 Jedním nedostatkem, kterým může aplikace trpět, je že po startu se bude vždy nacházet ve výchozím stavu. Což reálně znamená, že si aplikace nepřenáší mezi jednotlivými spuštěními žádnou informaci o svém stavu. U jednoduchých aplikací to nemusí vadit, byť i zde si lze představit informace, které by si aplikace mohla přenést, např. velikost a umístění okna na obrazovce. 
 
@@ -74,12 +74,19 @@ class SettingsDialog(QDialog):
         self.table_widget.setHorizontalHeaderLabels(["Key", "Value"])
         self.table_widget.verticalHeader().setVisible(False)
 
-        settings_keys = self.settings.allKeys()
+        self.buttons = QDialogButtonBox(QDialogButtonBox.Cancel | QDialogButtonBox.Ok, self)
+        layout.addWidget(self.buttons)
 
+        self.buttons.button(QDialogButtonBox.Cancel).setText("Close")
+        self.buttons.button(QDialogButtonBox.Ok).setText("Remove All Settings")
+
+        self.buttons.accepted.connect(self.accept)
+        self.buttons.rejected.connect(self.reject)
+
+        settings_keys = self.settings.allKeys()
         self.table_widget.setRowCount(len(settings_keys))
 
         for i, key in enumerate(settings_keys):
-            self.table_widget.insertRow(i)
             self.table_widget.setCellWidget(i, 0, QLabel(key))
             self.table_widget.setCellWidget(i, 1, QLabel(str(self.settings.value(key, ""))))
 
