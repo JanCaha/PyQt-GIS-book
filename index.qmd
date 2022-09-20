@@ -1,7 +1,7 @@
+# Základní informace {.unnumbered}
+
+Tato publikace slouží jako základní studijní opora k předmětu **Programování IV** vyučovaném na katedře Geoinformatiky VŠB-TUO v zimním semestru 2022/2023.  
+
+Publikace se věnuje základům vytváření aplikací s uživatelským rozhraním v jazyce Python s použitím knihovny PyQt.
+
 Verze **{{< var version >}}** knihy.
-
-# Předmluva {.unnumbered}
-
-U programování, stejně jako u mnoha jiných dovedností, lze rozlišovat různé úrovně komplexnosti, na nichž lze tuto dovednost provozovat. 
-
-To learn more about Quarto books visit <https://quarto.org/docs/books>.
