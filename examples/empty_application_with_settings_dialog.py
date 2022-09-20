@@ -3,7 +3,7 @@ import sys
 from pathlib import Path
 
 from PyQt5.QtWidgets import (QApplication, QMainWindow, QMenu, QAction, QWidget, QTableWidget,
-                             QVBoxLayout, QLabel, QDialog)
+                             QVBoxLayout, QLabel, QDialog, QDialogButtonBox)
 from PyQt5.QtCore import QSettings
 from PyQt5.QtGui import (QResizeEvent, QMoveEvent)
 
@@ -76,7 +76,9 @@ class MainWindow(QMainWindow):
 
     def show_settings(self):
         dialog = SettingsDialog(self)
-        dialog.exec()
+        result = dialog.exec()
+        if result == QDialog.Accepted:
+            self.clean_settings()
 
 
 class SettingsDialog(QDialog):
@@ -98,12 +100,19 @@ class SettingsDialog(QDialog):
         self.table_widget.setHorizontalHeaderLabels(["Key", "Value"])
         self.table_widget.verticalHeader().setVisible(False)
 
-        settings_keys = self.settings.allKeys()
+        self.buttons = QDialogButtonBox(QDialogButtonBox.Cancel | QDialogButtonBox.Ok, self)
+        layout.addWidget(self.buttons)
 
+        self.buttons.button(QDialogButtonBox.Cancel).setText("Close")
+        self.buttons.button(QDialogButtonBox.Ok).setText("Remove All Settings")
+
+        self.buttons.accepted.connect(self.accept)
+        self.buttons.rejected.connect(self.reject)
+
+        settings_keys = self.settings.allKeys()
         self.table_widget.setRowCount(len(settings_keys))
 
         for i, key in enumerate(settings_keys):
-            self.table_widget.insertRow(i)
             self.table_widget.setCellWidget(i, 0, QLabel(key))
             self.table_widget.setCellWidget(i, 1, QLabel(str(self.settings.value(key, ""))))
 
