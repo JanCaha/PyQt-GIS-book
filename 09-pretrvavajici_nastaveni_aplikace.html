@@ -158,7 +158,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link">Předmluva</a>
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Základní informace</a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -239,7 +239,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Přetrvávající nastavení aplikace</span></h1>
+<h1 class="title"><span id="sec-settings" class="quarto-section-identifier d-none d-lg-block"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Přetrvávající nastavení aplikace</span></span></h1>
 </div>
 
 
@@ -289,6 +289,46 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="praktická-ukázka" class="level2" data-number="9.1">
 <h2 data-number="9.1" class="anchored" data-anchor-id="praktická-ukázka"><span class="header-section-number">9.1</span> Praktická ukázka</h2>
 <p>Praktická ukázka zde zahrnuje prázdnou aplikaci, která si pamatuje svoje umístění a velikost na obrazovce. Ukázka je dostupná: <a href="https://github.com/JanCaha/PyQt-GIS-book/tree/main/examples/empty_application_with_settings.py" class="example" title="empty_application_with_settings.py">empty_application_with_settings.py</a>. V ukázce je podstatné, že velikost a umístění okna se zapisují do nastavení při každé jejich změně, a načítají se při vytvoření hlavní okna aplikace.</p>
+<p>Tuto jednoduchou ukázku můžeme dále rozšířit o zobrazení všech existujících nastavení. Toho docílíme vytvořením jednoduchého okna odvozeného od <a href="https://doc.qt.io/qt-5/qdialog.html" class="documentation" title="QDialog"><code>QDialog</code></a>.</p>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> SettingsDialog(QDialog):</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, parent: Optional[QWidget] <span class="op">=</span> <span class="va">None</span>) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>(parent)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.setWindowTitle(<span class="st">"Settings"</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.setMinimumSize(<span class="dv">500</span>, <span class="dv">300</span>)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.settings <span class="op">=</span> QSettings()</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>        layout <span class="op">=</span> QVBoxLayout()</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.setLayout(layout)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.table_widget <span class="op">=</span> QTableWidget(<span class="va">self</span>)</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>        layout.addWidget(<span class="va">self</span>.table_widget)</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.table_widget.setColumnCount(<span class="dv">2</span>)</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.table_widget.setHorizontalHeaderLabels([<span class="st">"Key"</span>, <span class="st">"Value"</span>])</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.table_widget.verticalHeader().setVisible(<span class="va">False</span>)</span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.buttons <span class="op">=</span> QDialogButtonBox(QDialogButtonBox.Cancel <span class="op">|</span> QDialogButtonBox.Ok, <span class="va">self</span>)</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>        layout.addWidget(<span class="va">self</span>.buttons)</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.buttons.button(QDialogButtonBox.Cancel).setText(<span class="st">"Close"</span>)</span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.buttons.button(QDialogButtonBox.Ok).setText(<span class="st">"Remove All Settings"</span>)</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.buttons.accepted.<span class="ex">connect</span>(<span class="va">self</span>.accept)</span>
+<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.buttons.rejected.<span class="ex">connect</span>(<span class="va">self</span>.reject)</span>
+<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>        settings_keys <span class="op">=</span> <span class="va">self</span>.settings.allKeys()</span>
+<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.table_widget.setRowCount(<span class="bu">len</span>(settings_keys))</span>
+<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i, key <span class="kw">in</span> <span class="bu">enumerate</span>(settings_keys):</span>
+<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.table_widget.setCellWidget(i, <span class="dv">0</span>, QLabel(key))</span>
+<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>            <span class="va">self</span>.table_widget.setCellWidget(i, <span class="dv">1</span>, QLabel(<span class="bu">str</span>(<span class="va">self</span>.settings.value(key, <span class="st">""</span>))))</span>
+<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.table_widget.resizeColumnsToContents()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Vytvoření tohoto dialogového okna navážeme v aplikaci na nový prvek (<a href="https://doc.qt.io/qt-5/qaction.html" class="documentation" title="QAction"><code>QAction</code></a>) v menu. Výsledek je v příkladu <a href="https://github.com/JanCaha/PyQt-GIS-book/tree/main/examples/empty_application_with_settings_dialog.py" class="example" title="empty_application_with_settings_dialog.py">empty_application_with_settings_dialog.py</a>.</p>
 
 
 </section>

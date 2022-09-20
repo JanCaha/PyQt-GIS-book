@@ -115,7 +115,7 @@ div.csl-indent {
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./index.html" class="sidebar-item-text sidebar-link">Předmluva</a>
+  <a href="./index.html" class="sidebar-item-text sidebar-link">Základní informace</a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -188,6 +188,7 @@ div.csl-indent {
    
   <ul>
   <li><a href="#rozložení-prvků-gui" id="toc-rozložení-prvků-gui" class="nav-link active" data-scroll-target="#rozložení-prvků-gui"><span class="toc-section-number">4.1</span>  Rozložení prvků GUI</a></li>
+  <li><a href="#samostatná-okna" id="toc-samostatná-okna" class="nav-link" data-scroll-target="#samostatná-okna"><span class="toc-section-number">4.2</span>  Samostatná okna</a></li>
   </ul>
 </nav>
     </div>
@@ -272,6 +273,28 @@ Modifikace prvků GUI
 </figure>
 </div>
 <p>V rámci jednoho <a href="https://doc.qt.io/qt-5/qwidget.html" class="documentation" title="QWidget"><code>QWidget</code></a>, či jiného GUI prvku může existovat několik layoutů, které do sebe mohou být i různě zanořené. Tím vznikají komplexní prvky GUI.</p>
+</section>
+<section id="samostatná-okna" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="samostatná-okna"><span class="header-section-number">4.2</span> Samostatná okna</h2>
+<p>Aplikace mohou vytvářet další doplňková okna, která napomáhají uživateli interagovat s programem. Jedná se o prvky odvozené od třídy <a href="https://doc.qt.io/qt-5/qdialog.html" class="documentation" title="QDialog"><code>QDialog</code></a>. Tato třída poskytuje základní funkcionalitu pro tvorbu doplňkových oken. Doplňková okna lze rozdělit na dva typy: okna, která blokují hlavní aplikaci a musí být ukončena, pro návrat do hlavní okna (v terminologii Qt{.software} <strong>modeless dialogs</strong>), a okna, která existují samostatně a mohou být otevřena současně s dalšími okny (v terminologii Qt{.software} <strong>modal dialogs</strong>). Rozdíl mezi těmito okny je v tom, jakou funkcí se spouští, zatímco okna typu <strong>modeless</strong> se spouští funkcí <code>exec()</code>, která převezme hlavní běhovou smyčku programu a je nutné toto okno zavřít, aby byla předána zpět rodičovskému oknu, okna typue <strong>modal</strong> se pouze zobrazují funkcí <code>show()</code>, což umožní jejich souběh s dalšími okny.</p>
+<div>
+<div class="callout-qgis callout callout-style-default callout-captioned">
+  <div class="callout-header d-flex align-content-center">
+  <div class="callout-icon-container">
+  <i class="callout-icon"></i>
+  </div>
+  <div class="callout-caption-container flex-fill">
+  QGIS
+  </div>
+  </div>
+  <div class="callout-body-container callout-body">
+  <p>
+</p><p>V QGIS najdeme řadu příkladů obou typů těchto oken. Např. <span class="settings">Atributová tabulka</span> je příklad okna typu <strong>modal</strong>, které může existovat spolu s dalšími okny a neblokuje funkcionalitu dalších oken. Příkladem <strong>modeless</strong> okna je třeba <span class="settings">Nastavení</span>, což je okno, které zablokuje, až do svého uzavření, veškerou jinou funkcionalitu QGIS.</p>
+<p></p>
+      </div>
+      </div>
+</div>
+<p>Okna typu <strong>Modal</strong> při svém uzavření vrací hodnotu. Tyto okna často disponují tlačítky, které umožňují zavření okna přijetím, či odmítnutím nějaké akce. Typicky například okna informující o přepsaní souboru při jeho uložení, kde má uživatel možnost potvrdit, nebo odmítnou přepsání souboru. Dle návratové hodnoty okna se pak dále větví příslušný hlavní program. Tento případ je demonstrován v ukázce: <a href="https://github.com/JanCaha/PyQt-GIS-book/tree/main/examples/empty_application_with_settings_dialog.py" class="example" title="empty_application_with_settings_dialog.py">empty_application_with_settings_dialog.py</a>, jenž je podrobněji popsán v <a href="09-pretrvavajici_nastaveni_aplikace.html"><span>Kap.&nbsp;9</span></a>.</p>
 
 
 <div id="refs" class="references csl-bib-body" data-entry-spacing="1" role="doc-bibliography" style="display: none">
