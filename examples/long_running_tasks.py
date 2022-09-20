@@ -6,7 +6,7 @@ import sys
 
 from PyQt5.QtCore import (QRunnable, pyqtSignal, QObject, QThreadPool)
 from PyQt5.QtWidgets import (QMainWindow, QWidget, QVBoxLayout, QPushButton, QPlainTextEdit,
-                             QApplication)
+                             QApplication, QLabel, QProgressBar)
 
 
 class WorkerSignals(QObject):
@@ -25,7 +25,7 @@ class Worker(QRunnable):
     def run(self):
         for i in range(10):
             time.sleep(1)
-            self.signal.percentDone.emit(self.job_name, (i / 10) * 100)
+            self.signal.percentDone.emit(self.job_name, ((i + 1) / 10) * 100)
         self.signal.finished.emit()
         self.signal.result.emit("Job `{}` is done.".format(self.job_name))
 
@@ -49,12 +49,17 @@ class MainWindow(QMainWindow):
 
         self.text_field_interactivity = QPlainTextEdit(self)
         self.text_field_interactivity.setReadOnly(True)
+        self.text_field_interactivity.setFixedHeight(30)
 
         self.button_long_task = QPushButton("Create Long Running Taks", self)
         self.button_long_task.clicked.connect(self.run_long_task)
 
         self.button_worker = QPushButton("Create Worker", self)
         self.button_worker.clicked.connect(self.run_worker)
+
+        self.last_worker_label = QLabel(self)
+        self.last_worker_progress = QProgressBar(self)
+        self.last_worker_progress.setMaximum(100)
 
         self.text_field_worker = QPlainTextEdit(self)
         self.text_field_worker.setReadOnly(True)
@@ -63,6 +68,8 @@ class MainWindow(QMainWindow):
         layout.addWidget(self.text_field_interactivity)
         layout.addWidget(self.button_long_task)
         layout.addWidget(self.button_worker)
+        layout.addWidget(self.last_worker_label)
+        layout.addWidget(self.last_worker_progress)
         layout.addWidget(self.text_field_worker)
 
         self.threadpool = QThreadPool()
@@ -94,9 +101,8 @@ class MainWindow(QMainWindow):
         self.text_field_worker.setPlainText(text)
 
     def worker_percent_done(self, worker_name: str, percent: float):
-        msg = "Done {}%. ({})".format(percent, worker_name)
-        text = "{}\n{}!".format(self.text_field_worker.toPlainText(), msg)
-        self.text_field_worker.setPlainText(text)
+        self.last_worker_progress.setValue(percent)
+        self.last_worker_label.setText("Progress for last worker, with id {}.".format(worker_name))
 
 
 if __name__ == "__main__":
