@@ -1,0 +1,27 @@
+{
+    // Place your snippets for quarto here. Each snippet is defined under a snippet name and has a prefix, body and 
+    // description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+    // $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. Placeholders with the 
+    // same ids are connected.
+    // Example:
+    "Ecxample Code": {
+        "prefix": "example-code",
+        "body": "{{< example-code $1 >}}",
+        "description": "Add link to code file"
+    },
+    "QT Class": {
+        "prefix": "qt-class",
+        "body": "{{< qt-class $1 >}}",
+        "description": "Add qt-class marker"
+    },
+    "Software class": {
+        "prefix": "software",
+        "body": "[$1]{.software}",
+        "description": "Add span class"
+    },
+    "Settings class": {
+        "prefix": "settings",
+        "body": "[$1]{.settings}",
+        "description": "Add span class"
+    }
+}
