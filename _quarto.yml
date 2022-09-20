@@ -17,7 +17,7 @@ book:
     - 02-qt.qmd
     - 03-aplikace-s-gui.qmd
     - 04-prvky-gui.qmd
-    - 05-qmainwindow.qmd
+    - 05-jednoducha-aplikace.qmd
     - 06-signály-sloty.qmd
     - 07-qwidget-kontejner.qmd
     - 08-narocne-operace.qmd

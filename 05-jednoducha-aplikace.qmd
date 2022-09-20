@@ -2,26 +2,12 @@
 
 V této kapitole sestavíme jednoduchou aplikaci, na níž budeme prakticky demonstrovat základní koncepty. Aplikace umožní uživateli vybrat soubor, následně zobrazí cestu k tomuto souboru a pokusí se soubor oveřít jako vektorový datový zdroj pomocí **OGR** a zobrazí informaci, zda-li je možné soubor otevřít pomocí OGR. Základem většiny aplikací je třída {{< qt-class QMainWindow >}}.  
 
-## QMainWindow
-
-{{< qt-class QMainWindow >}} z modulu `PyQt5.QtWidgets` je třída, která poskytuje základní rozhraní aplikace. V tomto rozhraní jsou předchystané položky pro všechny v aplikacích obvyklé prvky (viz @fig-qmainwindow) např. menu (Menu bar), lišty s nástroji (Toolbars), uživatelsky umisťované widgety (Dock Widgets), též zvané dokovatelné widgety, stavový řádek (Status bar) a hlavní prostor aplikace (Central Widget). 
-
-![Součásti QMainWindow. Zdroj: [@QtCompany2022]](/figures/qmainwindow.png){#fig-qmainwindow width=75% fig-align="center"}
-
-Mimo to může aplikace vytvářet další samostatná okna, s další funkcionalitou. 
-
-:::{.qgis}
-Jako samostatná okna fungují například _Atributová tabulka_, nebo _Rozvžení_ (_Layout_) v **QGIS**.
-:::
-
-Základním stavebním prvkem GUI v [PyQt]{.sw} je {{< qt-class QWidget >}}, tento objekt je základem všech prvků uživatelského rozhraní a definuje obecné a pro všechny prvky GUI společné chování, nastavení a možnosti. Později si také ukážeme, jak lze na základě této třídy vytvářet vlastní prvky GUI. 
-
-{{< todo "doplnit odkaz na kapitolu" >}}
+Prvotním stavebním prvkem GUI v [PyQt]{.sw} je {{< qt-class QWidget >}}, tento objekt je základem všech prvků uživatelského rozhraní a definuje obecné a pro všechny prvky GUI společné chování, nastavení a možnosti. Později si také ukážeme, jak lze na základě této třídy vytvářet vlastní prvky GUI (viz @sec-qwidget). 
 
 Rozložení {{< qt-class QMainWindow >}} umožňuje specifikaci jednoho hlavního widgetu (v @fig-qmainwindow položka Centra Widget). V tomto widgetu by se měla nacházet hlavní a nejdůležitější část aplikace. 
 
 :::{.qgis}
-V QGISu je hlavním widgetem mapové pole (třída `QgsMapCanvas`) spolu s několika drobnými widgety pod mapovým polem, kolem kterého jsou umístěně dokovatelné widgety [Prohlížeč]{.settings}, [Vrstvy]{.settings} a volitelně další, např. [Nástroje zpracování]{.settings}.
+V QGISu je hlavním widgetem mapové pole (třída `QgsMapCanvas`), kolem kterého jsou umístěně dokovatelné widgety [Prohlížeč]{.settings}, [Vrstvy]{.settings} a volitelně další, např. [Nástroje zpracování]{.settings}.
 :::
 
 ## Aplikace
