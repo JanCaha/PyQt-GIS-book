@@ -3,8 +3,8 @@ import sys
 import typing
 from pathlib import Path
 
-from PyQt5.QtWidgets import (QApplication, QWidget, QHBoxLayout, QToolButton,
-                             QLineEdit, QFileDialog, QAction, QStyle, QLabel)
+from PyQt5.QtWidgets import (QApplication, QWidget, QHBoxLayout, QToolButton, QLineEdit,
+                             QFileDialog, QAction, QStyle, QLabel)
 from PyQt5.QtCore import Qt, pyqtSignal
 
 
@@ -14,11 +14,9 @@ class FileSelector(QWidget):
     fileCleared = pyqtSignal()
 
     def __init__(
-        self,
-        parent: typing.Optional[QWidget] = None,
-        flags: typing.Union[Qt.WindowFlags,
-                            Qt.WindowType] = Qt.WindowType.Widget
-    ) -> None:
+            self,
+            parent: typing.Optional[QWidget] = None,
+            flags: typing.Union[Qt.WindowFlags, Qt.WindowType] = Qt.WindowType.Widget) -> None:
         super().__init__(parent, flags)
 
         self.init_gui()
@@ -57,8 +55,7 @@ class FileSelector(QWidget):
             icon = self.style().standardIcon(QStyle.SP_DialogApplyButton)
         else:
             icon = self.style().standardIcon(QStyle.SP_CustomBase)
-        self.file_selected_label.setPixmap(
-            icon.pixmap(self.file_selected_label.size()))
+        self.file_selected_label.setPixmap(icon.pixmap(self.file_selected_label.size()))
 
     def set_selected_file_dialog(self) -> None:
         if self.path_file:
@@ -81,8 +78,7 @@ class FileSelector(QWidget):
                 self.fileCleared.emit()
 
     def show_clear_action(self) -> None:
-        self.text.addAction(self.clear_action,
-                            QLineEdit.ActionPosition.TrailingPosition)
+        self.text.addAction(self.clear_action, QLineEdit.ActionPosition.TrailingPosition)
 
     def set_existing_file(self, file_name: str) -> None:
         self.path_file = file_name
