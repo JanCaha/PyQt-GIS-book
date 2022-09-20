@@ -33,6 +33,11 @@ Prvky GUI v aplikaci neexistují samy o sobě, ale vždy uspořádané do nějak
 
 V rámci jednoho {{< qt-class QWidget >}}, či jiného GUI prvku může existovat několik layoutů, které do sebe mohou být i různě zanořené. Tím vznikají komplexní prvky GUI.
 
+## QMainWindow - hlavní okno aplikace
+
+{{< qt-class QMainWindow >}} z modulu `PyQt5.QtWidgets` je třída, která poskytuje základní rozhraní aplikace. V tomto rozhraní jsou předchystané položky pro všechny v aplikacích obvyklé prvky (viz @fig-qmainwindow) např. menu (Menu bar), lišty s nástroji (Toolbars), uživatelsky umisťované widgety (Dock Widgets), též zvané dokovatelné widgety, stavový řádek (Status bar) a hlavní prostor aplikace (Central Widget). 
+
+![Součásti QMainWindow. Zdroj: [@QtCompany2022]](/figures/qmainwindow.png){#fig-qmainwindow width=75% fig-align="center"}
 ## Samostatná okna
 
 Aplikace mohou vytvářet další doplňková okna, která napomáhají uživateli interagovat s programem. Jedná se o prvky odvozené od třídy {{< qt-class QDialog >}}. Tato třída poskytuje základní funkcionalitu pro tvorbu doplňkových oken. Doplňková okna lze rozdělit na dva typy: okna, která blokují hlavní aplikaci a musí být ukončena, pro návrat do hlavní okna (v terminologii Qt{.software} **modeless dialogs**), a okna, která existují samostatně a mohou být otevřena současně s dalšími okny (v terminologii Qt{.software} **modal dialogs**). Rozdíl mezi těmito okny je v tom, jakou funkcí se spouští, zatímco okna typu **modeless** se spouští funkcí `exec()`, která převezme hlavní běhovou smyčku programu a je nutné toto okno zavřít, aby byla předána zpět rodičovskému oknu, okna typue **modal** se pouze zobrazují funkcí `show()`, což umožní jejich souběh s dalšími okny.
