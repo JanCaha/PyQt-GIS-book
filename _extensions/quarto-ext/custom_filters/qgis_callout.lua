@@ -18,8 +18,8 @@ function Div(el)
 
       local divQgis = pandoc.Div({})
       divQgis.content:insert(pandoc.RawInline('html', text1))
-      for i=1,#el.content do  
-        divQgis.content:insert(el.content[i]) 
+      for i = 1, #el.content do
+        divQgis.content:insert(el.content[i])
       end
       divQgis.content:insert(pandoc.RawInline('html', text2))
       -- quarto.utils.dump(divQgis)
