@@ -50,3 +50,40 @@ Qt{.software} umožňuje do nastavení ukládat a následně načítat i někter
 ## Praktická ukázka
 
 Praktická ukázka zde zahrnuje prázdnou aplikaci, která si pamatuje svoje umístění a velikost na obrazovce. Ukázka je dostupná: {{< example-code empty_application_with_settings.py >}}. V ukázce je podstatné, že velikost a umístění okna se zapisují do nastavení při každé jejich změně, a načítají se při vytvoření hlavní okna aplikace.
+
+Tuto jednoduchou ukázku můžeme dále rozšířit o zobrazení všech existujících nastavení. Toho docílíme vytvořením jednoduchého okna odvozeného od {{< qt-class QDialog >}}. 
+
+```{python}
+#| eval: false
+class SettingsDialog(QDialog):
+
+    def __init__(self, parent: Optional[QWidget] = None) -> None:
+        super().__init__(parent)
+        self.setWindowTitle("Settings")
+        self.setMinimumSize(500, 300)
+
+        self.settings = QSettings()
+
+        layout = QVBoxLayout()
+        self.setLayout(layout)
+
+        self.table_widget = QTableWidget(self)
+        layout.addWidget(self.table_widget)
+
+        self.table_widget.setColumnCount(2)
+        self.table_widget.setHorizontalHeaderLabels(["Key", "Value"])
+        self.table_widget.verticalHeader().setVisible(False)
+
+        settings_keys = self.settings.allKeys()
+
+        self.table_widget.setRowCount(len(settings_keys))
+
+        for i, key in enumerate(settings_keys):
+            self.table_widget.insertRow(i)
+            self.table_widget.setCellWidget(i, 0, QLabel(key))
+            self.table_widget.setCellWidget(i, 1, QLabel(str(self.settings.value(key, ""))))
+
+        self.table_widget.resizeColumnsToContents()
+```
+
+Vytvoření tohoto dialogového okna navážeme v aplikaci na nový prvek ({{< qt-class QAction >}}) v menu. Výsledek je v příkladu {{< example-code empty_application_with_settings_dialog.py >}}.
