@@ -34,9 +34,9 @@ class FileSelector(QWidget):
         self.path_file = None
 
     def init_gui(self) -> None:
-        self.setContentsMargins(0, 0, 0, 0)
 
         layout = QHBoxLayout(self)
+        layout.setContentsMargins(0, 0, 0, 0)
         self.setLayout(layout)
 
         self.button = QToolButton(self)
