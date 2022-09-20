@@ -1,4 +1,4 @@
-# QWidget jako základ pro nové prvky
+# QWidget jako základ pro nové prvky {#sec-qwidget}
 
 {{< qt-class QWidget >}} je základní třída, z níž většina dalších prvků GUI (widgetů) odvozuje základní chování. Sem patří např. reakce na události v GUI, změny v rozměrech GUI, vykreslení samotné komponenty atd.  
 
