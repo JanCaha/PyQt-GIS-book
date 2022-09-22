@@ -22,6 +22,7 @@ book:
     - 07-qwidget-kontejner.qmd
     - 08-narocne-operace.qmd
     - 09-pretrvavajici_nastaveni_aplikace.qmd
+    - 10-architektura-model-view.qmd
     - summary.qmd
     - literatura.qmd
     - appendix.qmd
