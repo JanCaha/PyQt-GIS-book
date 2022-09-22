@@ -50,7 +50,7 @@ div.csl-indent {
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./05-qmainwindow.html" rel="next">
+<link href="./05-jednoducha-aplikace.html" rel="next">
 <link href="./03-aplikace-s-gui.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
@@ -140,7 +140,7 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./05-qmainwindow.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Jednoduchá aplikace</span></a>
+  <a href="./05-jednoducha-aplikace.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Jednoduchá aplikace</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -165,7 +165,12 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./summary.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Summary</span></a>
+  <a href="./10-architektura-model-view.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Qt Architektura Model View</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summary.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Summary</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -175,7 +180,7 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./appendix.html" class="sidebar-item-text sidebar-link">Funkce GDAL</a>
+  <a href="./appendix.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Model-View</span></a>
   </div>
 </li>
     </ul>
@@ -188,7 +193,8 @@ div.csl-indent {
    
   <ul>
   <li><a href="#rozložení-prvků-gui" id="toc-rozložení-prvků-gui" class="nav-link active" data-scroll-target="#rozložení-prvků-gui"><span class="toc-section-number">4.1</span>  Rozložení prvků GUI</a></li>
-  <li><a href="#samostatná-okna" id="toc-samostatná-okna" class="nav-link" data-scroll-target="#samostatná-okna"><span class="toc-section-number">4.2</span>  Samostatná okna</a></li>
+  <li><a href="#qmainwindow---hlavní-okno-aplikace" id="toc-qmainwindow---hlavní-okno-aplikace" class="nav-link" data-scroll-target="#qmainwindow---hlavní-okno-aplikace"><span class="toc-section-number">4.2</span>  QMainWindow - hlavní okno aplikace</a></li>
+  <li><a href="#samostatná-okna" id="toc-samostatná-okna" class="nav-link" data-scroll-target="#samostatná-okna"><span class="toc-section-number">4.3</span>  Samostatná okna</a></li>
   </ul>
 </nav>
     </div>
@@ -197,7 +203,7 @@ div.csl-indent {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Prvky GUI</span></h1>
+<h1 class="title"><span id="sec-gui-elements" class="quarto-section-identifier d-none d-lg-block"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Prvky GUI</span></span></h1>
 </div>
 
 
@@ -265,7 +271,7 @@ Modifikace prvků GUI
 </div>
 <section id="rozložení-prvků-gui" class="level2" data-number="4.1">
 <h2 data-number="4.1" class="anchored" data-anchor-id="rozložení-prvků-gui"><span class="header-section-number">4.1</span> Rozložení prvků GUI</h2>
-<p>Prvky GUI v aplikaci neexistují samy o sobě, ale vždy uspořádané do nějaké struktury. Základem této struktury je třída <a href="https://doc.qt.io/qt-5/qlayout.html" class="documentation" title="QLayout"><code>QLayout</code></a>, která specifikuje základní chování rozvržení (layoutu) <span class="citation" data-cites="QtCompany2022a">(<a href="literatura.html#ref-QtCompany2022a" role="doc-biblioref">The Qt Company Ltd. 2022</a>)</span>. Základní rozvržení, existující přímo jako <span class="software">Qt</span> třídy jsou <a href="https://doc.qt.io/qt-5/qhboxlayout.html" class="documentation" title="QHBoxLayout"><code>QHBoxLayout</code></a> a <a href="https://doc.qt.io/qt-5/qvboxlayout.html" class="documentation" title="QVBoxLayout"><code>QVBoxLayout</code></a>, které skládají prvky do horizontální potažmo vertikální struktury, <a href="https://doc.qt.io/qt-5/qformlayout.html" class="documentation" title="QFormLayout"><code>QFormLayout</code></a>, používá dva sloupce - popisku a samotné prvky, a <a href="https://doc.qt.io/qt-5/qgridlayout.html" class="documentation" title="QGridLayout"><code>QGridLayout</code></a>, což je nejkomplexnější layout, kde je možné specifikovat počet sloupců, řádků a následně přiřazovat prvky GUI do jedné či několik takto vzniklých buněk.</p>
+<p>Prvky GUI v aplikaci neexistují samy o sobě, ale vždy uspořádané do nějaké struktury. Základem této struktury je třída <a href="https://doc.qt.io/qt-5/qlayout.html" class="documentation" title="QLayout"><code>QLayout</code></a>, která specifikuje základní chování rozvržení (layoutu) <span class="citation" data-cites="QtCompany2022a">(<a href="literatura.html#ref-QtCompany2022a" role="doc-biblioref">The Qt Company Ltd. 2022a</a>)</span>. Základní rozvržení, existující přímo jako <span class="software">Qt</span> třídy jsou <a href="https://doc.qt.io/qt-5/qhboxlayout.html" class="documentation" title="QHBoxLayout"><code>QHBoxLayout</code></a> a <a href="https://doc.qt.io/qt-5/qvboxlayout.html" class="documentation" title="QVBoxLayout"><code>QVBoxLayout</code></a>, které skládají prvky do horizontální potažmo vertikální struktury, <a href="https://doc.qt.io/qt-5/qformlayout.html" class="documentation" title="QFormLayout"><code>QFormLayout</code></a>, používá dva sloupce - popisku a samotné prvky, a <a href="https://doc.qt.io/qt-5/qgridlayout.html" class="documentation" title="QGridLayout"><code>QGridLayout</code></a>, což je nejkomplexnější layout, kde je možné specifikovat počet sloupců, řádků a následně přiřazovat prvky GUI do jedné či několik takto vzniklých buněk.</p>
 <div id="fig-layouts" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="./figures/layouts.png" class="img-fluid figure-img" style="width:50.0%"></p>
@@ -274,9 +280,19 @@ Modifikace prvků GUI
 </div>
 <p>V rámci jednoho <a href="https://doc.qt.io/qt-5/qwidget.html" class="documentation" title="QWidget"><code>QWidget</code></a>, či jiného GUI prvku může existovat několik layoutů, které do sebe mohou být i různě zanořené. Tím vznikají komplexní prvky GUI.</p>
 </section>
-<section id="samostatná-okna" class="level2" data-number="4.2">
-<h2 data-number="4.2" class="anchored" data-anchor-id="samostatná-okna"><span class="header-section-number">4.2</span> Samostatná okna</h2>
-<p>Aplikace mohou vytvářet další doplňková okna, která napomáhají uživateli interagovat s programem. Jedná se o prvky odvozené od třídy <a href="https://doc.qt.io/qt-5/qdialog.html" class="documentation" title="QDialog"><code>QDialog</code></a>. Tato třída poskytuje základní funkcionalitu pro tvorbu doplňkových oken. Doplňková okna lze rozdělit na dva typy: okna, která blokují hlavní aplikaci a musí být ukončena, pro návrat do hlavní okna (v terminologii Qt{.software} <strong>modeless dialogs</strong>), a okna, která existují samostatně a mohou být otevřena současně s dalšími okny (v terminologii Qt{.software} <strong>modal dialogs</strong>). Rozdíl mezi těmito okny je v tom, jakou funkcí se spouští, zatímco okna typu <strong>modeless</strong> se spouští funkcí <code>exec()</code>, která převezme hlavní běhovou smyčku programu a je nutné toto okno zavřít, aby byla předána zpět rodičovskému oknu, okna typue <strong>modal</strong> se pouze zobrazují funkcí <code>show()</code>, což umožní jejich souběh s dalšími okny.</p>
+<section id="qmainwindow---hlavní-okno-aplikace" class="level2" data-number="4.2">
+<h2 data-number="4.2" class="anchored" data-anchor-id="qmainwindow---hlavní-okno-aplikace"><span class="header-section-number">4.2</span> QMainWindow - hlavní okno aplikace</h2>
+<p><a href="https://doc.qt.io/qt-5/qmainwindow.html" class="documentation" title="QMainWindow"><code>QMainWindow</code></a> z modulu <code>PyQt5.QtWidgets</code> je třída, která poskytuje základní rozhraní aplikace. V tomto rozhraní jsou předchystané položky pro všechny v aplikacích obvyklé prvky (viz <a href="#fig-qmainwindow">Obr.&nbsp;<span>4.5</span></a>) např. menu (Menu bar), lišty s nástroji (Toolbars), uživatelsky umisťované widgety (Dock Widgets), též zvané dokovatelné widgety, stavový řádek (Status bar) a hlavní prostor aplikace (Central Widget).</p>
+<div id="fig-qmainwindow" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="./figures/qmainwindow.png" class="img-fluid figure-img" style="width:75.0%"></p>
+<p></p><figcaption class="figure-caption">Obr.&nbsp;4.5: Součásti QMainWindow. Zdroj: <span class="citation" data-cites="QtCompany2022">(<a href="literatura.html#ref-QtCompany2022" role="doc-biblioref">The Qt Company Ltd. 2022b</a>)</span></figcaption><p></p>
+</figure>
+</div>
+</section>
+<section id="samostatná-okna" class="level2" data-number="4.3">
+<h2 data-number="4.3" class="anchored" data-anchor-id="samostatná-okna"><span class="header-section-number">4.3</span> Samostatná okna</h2>
+<p>Aplikace mohou vytvářet další doplňková okna, která napomáhají uživateli interagovat s programem. Jedná se obvykle o prvky odvozené od třídy <a href="https://doc.qt.io/qt-5/qdialog.html" class="documentation" title="QDialog"><code>QDialog</code></a>, byť je možné i použití jiné třídy, či přímo <a href="https://doc.qt.io/qt-5/qwidget.html" class="documentation" title="QWidget"><code>QWidget</code></a>. Tato třída poskytuje základní funkcionalitu pro tvorbu doplňkových oken. Doplňková okna lze rozdělit na dva typy: okna, která blokují hlavní aplikaci a musí být ukončena, pro návrat do hlavní okna (v terminologii Qt{.software} <strong>modeless dialogs</strong>), a okna, která existují samostatně a mohou být otevřena současně s dalšími okny (v terminologii Qt{.software} <strong>modal dialogs</strong>). Rozdíl mezi těmito okny je v tom, jakou funkcí se spouští, zatímco okna typu <strong>modeless</strong> se spouští funkcí <code>exec()</code>, která převezme hlavní běhovou smyčku programu a je nutné toto okno zavřít, aby byla předána zpět rodičovskému oknu, okna typue <strong>modal</strong> se pouze zobrazují funkcí <code>show()</code>, což umožní jejich souběh s dalšími okny.</p>
 <div>
 <div class="callout-qgis callout callout-style-default callout-captioned">
   <div class="callout-header d-flex align-content-center">
@@ -289,7 +305,7 @@ Modifikace prvků GUI
   </div>
   <div class="callout-body-container callout-body">
   <p>
-</p><p>V QGIS najdeme řadu příkladů obou typů těchto oken. Např. <span class="settings">Atributová tabulka</span> je příklad okna typu <strong>modal</strong>, které může existovat spolu s dalšími okny a neblokuje funkcionalitu dalších oken. Příkladem <strong>modeless</strong> okna je třeba <span class="settings">Nastavení</span>, což je okno, které zablokuje, až do svého uzavření, veškerou jinou funkcionalitu QGIS.</p>
+</p><p>V QGIS najdeme řadu příkladů obou typů těchto oken. Např. <span class="settings">Atributová tabulka</span> či <span class="settings">Rozvžení (Layout)</span> jsou příklady oken typu <strong>modal</strong>, které mohu existovat spolu s dalšími okny a neblokuje funkcionalitu dalších oken. Příkladem <strong>modeless</strong> okna je třeba <span class="settings">Nastavení</span>, což je okno, které zablokuje, až do svého uzavření, veškerou jinou funkcionalitu QGIS.</p>
 <p></p>
       </div>
       </div>
@@ -299,7 +315,10 @@ Modifikace prvků GUI
 
 <div id="refs" class="references csl-bib-body" data-entry-spacing="1" role="doc-bibliography" style="display: none">
 <div id="ref-QtCompany2022a" class="csl-entry" role="doc-biblioentry">
-THE QT COMPANY LTD., 2022. <em>Layout management</em> [online] [cit.&nbsp;2022-09-16]. Dostupné z:&nbsp;<a href="https://doc.qt.io/qt-5/layout.html">https://doc.qt.io/qt-5/layout.html</a>
+THE QT COMPANY LTD., 2022a. <em>Layout management</em> [online] [cit.&nbsp;2022-09-16]. Dostupné z:&nbsp;<a href="https://doc.qt.io/qt-5/layout.html">https://doc.qt.io/qt-5/layout.html</a>
+</div>
+<div id="ref-QtCompany2022" class="csl-entry" role="doc-biblioentry">
+THE QT COMPANY LTD., 2022b. <em>Qt 5.15</em> [online] [cit.&nbsp;2022-08-13]. Dostupné z:&nbsp;<a href="https://doc.qt.io/qt-5/">https://doc.qt.io/qt-5/</a>
 </div>
 </div>
 </section>
@@ -410,7 +429,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./05-qmainwindow.html" class="pagination-link">
+      <a href="./05-jednoducha-aplikace.html" class="pagination-link">
         <span class="nav-page-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Jednoduchá aplikace</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>

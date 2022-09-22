@@ -83,26 +83,6 @@ code span.st { color: #4070a0; } /* String */
 code span.va { color: #19177c; } /* Variable */
 code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-  margin-bottom: 1em;
-}
-.hanging div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
-}
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
-}
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}
 </style>
 
 
@@ -204,7 +184,7 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./05-qmainwindow.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Jednoduchá aplikace</span></a>
+  <a href="./05-jednoducha-aplikace.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Jednoduchá aplikace</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -229,7 +209,12 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./summary.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Summary</span></a>
+  <a href="./10-architektura-model-view.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Qt Architektura Model View</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summary.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Summary</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -239,7 +224,7 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./appendix.html" class="sidebar-item-text sidebar-link">Funkce GDAL</a>
+  <a href="./appendix.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Model-View</span></a>
   </div>
 </li>
     </ul>
@@ -251,8 +236,7 @@ div.csl-indent {
     <h2 id="toc-title">Obsah</h2>
    
   <ul>
-  <li><a href="#qmainwindow" id="toc-qmainwindow" class="nav-link active" data-scroll-target="#qmainwindow"><span class="toc-section-number">5.1</span>  QMainWindow</a></li>
-  <li><a href="#aplikace" id="toc-aplikace" class="nav-link" data-scroll-target="#aplikace"><span class="toc-section-number">5.2</span>  Aplikace</a></li>
+  <li><a href="#aplikace" id="toc-aplikace" class="nav-link active" data-scroll-target="#aplikace"><span class="toc-section-number">5.1</span>  Aplikace</a></li>
   </ul>
 </nav>
     </div>
@@ -276,16 +260,8 @@ div.csl-indent {
 </header>
 
 <p>V této kapitole sestavíme jednoduchou aplikaci, na níž budeme prakticky demonstrovat základní koncepty. Aplikace umožní uživateli vybrat soubor, následně zobrazí cestu k tomuto souboru a pokusí se soubor oveřít jako vektorový datový zdroj pomocí <strong>OGR</strong> a zobrazí informaci, zda-li je možné soubor otevřít pomocí OGR. Základem většiny aplikací je třída <a href="https://doc.qt.io/qt-5/qmainwindow.html" class="documentation" title="QMainWindow"><code>QMainWindow</code></a>.</p>
-<section id="qmainwindow" class="level2" data-number="5.1">
-<h2 data-number="5.1" class="anchored" data-anchor-id="qmainwindow"><span class="header-section-number">5.1</span> QMainWindow</h2>
-<p><a href="https://doc.qt.io/qt-5/qmainwindow.html" class="documentation" title="QMainWindow"><code>QMainWindow</code></a> z modulu <code>PyQt5.QtWidgets</code> je třída, která poskytuje základní rozhraní aplikace. V tomto rozhraní jsou předchystané položky pro všechny v aplikacích obvyklé prvky (viz <a href="#fig-qmainwindow">Obr.&nbsp;<span>5.1</span></a>) např. menu (Menu bar), lišty s nástroji (Toolbars), uživatelsky umisťované widgety (Dock Widgets), též zvané dokovatelné widgety, stavový řádek (Status bar) a hlavní prostor aplikace (Central Widget).</p>
-<div id="fig-qmainwindow" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="./figures/qmainwindow.png" class="img-fluid figure-img" style="width:75.0%"></p>
-<p></p><figcaption class="figure-caption">Obr.&nbsp;5.1: Součásti QMainWindow. Zdroj: <span class="citation" data-cites="QtCompany2022">(<a href="literatura.html#ref-QtCompany2022" role="doc-biblioref">The Qt Company Ltd. 2022</a>)</span></figcaption><p></p>
-</figure>
-</div>
-<p>Mimo to může aplikace vytvářet další samostatná okna, s další funkcionalitou.</p>
+<p>Prvotním stavebním prvkem GUI v <span class="sw">PyQt</span> je <a href="https://doc.qt.io/qt-5/qwidget.html" class="documentation" title="QWidget"><code>QWidget</code></a>, tento objekt je základem všech prvků uživatelského rozhraní a definuje obecné a pro všechny prvky GUI společné chování, nastavení a možnosti. Později si také ukážeme, jak lze na základě této třídy vytvářet vlastní prvky GUI (viz <a href="07-qwidget-kontejner.html"><span>Kap.&nbsp;7</span></a>).</p>
+<p>Rozložení <a href="https://doc.qt.io/qt-5/qmainwindow.html" class="documentation" title="QMainWindow"><code>QMainWindow</code></a> umožňuje specifikaci jednoho hlavního widgetu (v <a href="04-prvky-gui.html#fig-qmainwindow">Obr.&nbsp;<span>4.5</span></a> položka Centra Widget). V tomto widgetu by se měla nacházet hlavní a nejdůležitější část aplikace.</p>
 <div>
 <div class="callout-qgis callout callout-style-default callout-captioned">
   <div class="callout-header d-flex align-content-center">
@@ -298,46 +274,13 @@ div.csl-indent {
   </div>
   <div class="callout-body-container callout-body">
   <p>
-</p><p>Jako samostatná okna fungují například <em>Atributová tabulka</em>, nebo <em>Rozvžení</em> (<em>Layout</em>) v <strong>QGIS</strong>.</p>
+</p><p>V QGISu je hlavním widgetem mapové pole (třída <code>QgsMapCanvas</code>), kolem kterého jsou umístěně dokovatelné widgety <span class="settings">Prohlížeč</span>, <span class="settings">Vrstvy</span> a volitelně další, např. <span class="settings">Nástroje zpracování</span>.</p>
 <p></p>
       </div>
       </div>
 </div>
-<p>Základním stavebním prvkem GUI v <span class="sw">PyQt</span> je <a href="https://doc.qt.io/qt-5/qwidget.html" class="documentation" title="QWidget"><code>QWidget</code></a>, tento objekt je základem všech prvků uživatelského rozhraní a definuje obecné a pro všechny prvky GUI společné chování, nastavení a možnosti. Později si také ukážeme, jak lze na základě této třídy vytvářet vlastní prvky GUI.</p>
-<div class="callout-important callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-caption-container flex-fill">
-TODO !!!
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>doplnit odkaz na kapitolu</p>
-</div>
-</div>
-<p>Rozložení <a href="https://doc.qt.io/qt-5/qmainwindow.html" class="documentation" title="QMainWindow"><code>QMainWindow</code></a> umožňuje specifikaci jednoho hlavního widgetu (v <a href="#fig-qmainwindow">Obr.&nbsp;<span>5.1</span></a> položka Centra Widget). V tomto widgetu by se měla nacházet hlavní a nejdůležitější část aplikace.</p>
-<div>
-<div class="callout-qgis callout callout-style-default callout-captioned">
-  <div class="callout-header d-flex align-content-center">
-  <div class="callout-icon-container">
-  <i class="callout-icon"></i>
-  </div>
-  <div class="callout-caption-container flex-fill">
-  QGIS
-  </div>
-  </div>
-  <div class="callout-body-container callout-body">
-  <p>
-</p><p>V QGISu je hlavním widgetem mapové pole (třída <code>QgsMapCanvas</code>) spolu s několika drobnými widgety pod mapovým polem, kolem kterého jsou umístěně dokovatelné widgety <span class="settings">Prohlížeč</span>, <span class="settings">Vrstvy</span> a volitelně další, např. <span class="settings">Nástroje zpracování</span>.</p>
-<p></p>
-      </div>
-      </div>
-</div>
-</section>
-<section id="aplikace" class="level2" data-number="5.2">
-<h2 data-number="5.2" class="anchored" data-anchor-id="aplikace"><span class="header-section-number">5.2</span> Aplikace</h2>
+<section id="aplikace" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="aplikace"><span class="header-section-number">5.1</span> Aplikace</h2>
 <p>Většinu konceptů <a href="https://doc.qt.io/qt-5/qmainwindow.html" class="documentation" title="QMainWindow"><code>QMainWindow</code></a> si můžeme demonstrovat na jednoduché aplikaci. Sestavíme aplikaci, kde uživatel vybere soubor, aplikace zobrazí cestu k tomuto souboru a pokusí se soubor otevřít jako vektorový datový zdroj pomocí OGR a zobrazí informaci, zda-li jde soubor otevřít pomocí OGR.</p>
 <p>Samotný kód pro tuto aplikaci může vypadat následovně:</p>
 <div class="cell" data-execution_count="1">
@@ -430,7 +373,7 @@ TODO !!!
 <div id="fig-app_2" class="quarto-figure quarto-figure-center anchored">
 <figure class="figure">
 <p><img src="./figures/app_1.png" class="img-fluid figure-img"></p>
-<p></p><figcaption class="figure-caption">Obr.&nbsp;5.2: Aplikace z předešlého kódu</figcaption><p></p>
+<p></p><figcaption class="figure-caption">Obr.&nbsp;5.1: Aplikace z předešlého kódu</figcaption><p></p>
 </figure>
 </div>
 <p>Hlavní částí aplikace je třída odvozená od <a href="https://doc.qt.io/qt-5/qmainwindow.html" class="documentation" title="QMainWindow"><code>QMainWindow</code></a>, kterou jsme pojmenovali <code>MainWindow</code>. Tato třída si ponechává veškeré svoje chování a lze ho rozšiřovat pomocí nově definovaných funkcí.</p>
@@ -522,11 +465,6 @@ Propojení slotu na signál
 <p>Tímto se nám povedlo vytvořit minimalistickou GUI aplikaci. Její funkcionalita je značně omezená, ale lze na ní vhodně demonstrovat důležité základní koncepty tvorby aplikací s použítím <strong>PyQt</strong>. Kód aplikace je dostupný zde: <a href="https://github.com/JanCaha/PyQt-GIS-book/tree/main/examples/open_ogr_file.py" class="example" title="open_ogr_file.py">open_ogr_file.py</a>.</p>
 
 
-<div id="refs" class="references csl-bib-body" data-entry-spacing="1" role="doc-bibliography" style="display: none">
-<div id="ref-QtCompany2022" class="csl-entry" role="doc-biblioentry">
-THE QT COMPANY LTD., 2022. <em>Qt 5.15</em> [online] [cit.&nbsp;2022-08-13]. Dostupné z:&nbsp;<a href="https://doc.qt.io/qt-5/">https://doc.qt.io/qt-5/</a>
-</div>
-</div>
 </section>
 
 </main> <!-- /main -->

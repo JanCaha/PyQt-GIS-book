@@ -203,7 +203,7 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./05-qmainwindow.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Jednoduchá aplikace</span></a>
+  <a href="./05-jednoducha-aplikace.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Jednoduchá aplikace</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -228,7 +228,12 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./summary.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Summary</span></a>
+  <a href="./10-architektura-model-view.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Qt Architektura Model View</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summary.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Summary</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -238,7 +243,7 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./appendix.html" class="sidebar-item-text sidebar-link">Funkce GDAL</a>
+  <a href="./appendix.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Model-View</span></a>
   </div>
 </li>
     </ul>
@@ -364,6 +369,25 @@ div.csl-indent {
 <p><img src="./figures/app_long_running_task.png" class="img-fluid figure-img"></p>
 <p></p><figcaption class="figure-caption">Obr.&nbsp;8.1: Aplikace pro testování interaktivity pro déle běžící úlohy</figcaption><p></p>
 </figure>
+</div>
+<p>V této aplikaci pro jednoduchost existuje pouze jeden <a href="https://doc.qt.io/qt-5/qprogressbar.html" class="documentation" title="QProgressBar"><code>QProgressBar</code></a> a jedna <a href="https://doc.qt.io/qt-5/qlabel.html" class="documentation" title="QLabel"><code>QLabel</code></a>, které ukazují stav řešení i pro vícero současně spuštěných úloh. Takže se zprávy a procenta dokončení místy poměrně dynamicky střídají. V tomto případě je cílem jednoduchost UI, ne komplexnost řešení.</p>
+<div>
+<div class="callout-qgis callout callout-style-default callout-captioned">
+  <div class="callout-header d-flex align-content-center">
+  <div class="callout-icon-container">
+  <i class="callout-icon"></i>
+  </div>
+  <div class="callout-caption-container flex-fill">
+  QGIS
+  </div>
+  </div>
+  <div class="callout-body-container callout-body">
+  <p>
+</p><p>V QGIS existuje komponenta, která zobrazuje procenta dokončení spuštěných <span class="settings">Nástrojů zpracování</span>. Tento widget je výrazně komplexnější, neboť zobrazuje pro vícero procesů souhrn procent dokončení a při kliknutí zobrazí okno s výpisem všech úloh a stavu jejich dokončení.</p>
+<p>Komponenta se v GUI QGIS zobrazuje pouze pokud je aktivní ve stavovém řádku, před komponentou <span class="settings">Souřadnice</span>.</p>
+<p></p>
+      </div>
+      </div>
 </div>
 
 
