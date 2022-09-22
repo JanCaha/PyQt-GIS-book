@@ -140,9 +140,9 @@ Následně vytvoříme dva prvky typu {{< qt-class QLineEdit >}}, což prvek pro
 ```{python}
 #| eval: false
 self.file_path = QLineEdit("")
-self.file_path.setReadOnly(False)
+self.file_path.setReadOnly(True)
 self.ogr_file = QLineEdit("")
-self.ogr_file.setReadOnly(False)
+self.ogr_file.setReadOnly(True)
 ```
 
 Všechny tři prvky následně vložíme do již existujícího layoutu. Tlačítko vložíme jako samostatný prvek, textové elementy spolu s popiskou.

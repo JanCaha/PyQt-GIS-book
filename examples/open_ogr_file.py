@@ -1,8 +1,7 @@
 import sys
 from osgeo import ogr
-from PyQt5.QtWidgets import (QApplication, QMainWindow, QFormLayout,
-                             QToolButton, QLineEdit, QFileDialog, QWidget,
-                             QMenu, QAction)
+from PyQt5.QtWidgets import (QApplication, QMainWindow, QFormLayout, QToolButton, QLineEdit,
+                             QFileDialog, QWidget, QMenu, QAction)
 
 
 class MainWindow(QMainWindow):
@@ -38,9 +37,10 @@ class MainWindow(QMainWindow):
         self.select_file.clicked.connect(self.open_file)
 
         self.file_path = QLineEdit("")
-        self.file_path.setReadOnly(False)
+        self.file_path.setReadOnly(True)
 
         self.ogr_file = QLineEdit("")
+        self.ogr_file.setReadOnly(True)
 
         layout.addWidget(self.select_file)
         layout.addRow("Vybraný soubor:", self.file_path)
@@ -64,8 +64,8 @@ class MainWindow(QMainWindow):
             else:
                 self.ogr_file.setText("Nelze otevřít pomocí OGR!")
 
-            self.statusBar().showMessage(
-                "Soubor `{}` vybrán a zkušebně otevřen.".format(filename), 2000)
+            self.statusBar().showMessage("Soubor `{}` vybrán a zkušebně otevřen.".format(filename),
+                                         2000)
 
         else:
             self.file_path.setText("")
