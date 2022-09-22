@@ -1,4 +1,4 @@
-# Prvky GUI
+# Prvky GUI {#sec-gui-elements}
 
 Knihovna [Qt]{.sw} poskytuje řadu prvků uživatelského rozhraní. Pro přehled prvků lze použít [Qt Designer]{.sw}, což je grafický nástroj pro tvorbu uživatelského rozhraní. 
 
