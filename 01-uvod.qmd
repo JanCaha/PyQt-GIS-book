@@ -14,7 +14,7 @@ Poznámky odkazující k QGISu.
 
 Pro seznámení s Python API GDAL lze doporučit publikaci [Python GDAL/OGR Cookbok]{.publication} [@Erickson1993], která na praktických případech demonstruje základní principy použití této knihovny. Podobné příklady lze pak najít i v knize [Geoprocessing With Python]{.publication} [@Garrard2016].  
 
-Při práci s [PyQt]]{.sw} je mnoho situací, kdy lze volit mezi použitím funkcí z [PyQt]{.sw} a pythonových knihoven. Volba mezi nimi je v takovém případě spíše osobní volbou programátora, jeho obeznámenosti s danou technologií, či propojením na další použité nástroje a knihovny. V mnoha situacích nelze specificky určit, že by jeden z přístupů byl lepší či vhodnější. Autor se ve většině případů kloní spíše k použití pythonových knihoven, a tento přístup se bude promítat do ukázkových kódů v publikaci.
+Při práci s [PyQt]{.sw} je mnoho situací, kdy lze volit mezi použitím funkcí z [PyQt]{.sw} a pythonových knihoven. Volba mezi nimi je v takovém případě spíše osobní volbou programátora, jeho obeznámenosti s danou technologií, či propojením na další použité nástroje a knihovny. V mnoha situacích nelze specificky určit, že by jeden z přístupů byl lepší či vhodnější. Autor se ve většině případů kloní spíše k použití pythonových knihoven, a tento přístup se bude promítat do ukázkových kódů v publikaci.
 
 :::{.callout-note}
 ## QT Třídy vs. Python třídy nebo moduly
