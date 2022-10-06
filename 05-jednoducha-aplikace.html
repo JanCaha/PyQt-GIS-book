@@ -401,9 +401,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>Následně vytvoříme dva prvky typu <a href="https://doc.qt.io/qt-5/qlineedit.html" class="documentation" title="QLineEdit"><code>QLineEdit</code></a>, což prvek pro vstup textu, který je omezen na velikost jednoho řádku. Oba prvky ale nastavíme pouze pro čtení, čímž znemožníme uživateli, abych do těchto prvků psal. Budou složit pouze pro zobrazení textu, vytvořeného v rámci běhu programu.</p>
 <div class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.file_path <span class="op">=</span> QLineEdit(<span class="st">""</span>)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.file_path.setReadOnly(<span class="va">False</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.file_path.setReadOnly(<span class="va">True</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.ogr_file <span class="op">=</span> QLineEdit(<span class="st">""</span>)</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.ogr_file.setReadOnly(<span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.ogr_file.setReadOnly(<span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Všechny tři prvky následně vložíme do již existujícího layoutu. Tlačítko vložíme jako samostatný prvek, textové elementy spolu s popiskou.</p>
 <div class="cell" data-execution_count="7">
