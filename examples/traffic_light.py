@@ -22,7 +22,7 @@ class TrafficLight(QWidget):
                  flags: Union[Qt.WindowFlags, Qt.WindowType] = Qt.WindowType.Widget) -> None:
         super().__init__(parent, flags)
         self._light_status = light_status
-        self._previous_light_status = None
+        self._previous_light_status: LightStatus = None
         self._read_only = read_only
         self._color_red = QColor('#D60000')
         self._color_orange = QColor('#D6B100')
@@ -47,15 +47,16 @@ class TrafficLight(QWidget):
             return self._color_green
         if light_status == LightStatus.ORANGE:
             return self._color_orange
+        return self._color_red
 
     def background_color(self) -> QColor:
         return self._color_background
-    
+
     def set_background_color(self, color: QColor) -> None:
         self._color_background = color
-    
+
     def circle_radius(self) -> int:
-        return min(self.height() * 0.3, self.width() * 0.9)
+        return int(min(self.height() * 0.3, self.width() * 0.9))
 
     def draw_circle(self, painter: QPainter, center: QPointF, radius: float,
                     color: QColor) -> None:
@@ -66,9 +67,9 @@ class TrafficLight(QWidget):
 
         brush = QBrush()
         brush.setColor(color)
-        brush.setStyle(Qt.SolidPattern)
+        brush.setStyle(Qt.BrushStyle.SolidPattern)
 
-        pen = QPen(Qt.NoPen)
+        pen = QPen(Qt.PenStyle.NoPen)
 
         painter.setBrush(brush)
         painter.setPen(pen)
@@ -87,8 +88,8 @@ class TrafficLight(QWidget):
 
     @property
     def orange_color(self) -> QColor:
-        return self.color_based_on_status(
-            self._color_orange, self._light_status != LightStatus.ORANGE)
+        return self.color_based_on_status(self._color_orange,
+                                          self._light_status != LightStatus.ORANGE)
 
     @property
     def green_color(self) -> QColor:
@@ -133,7 +134,7 @@ class TrafficLight(QWidget):
 
         brush = QBrush()
         brush.setColor(self._color_background)
-        brush.setStyle(Qt.SolidPattern)
+        brush.setStyle(Qt.BrushStyle.SolidPattern)
 
         painter.fillRect(self.main_shape(), brush)
 
@@ -174,24 +175,23 @@ class TrafficLight(QWidget):
             if self._previous_light_status == LightStatus.RED:
                 self._previous_light_status = self._light_status
                 self._light_status = LightStatus.GREEN
-    
+
     def select_previous_status(self) -> None:
         if self._light_status in [LightStatus.GREEN, LightStatus.RED]:
             self._previous_light_status = self._light_status
             self._light_status = LightStatus.ORANGE
         else:
             if self._previous_light_status == LightStatus.GREEN:
-                tmp = self._previous_light_status 
+                tmp = self._previous_light_status
                 self._previous_light_status = self._light_status
                 self._light_status = tmp
             if self._previous_light_status == LightStatus.RED:
                 tmp = self._previous_light_status
                 self._previous_light_status = self._light_status
                 self._light_status = tmp
-        
-    def event(self, event: QEvent) -> bool:
 
-        if event.type() == QEvent.ToolTip:
+    def event(self, event: QEvent) -> bool:
+        if event.type() == QEvent.Type.ToolTip:
             if self.main_shape().contains(event.pos()):
                 tooltip = ""
                 if self._light_status == LightStatus.RED:
@@ -204,16 +204,16 @@ class TrafficLight(QWidget):
             else:
                 QToolTip.hideText()
 
-        elif event.type() == QEvent.Leave:
+        elif event.type() == QEvent.Type.Leave:
             QToolTip.hideText()
 
         return super().event(event)
 
     def mouseReleaseEvent(self, a0: QMouseEvent) -> None:
         if not self._read_only:
-            if a0.button() == Qt.LeftButton:
+            if a0.button() == Qt.MouseButton.LeftButton:
                 self.select_next_status()
-            if a0.button() == Qt.RightButton:
+            if a0.button() == Qt.MouseButton.RightButton:
                 self.select_previous_status()
             self.update()
         return super().mouseReleaseEvent(a0)
