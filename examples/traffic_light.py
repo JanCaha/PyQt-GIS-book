@@ -1,4 +1,4 @@
-from typing import Optional, Union
+from typing import Optional, Union, cast
 import sys
 from enum import Enum
 
@@ -192,6 +192,7 @@ class TrafficLight(QWidget):
 
     def event(self, event: QEvent) -> bool:
         if event.type() == QEvent.Type.ToolTip:
+            event = cast(QMouseEvent, event)
             if self.main_shape().contains(event.pos()):
                 tooltip = ""
                 if self._light_status == LightStatus.RED:
