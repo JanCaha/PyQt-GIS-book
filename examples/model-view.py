@@ -22,16 +22,16 @@ class TableModel(QAbstractTableModel):
             return self._ds.GetLayerCount()
         return 0
 
-    def columnCount(self, parent: QModelIndex = QModelIndex) -> int:
+    def columnCount(self, parent: QModelIndex = QModelIndex()) -> int:
         if parent == QModelIndex():
             return 4
         return 0
 
-    def headerData(self, section: int, orientation: Qt.Orientation, role: Qt.ItemDataRole):
+    def headerData(self, section: int, orientation: Qt.Orientation, role: Qt.ItemDataRole = None):
+        Qt
+        if role == Qt.ItemDataRole.DisplayRole:
 
-        if role == Qt.DisplayRole:
-
-            if orientation == Qt.Horizontal:
+            if orientation == Qt.Orientation.Horizontal:
 
                 if section == 0:
                     return "Layer Name"
@@ -49,7 +49,7 @@ class TableModel(QAbstractTableModel):
 
     def data(self, index: QModelIndex, role=Qt.ItemDataRole) -> str:
 
-        if role == Qt.DisplayRole:
+        if role == Qt.ItemDataRole.DisplayRole:
 
             layer: ogr.Layer = self._ds.GetLayer(index.row())
 
