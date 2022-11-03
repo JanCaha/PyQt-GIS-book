@@ -24,6 +24,7 @@ book:
     - 09-pretrvavajici_nastaveni_aplikace.qmd
     - 10-architektura-model-view.qmd
     - 11-widgety-vykreslenim.qmd
+    - 12-ukazkova-aplikace.qmd
     - summary.qmd
     - literatura.qmd
     - appendix.qmd
