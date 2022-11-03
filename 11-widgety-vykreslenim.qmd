@@ -1,0 +1,68 @@
+# Widgety s uživatelsky definovným vzhledem
+
+V kapitole [@sec-qwidget] jsme si ukázali, jak lze vytvářet nové prvky GUI (widgety) kombinací a propojením prvků již existujících. Mimo to [Qt]{.sw} umožňuje i vytvoření widgetů zcela nezávislých na již existujících prvcích. V takovém případě je nutné připravit pro tento widget vykreslovací metodu, která umožní vizualizaci widgetu po jeho přidání do GUI. Takováto tvorba prvků GUI je sice možná, ale může se stát poměrně komplikovanou, neboť v tomto případě je za veškeré modifikace vzhledu widgetu zodpovědný programátor. Korektní vyřešení všech nezbytných náležitostí může být poměrně náročné. Např. v pro případ poměrně jednoduchého tlačítka je nutné připravit jeho vykreslení v "normálním" a stistknutém stavu, neboť v GUI mezi těmito stavy obvykle rozlišujeme, aby měl uživatel představu, že s prvkem pracuje.
+
+Možnost vytvoření těchto widgetů budeme demonstrovat pouze velice zběžně, neboť tento typ widgetů je velice závislý na konkrétní implementaci a požadavcích na widget.
+
+Základem widgetů u nichž definujeme vzhled je funkce `paintEvent()`, která se spouští kdykoliv je potřeba daný prvek GUI vykreslit. Tuto funkci je nutné reimplementovat a přizpůsobit požadavkům. Postup pro vykreslování si ukážeme na jednoduché příkladu. Widget bude zobrazovat čtverec který vyplní 80% výšky a šířky widgetu a bude odsazený o 10% rozměru od jeho okraje, dále vykreslíme kružnici, která bude vycentrováná na střed widgetu a její poloměr bude 25% z menšího z rozměrů widgetu (výška či šířka). Kód pro tuto funkci může vypadat následovně:
+
+```{python}
+#| code-fold: true
+#| eval: false
+def paintEvent(self, e: QPaintEvent):
+
+    painter = QPainter(self)
+
+    painter.save()
+
+    brush = QBrush()
+    brush.setColor(QColor("#ff0000"))
+    brush.setStyle(Qt.BrushStyle.SolidPattern)
+
+    painter.fillRect(
+        QRect(int(self.width() * 0.1), int(self.height() * 0.1), int(self.width() * 0.8),
+                int(self.height() * 0.8)), brush)
+
+    painter.restore()
+
+    painter.save()
+
+    painter.setRenderHint(QPainter.Antialiasing)
+    painter.setRenderHint(QPainter.HighQualityAntialiasing)
+
+    brush = QBrush()
+    brush.setColor(QColor("#00ff00"))
+    brush.setStyle(Qt.BrushStyle.SolidPattern)
+
+    pen = QPen(QColor("#0000ff"), Qt.PenStyle.SolidLine)
+
+    painter.setBrush(brush)
+    painter.setPen(pen)
+
+    radius = min(self.width() / 4, self.height() / 4)
+
+    painter.drawEllipse(QPointF(self.width() / 2, self.height() / 2), radius, radius)
+
+    painter.restore()
+```
+
+Základem pro vykreslování je objekt {{< qt-class QPainter >}}, kterému do konstruktoru předáme daný objekt (QWidget) a pomocí něhož následně do tohoto widgetu vykreslujeme. S ohledem na to, že tento objekt má mnoho nastavení, které lze měnit, doporučuje při prováděných změnách těchto nastavení používat jeho metody `save()` a `restore()`, které uloží a následně opětovně načtou kompletní nastavení objektu. To umožňuje měnit nastavení pro jednotlivé vykreslované objekty, aniž by programátor musel řešit vracení těchto změn do výchozího stavu. V případě výše používáme tyto funkce okolo nastavení a vykreslení jak obdélníku, tak i kružnice.
+
+Při vykreslování do widgetu je třeba mít na paměti, že velikost prvku není obecně známa, odvíjí se od konkrétní aplikace a např. i nastavení layoutu do nějž je prvek vložen. Z tohoto důvodu je vhodné definovat při vykreslování umístění prvků relativně ve vztahu k widgetu jako celku. Je size možné definovat minimální či maximální velikost widgetu, ale to může později limitovat jeho využití.
+
+Třída {{< qt-class QPainter >}} vykresluje pomocí dvou hlavních objektů {{< qt-class QBrush >}} a {{< qt-class QPen >}}. {{< qt-class QBrush >}} se používá pro vykreslení plošných objektů či obecně výplní ploch, {{< qt-class QPen >}} pro vykreslení bodů a zejména linií. Vykreslujeme-li kružnici či obdelník, pak výplň obstarává {{< qt-class QBrush >}} a okraj {{< qt-class QPen >}}. Obě tyto třídy disponují značným množstvím nastavení, jimiž lze vizualizace značně upravovat. Ukázka ukaze pouze zcela základní nastavení.
+
+
+:::{.qgis}
+Možnosti vykreslování v [Qt]{.sw} nejlépe demonstruje fakt, že pomocí těchto nástrojů je řešeno vykreslování v QGIS, včetně samotného mapového okna.
+:::
+
+Kód pro tento widget je dostupný zde: {{< example-code custom_paint_widget.py >}}. 
+
+## Komplexnější příklad
+
+Jako ukázku komplexnějšího widgetu si vyrobíme widget, který bude vykreslovat semafor. Semafor může být v jednom ze tří stavů a podle toho bude zobrazovat příslušnou barvu (světlo) a zbylé dvě barvy budou utlumené (vypnuté). Při kliknutí na widget dojde ke změně barvy, pokud není objekt nastaven na `readOnly`, dle standardního chování semaforu. Při zastavení myši na objektu semaforu se zobrazí tooltip s aktuálně aktivní barvou.
+
+![QWidget Semafor](/figures/traffic_light.png){#fig-traffic_light width=75% fig-align="center"}
+
+Kód widgetu je poměrně komplexní, neboť je třeba řešit jak položky týkající se vykreslování ale i chování celého objektu. Nicméně se jedná o zajímavou demonstraci možností plně customizovaných widgetů. Výsledný kód widgetu je dostupný zde: {{< example-code traffic_light.py >}}. 

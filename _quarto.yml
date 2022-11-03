@@ -23,6 +23,7 @@ book:
     - 08-narocne-operace.qmd
     - 09-pretrvavajici_nastaveni_aplikace.qmd
     - 10-architektura-model-view.qmd
+    - 11-widgety-vykreslenim.qmd
     - summary.qmd
     - literatura.qmd
     - appendix.qmd
