@@ -15,7 +15,7 @@ settings_file = Path(__file__).parent / "app_settings.ini"
 settings = QSettings(settings_file.as_posix(), QSettings.Format.IniFormat)
 ```
 
-Druhou variantou je nastavení proměnných {{< qt-class QApplication >}} organizace, domény a názvu aplikace, a následně vytvoření `settings` bez udání dalších informací. V tomto případě Qt{.software} zvolí umístění souboru dle systému a několika dalších informací autonomně a formát nebude textový **.ini** soubor. Tato varianta je obecnější, ale náročnější, protože programátor nemá k přímo přístup k souboru a informacím v něm uloženým. 
+Druhou variantou je nastavení proměnných {{< qt-class QApplication >}} organizace, domény a názvu aplikace, a následně vytvoření `settings` bez udání dalších informací. V tomto případě [Qt]{.sw} zvolí umístění souboru dle systému a několika dalších informací autonomně a formát nebude textový **.ini** soubor. Tato varianta je obecnější, ale náročnější, protože programátor nemá k přímo přístup k souboru a informacím v něm uloženým. 
 
 ```{python}
 #| eval: false
@@ -45,7 +45,7 @@ settings.contains("mainwindow/value")
 settings.remove("mainwindow/value")
 ```
 
-Qt{.software} umožňuje do nastavení ukládat a následně načítat i některé komplexnější objekty, např. velikost (třída {{< qt-class QSize >}}) či umístění (třída {{< qt-class QPoint >}}), což značně usnadňuje mnoho operací. Např. je tak možné jednoduše ukládat do nastavení velikost a umístění oken na obrazovce.
+[Qt]{.sw} umožňuje do nastavení ukládat a následně načítat i některé komplexnější objekty, např. velikost (třída {{< qt-class QSize >}}) či umístění (třída {{< qt-class QPoint >}}), což značně usnadňuje mnoho operací. Např. je tak možné jednoduše ukládat do nastavení velikost a umístění oken na obrazovce.
 
 ## Praktická ukázka
 

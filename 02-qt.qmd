@@ -16,7 +16,7 @@ Mezi software používající knihovnu **Qt** se řadí např. Autodesk 3ds Max,
 
 ![PyQt Logo](./figures/Python_and_Qt.svg){#fig-Qt-logo width=20% fig-align="center"}
 
-Pro psaní samotné aplikace budeme používat [PyQt5]]{.sw} (pro verzi Qt 5.x), ačkoliv již existuje i [PyQt6]{.sw}, která zatím ale není příliš používána. Např. QGIS se připravuje v dohledné době na přechod z verze Qt 5.x na verzi 6.x. Přechod mezi verzemi by měl být v podstatě formalitou.
+Pro psaní samotné aplikace budeme používat [PyQt5]{.sw} (pro verzi Qt 5.x), ačkoliv již existuje i [PyQt6]{.sw}, která zatím ale není příliš používána. Např. QGIS se připravuje v dohledné době na přechod z verze Qt 5.x na verzi 6.x. Přechod mezi verzemi by měl být v podstatě formalitou.
 
 ## Dokumentace
 
