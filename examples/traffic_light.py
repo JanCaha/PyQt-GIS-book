@@ -96,14 +96,6 @@ class TrafficLight(QWidget):
         return self.color_based_on_status(self._color_green,
                                           self._light_status != LightStatus.GREEN)
 
-    # def checkedState(self) -> Qt.CheckState:
-    #     if self._light_status == LightStatus.GREEN:
-    #         return Qt.Checked
-    #     if self._light_status == LightStatus.RED:
-    #         return Qt.Unchecked
-    #     if self._light_status in [LightStatus.ORANGE1, LightStatus.ORANGE2]:
-    #         return Qt.PartiallyChecked
-
     def setReadOnly(self, readOnly: bool) -> None:
         self._read_only = readOnly
 
