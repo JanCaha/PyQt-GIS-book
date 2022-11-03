@@ -1,5 +1,3 @@
-# Model-View 
-
 # Funkce GDAL {.unnumbered}
 
 ```{#lst-customers .python lst-cap="Customers Query"}
