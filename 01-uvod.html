@@ -233,7 +233,17 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./summary.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Summary</span></a>
+  <a href="./11-widgety-vykreslenim.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Widgety s uživatelsky definovným vzhledem</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12-ukazkova-aplikace.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Ukázková komplexnější aplikace</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summary.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Summary</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -243,7 +253,7 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./appendix.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Model-View</span></a>
+  <a href="./appendix.html" class="sidebar-item-text sidebar-link">Funkce GDAL</a>
   </div>
 </li>
     </ul>
@@ -278,7 +288,7 @@ div.csl-indent {
 
 </header>
 
-<p>V této knize se zaměříme na základy tvorby aplikací s uživatelským rozhraním v programovacím jazyku <span class="sw"><a href="https://www.python.org/">Python</a></span> s využitím knihovny <span class="sw"><a href="https://riverbankcomputing.com/software/pyqt/">PyQt</a></span>. Hlavním důvod pro tuto kombinaci je fakt, že <span class="sw">Python</span> se řadí mezi nejrozšířenější a nejsnaději použitelné jazyky s širokým spektrem knihoven a frameworků, které usnadňují práci. Z hlediska geoinformatiky je Python zajímavý proto, že většina knihoven a softwarů pro zpracování prostorových dat poskytuje pro tento jazyk API (např. <span class="sw"><a href="https://gdal.org/">GDAL</a></span>, <span class="sw"><a href="https://proj.org/">PROJ</a></span>, <span class="sw"><a href="https://libgeos.org/">GEOS</a></span> a další), většina GIS softwarů pak umožňuje pomocí Pythonu vytvářet extenze či skripty (např. <span class="sw"><a href="https://grass.osgeo.org/">GRASS</a></span>, <span class="sw"><a href="https://www.qgis.org/en/site/">QGIS</a></span> a další). <span class="sw">PyQt</span> je jedna z knihoven, skrze kterou lze v Pythonu tvořit aplikace s uživatelským rozhraním. Alternativami jsou např. <span class="sw"><a href="https://wiki.python.org/moin/TkInter">Tkinter</a></span>, <span class="sw"><a href="https://kivy.org">Kivy</a></span>, <span class="sw"><a href="https://www.wxpython.org/">wxPython</a></span> a další <span class="citation" data-cites="Costa2020">(<a href="literatura.html#ref-Costa2020" role="doc-biblioref">Costa 2020</a>)</span>. Důvodem pro volbu [PyQt]]{.sw} jsou jednak široké možnosti, které knihovna poskytuje (přes 440 tříd a cca 6000 funkcí), a také fakt, že kromě API (Application Programming Interface) pro samotné GUI (Graphical User Interface) poskytuje i doplňkovou funkcinalitu pro management běhu a funkčnosti aplikace. Tato knihovna je pro geoinformatiky zajímavá, protože <span class="sw">QGIS</span> je vytvořen s použitím knihovny <span class="sw">Qt</span>, a v případě tvorby pluginů programátor pracuje právě s <span class="sw">PyQT</span>.</p>
+<p>V této knize se zaměříme na základy tvorby aplikací s uživatelským rozhraním v programovacím jazyku <span class="sw"><a href="https://www.python.org/">Python</a></span> s využitím knihovny <span class="sw"><a href="https://riverbankcomputing.com/software/pyqt/">PyQt</a></span>. Hlavním důvod pro tuto kombinaci je fakt, že <span class="sw">Python</span> se řadí mezi nejrozšířenější a nejsnaději použitelné jazyky s širokým spektrem knihoven a frameworků, které usnadňují práci. Z hlediska geoinformatiky je Python zajímavý proto, že většina knihoven a softwarů pro zpracování prostorových dat poskytuje pro tento jazyk API (např. <span class="sw"><a href="https://gdal.org/">GDAL</a></span>, <span class="sw"><a href="https://proj.org/">PROJ</a></span>, <span class="sw"><a href="https://libgeos.org/">GEOS</a></span> a další), většina GIS softwarů pak umožňuje pomocí Pythonu vytvářet extenze či skripty (např. <span class="sw"><a href="https://grass.osgeo.org/">GRASS</a></span>, <span class="sw"><a href="https://www.qgis.org/en/site/">QGIS</a></span> a další). <span class="sw">PyQt</span> je jedna z knihoven, skrze kterou lze v Pythonu tvořit aplikace s uživatelským rozhraním. Alternativami jsou např. <span class="sw"><a href="https://wiki.python.org/moin/TkInter">Tkinter</a></span>, <span class="sw"><a href="https://kivy.org">Kivy</a></span>, <span class="sw"><a href="https://www.wxpython.org/">wxPython</a></span> a další <span class="citation" data-cites="Costa2020">(<a href="literatura.html#ref-Costa2020" role="doc-biblioref">Costa 2020</a>)</span>. Důvodem pro volbu <span class="sw">PyQt</span> jsou jednak široké možnosti, které knihovna poskytuje (přes 440 tříd a cca 6000 funkcí), a také fakt, že kromě API (Application Programming Interface) pro samotné GUI (Graphical User Interface) poskytuje i doplňkovou funkcinalitu pro management běhu a funkčnosti aplikace. Tato knihovna je pro geoinformatiky zajímavá, protože <span class="sw">QGIS</span> je vytvořen s použitím knihovny <span class="sw">Qt</span>, a v případě tvorby pluginů programátor pracuje právě s <span class="sw">PyQT</span>.</p>
 <p>Kombinace <span class="sw">Pythonu</span>, <span class="sw">PyQt</span> a geoinformatických knihoven tak poskytuje pro geoinformatiky ideální sadu nástrojů pro tvorbu jak jednoduchých, tak i komplexnějších desktopových aplikací s uživatelským rozhraním.</p>
 <section id="předpoklady" class="level2" data-number="1.1">
 <h2 data-number="1.1" class="anchored" data-anchor-id="předpoklady"><span class="header-section-number">1.1</span> Předpoklady</h2>

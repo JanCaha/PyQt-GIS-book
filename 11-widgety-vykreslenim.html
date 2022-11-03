@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Tvorba GUI aplikací pro geoinformatiku - 3&nbsp; Aplikace s GUI</title>
+<title>Tvorba GUI aplikací pro geoinformatiku - 11&nbsp; Widgety s uživatelsky definovným vzhledem</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -93,8 +93,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<link href="./04-prvky-gui.html" rel="next">
-<link href="./02-qt.html" rel="prev">
+<link href="./12-ukazkova-aplikace.html" rel="next">
+<link href="./10-architektura-model-view.html" rel="prev">
 <script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
@@ -133,7 +133,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Aplikace s GUI</span></h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Widgety s uživatelsky definovným vzhledem</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -173,7 +173,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./03-aplikace-s-gui.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Aplikace s GUI</span></a>
+  <a href="./03-aplikace-s-gui.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Aplikace s GUI</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -213,7 +213,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./11-widgety-vykreslenim.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Widgety s uživatelsky definovným vzhledem</span></a>
+  <a href="./11-widgety-vykreslenim.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Widgety s uživatelsky definovným vzhledem</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -245,7 +245,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <h2 id="toc-title">Obsah</h2>
    
   <ul>
-  <li><a href="#aplikace-bez-gui" id="toc-aplikace-bez-gui" class="nav-link active" data-scroll-target="#aplikace-bez-gui"><span class="toc-section-number">3.1</span>  Aplikace bez GUI</a></li>
+  <li><a href="#komplexnější-příklad" id="toc-komplexnější-příklad" class="nav-link active" data-scroll-target="#komplexnější-příklad"><span class="toc-section-number">11.1</span>  Komplexnější příklad</a></li>
   </ul>
 </nav>
     </div>
@@ -254,7 +254,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Aplikace s GUI</span></h1>
+<h1 class="title d-none d-lg-block"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Widgety s uživatelsky definovným vzhledem</span></h1>
 </div>
 
 
@@ -268,51 +268,52 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<p>Zásadní odlišností aplikací s uživatelským rozhraním a menšími skripty, či aplikacemi pro příkazovou řádku, spočívá ve faktu, že zatímco tyto jednodušší aplikace mají jasně určený počátek a konec a kód mezi nimi je prováděn lineárně, v GUI aplikacích se kód vykonává na základě interakce uživatele s programem. To vyžaduje principiálně jiný přístup ke kódu, jednak z hlediska managentu kódu, ale i mentálně. Běh programu není v tomto případě řízen pouze strukturou kódu, ale navíc i akcemi, které se uživatel provede v GUI.</p>
-<p>GUI aplikace po spuštění inicializují nekonečnou smyčku, která čeká na vstupy (v podobě interakce s GUI) od uživatele, na něž následně reaguje, obvykle spouštěním dílčích částí kódu aplikace. Tato nekonečná smyčka končí až uzavřením aplikace. Už pouze tato funkcinalita je na vytvoření netriviální, naštěstí <span class="sw">PyQt</span> tento process zjednodušuje na naprosté minimum. V modulu <code>PyQt5.QtWidgets</code> existuje třída <a href="https://doc.qt.io/qt-5/qapplication.html" class="documentation" title="QApplication"><code>QApplication</code></a>, která se postará o vytvoření aplikace a management akcí v této aplikaci, aniž by bylo nutné ze strany programátora do tohoto procesu výrazněji zasahovat.</p>
-<p>V pythonu vytvoříme aplikaci jednoduše:</p>
-<div id="code-minimal_app" class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> PyQt5.QtWidgets <span class="im">import</span> QApplication</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>app <span class="op">=</span> QApplication(sys.argv)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>sys.exit(app.<span class="bu">exec</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>V kapitole <a href="07-qwidget-kontejner.html"><span>Kap.&nbsp;7</span></a> jsme si ukázali, jak lze vytvářet nové prvky GUI (widgety) kombinací a propojením prvků již existujících. Mimo to <span class="sw">Qt</span> umožňuje i vytvoření widgetů zcela nezávislých na již existujících prvcích. V takovém případě je nutné připravit pro tento widget vykreslovací metodu, která umožní vizualizaci widgetu po jeho přidání do GUI. Takováto tvorba prvků GUI je sice možná, ale může se stát poměrně komplikovanou, neboť v tomto případě je za veškeré modifikace vzhledu widgetu zodpovědný programátor. Korektní vyřešení všech nezbytných náležitostí může být poměrně náročné. Např. v pro případ poměrně jednoduchého tlačítka je nutné připravit jeho vykreslení v “normálním” a stistknutém stavu, neboť v GUI mezi těmito stavy obvykle rozlišujeme, aby měl uživatel představu, že s prvkem pracuje.</p>
+<p>Možnost vytvoření těchto widgetů budeme demonstrovat pouze velice zběžně, neboť tento typ widgetů je velice závislý na konkrétní implementaci a požadavcích na widget.</p>
+<p>Základem widgetů u nichž definujeme vzhled je funkce <code>paintEvent()</code>, která se spouští kdykoliv je potřeba daný prvek GUI vykreslit. Tuto funkci je nutné reimplementovat a přizpůsobit požadavkům. Postup pro vykreslování si ukážeme na jednoduché příkladu. Widget bude zobrazovat čtverec který vyplní 80% výšky a šířky widgetu a bude odsazený o 10% rozměru od jeho okraje, dále vykreslíme kružnici, která bude vycentrováná na střed widgetu a její poloměr bude 25% z menšího z rozměrů widgetu (výška či šířka). Kód pro tuto funkci může vypadat následovně:</p>
+<div class="cell" data-execution_count="1">
+<details>
+<summary>Zdrojový kód</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> paintEvent(<span class="va">self</span>, e: QPaintEvent):</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    painter <span class="op">=</span> QPainter(<span class="va">self</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    painter.save()</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    brush <span class="op">=</span> QBrush()</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    brush.setColor(QColor(<span class="st">"#ff0000"</span>))</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    brush.setStyle(Qt.BrushStyle.SolidPattern)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    painter.fillRect(</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>        QRect(<span class="bu">int</span>(<span class="va">self</span>.width() <span class="op">*</span> <span class="fl">0.1</span>), <span class="bu">int</span>(<span class="va">self</span>.height() <span class="op">*</span> <span class="fl">0.1</span>), <span class="bu">int</span>(<span class="va">self</span>.width() <span class="op">*</span> <span class="fl">0.8</span>),</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>                <span class="bu">int</span>(<span class="va">self</span>.height() <span class="op">*</span> <span class="fl">0.8</span>)), brush)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    painter.restore()</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    painter.save()</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    painter.setRenderHint(QPainter.Antialiasing)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    painter.setRenderHint(QPainter.HighQualityAntialiasing)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    brush <span class="op">=</span> QBrush()</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    brush.setColor(QColor(<span class="st">"#00ff00"</span>))</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    brush.setStyle(Qt.BrushStyle.SolidPattern)</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    pen <span class="op">=</span> QPen(QColor(<span class="st">"#0000ff"</span>), Qt.PenStyle.SolidLine)</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    painter.setBrush(brush)</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    painter.setPen(pen)</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>    radius <span class="op">=</span> <span class="bu">min</span>(<span class="va">self</span>.width() <span class="op">/</span> <span class="dv">4</span>, <span class="va">self</span>.height() <span class="op">/</span> <span class="dv">4</span>)</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>    painter.drawEllipse(QPointF(<span class="va">self</span>.width() <span class="op">/</span> <span class="dv">2</span>, <span class="va">self</span>.height() <span class="op">/</span> <span class="dv">2</span>), radius, radius)</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>    painter.restore()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 </div>
-<p>V tomto bloku kódu je vhodné vysvětlit několik konstrukcí. <code>sys.argv</code> jsou argumenty příkazové řádky, ve formě seznamu s textovými hodnotami, s nimiž byl tento python spuštěný. Pokud aplikace nemusí podporovat argumenty příkazové řádky, lze zde předat i prázdný seznam <code>[]</code>. Samotná aplikace se spustí příkazem <code>app.exec()</code>.</p>
-<div class="callout-warning callout callout-style-default callout-captioned">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-caption-container flex-fill">
-Warning
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>Ve starších verzích pythonu se používala i verze <code>app.exec_()</code>, neboť příkaz <code>exec()</code> byl vyhrazené klíčové slovo. Od verze Pythonu 3.x už toto není problém a lze používat obě verze volání zaměnitelně.</p>
-</div>
-</div>
-<p>Tímto voláním se spustí samotná aplikace a její nekončná smyčka, pro interakci s uživatelem. Takto vytvořená aplikace poběží do nekonečna a není ani jak zjevně ukončit, neboť jsme jí nepřiřadili žádné GUI. Konstrukce <code>sys.exit()</code> ukončí Python v momentě kdy se ukončí příkaz uvnitř závorek. V tomto případě se Python ukončí jakmile se ukončí aplikace.</p>
-<p>Chceme-li vytvořené aplikaci přidat nějaké GUI vytvoříme tzv. hlavní okno (<a href="https://doc.qt.io/qt-5/qmainwindow.html" class="documentation" title="QMainWindow"><code>QMainWindow</code></a>). Každá aplikace by ideálně měla mít takovéto hlavní okno s nímž uživatel pracuje. Existence hlavního okna není nezbytnou podmínkou, aplikace může fungovat i bez něj, pouze s dílčími okny, ale z uživatelského hlediska je rozumnější, pokud toho hlavní okno existuje.</p>
-<div id="code-minimal_gui_app" class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> PyQt5.QtWidgets <span class="im">import</span> QApplication, QMainWindow</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>app <span class="op">=</span> QApplication(sys.argv)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>mw <span class="op">=</span> QMainWindow()</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>mw.setWindowTitle(<span class="st">"První Aplikace"</span>)</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>mw.show()</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>sys.exit(app.<span class="bu">exec</span>())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div id="fig-app_1" class="quarto-figure quarto-figure-center anchored">
-<figure class="figure">
-<p><img src="./figures/minimal_app.png" class="img-fluid figure-img"></p>
-<p></p><figcaption class="figure-caption">Obr.&nbsp;3.1: Hlavní okno aplikace</figcaption><p></p>
-</figure>
-</div>
-<p>Při spuštění tohoto kódu se již aplikace zobrazí, byť s prázdným oknem (<a href="#fig-app_1">Obr.&nbsp;<span>3.1</span></a>), a lze i ji korektně ukončit kliknutím na ikonu křížku (či jiného prvku, dle nastavení systému). Aplikace je otevřená v poměrně malém okně, což je výchozí stav, protože neobsahuje žádné GUI elementy. <span class="sw">PyQT</span> řeší základní funkčnost aplikace, tzv. minimalizaci, maximalizaci GUI a ukončení aplikace. Díky tomu těmto položkám nemusí věnovat pozornost programátor. Mimo to v aplikaci běží již zmíněná smyčka, čekající na interakci s uživatelem. Díky ní bude, jakmile do aplikace přidáme ovládací prvky, možné s aplikací interagovat.</p>
-<p>Ukázkový kód pro tuto aplikaci je dostupný jako příklad: <a href="https://github.com/JanCaha/PyQt-GIS-book/tree/main/examples/empty_application.py" class="example" title="empty_application.py">empty_application.py</a>.</p>
-<p>Aplikace přejímají nativně vzhled ze systému, aby se co nejlépe integrovaly do stávajícího vizuálního stylu operačního systému. Toto chování lze změnit. Pro potřeby těchto skript budeme předpokládat, že je žádoucí, aby aplikace používaly systémový vzhled.</p>
+<p>Základem pro vykreslování je objekt <a href="https://doc.qt.io/qt-5/qpainter.html" class="documentation" title="QPainter"><code>QPainter</code></a>, kterému do konstruktoru předáme daný objekt (QWidget) a pomocí něhož následně do tohoto widgetu vykreslujeme. S ohledem na to, že tento objekt má mnoho nastavení, které lze měnit, doporučuje při prováděných změnách těchto nastavení používat jeho metody <code>save()</code> a <code>restore()</code>, které uloží a následně opětovně načtou kompletní nastavení objektu. To umožňuje měnit nastavení pro jednotlivé vykreslované objekty, aniž by programátor musel řešit vracení těchto změn do výchozího stavu. V případě výše používáme tyto funkce okolo nastavení a vykreslení jak obdélníku, tak i kružnice.</p>
+<p>Při vykreslování do widgetu je třeba mít na paměti, že velikost prvku není obecně známa, odvíjí se od konkrétní aplikace a např. i nastavení layoutu do nějž je prvek vložen. Z tohoto důvodu je vhodné definovat při vykreslování umístění prvků relativně ve vztahu k widgetu jako celku. Je size možné definovat minimální či maximální velikost widgetu, ale to může později limitovat jeho využití.</p>
+<p>Třída <a href="https://doc.qt.io/qt-5/qpainter.html" class="documentation" title="QPainter"><code>QPainter</code></a> vykresluje pomocí dvou hlavních objektů <a href="https://doc.qt.io/qt-5/qbrush.html" class="documentation" title="QBrush"><code>QBrush</code></a> a <a href="https://doc.qt.io/qt-5/qpen.html" class="documentation" title="QPen"><code>QPen</code></a>. <a href="https://doc.qt.io/qt-5/qbrush.html" class="documentation" title="QBrush"><code>QBrush</code></a> se používá pro vykreslení plošných objektů či obecně výplní ploch, <a href="https://doc.qt.io/qt-5/qpen.html" class="documentation" title="QPen"><code>QPen</code></a> pro vykreslení bodů a zejména linií. Vykreslujeme-li kružnici či obdelník, pak výplň obstarává <a href="https://doc.qt.io/qt-5/qbrush.html" class="documentation" title="QBrush"><code>QBrush</code></a> a okraj <a href="https://doc.qt.io/qt-5/qpen.html" class="documentation" title="QPen"><code>QPen</code></a>. Obě tyto třídy disponují značným množstvím nastavení, jimiž lze vizualizace značně upravovat. Ukázka ukaze pouze zcela základní nastavení.</p>
 <div>
 <div class="callout-qgis callout callout-style-default callout-captioned">
   <div class="callout-header d-flex align-content-center">
@@ -325,14 +326,22 @@ Warning
   </div>
   <div class="callout-body-container callout-body">
   <p>
-</p><p>V QGIS lze mezi různými styly vzhledu přepínat v menu <span class="settings">Nastavení</span> -&gt; <span class="settings">Nastavení</span>, záložka <span class="settings">Obecné</span>, položka <span class="settings">Styl</span>. Výchozí nastavení se určí při prvním spuštění QGIS dle platformy.</p>
+</p><p>Možnosti vykreslování v <span class="sw">Qt</span> nejlépe demonstruje fakt, že pomocí těchto nástrojů je řešeno vykreslování v QGIS, včetně samotného mapového okna.</p>
 <p></p>
       </div>
       </div>
 </div>
-<section id="aplikace-bez-gui" class="level2" data-number="3.1">
-<h2 data-number="3.1" class="anchored" data-anchor-id="aplikace-bez-gui"><span class="header-section-number">3.1</span> Aplikace bez GUI</h2>
-<p><span class="sw">Qt</span> řeší i problematiku aplikací, které nemají GUI, ale přesto vyžadují běhovou smyčku, která reaguje na vnější vstupy. Typicky se jedná o aplikace, které čekají na zprávu, kterou obvykle obdrží po síti. Na základě této zprávy, spustí aplikace odpovídající řetězec akcí. Stejně tak může aplikace v pravidelném intervalu kontrolovat data a v případě jejich změny provést nějakou akci. Tento typ aplikací nemusí řešit interakce s GUI, je tedy funkčně značně jednodušší. V modulu <code>PyQt5.QtCore</code> je pro tyto situace třída <a href="https://doc.qt.io/qt-5/qcoreapplication.html" class="documentation" title="QCoreApplication"><code>QCoreApplication</code></a>, která je určena pro tvorbu aplikací bez uživatelského rozhraní.</p>
+<p>Kód pro tento widget je dostupný zde: <a href="https://github.com/JanCaha/PyQt-GIS-book/tree/main/examples/custom_paint_widget.py" class="example" title="custom_paint_widget.py">custom_paint_widget.py</a>.</p>
+<section id="komplexnější-příklad" class="level2" data-number="11.1">
+<h2 data-number="11.1" class="anchored" data-anchor-id="komplexnější-příklad"><span class="header-section-number">11.1</span> Komplexnější příklad</h2>
+<p>Jako ukázku komplexnějšího widgetu si vyrobíme widget, který bude vykreslovat semafor. Semafor může být v jednom ze tří stavů a podle toho bude zobrazovat příslušnou barvu (světlo) a zbylé dvě barvy budou utlumené (vypnuté). Při kliknutí na widget dojde ke změně barvy, pokud není objekt nastaven na <code>readOnly</code>, dle standardního chování semaforu. Při zastavení myši na objektu semaforu se zobrazí tooltip s aktuálně aktivní barvou.</p>
+<div id="fig-traffic_light" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="./figures/traffic_light.png" class="img-fluid figure-img" style="width:75.0%"></p>
+<p></p><figcaption class="figure-caption">Obr.&nbsp;11.1: QWidget Semafor</figcaption><p></p>
+</figure>
+</div>
+<p>Kód widgetu je poměrně komplexní, neboť je třeba řešit jak položky týkající se vykreslování ale i chování celého objektu. Nicméně se jedná o zajímavou demonstraci možností plně customizovaných widgetů. Výsledný kód widgetu je dostupný zde: <a href="https://github.com/JanCaha/PyQt-GIS-book/tree/main/examples/traffic_light.py" class="example" title="traffic_light.py">traffic_light.py</a>.</p>
 
 
 </section>
@@ -438,13 +447,13 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="./02-qt.html" class="pagination-link">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Knihovna <strong>Qt</strong> a její Python binding <strong>PyQt</strong></span></span>
+      <a href="./10-architektura-model-view.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Qt Architektura Model View</span></span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./04-prvky-gui.html" class="pagination-link">
-        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Prvky GUI</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./12-ukazkova-aplikace.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Ukázková komplexnější aplikace</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

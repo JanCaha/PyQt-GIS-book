@@ -170,7 +170,17 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./summary.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Summary</span></a>
+  <a href="./11-widgety-vykreslenim.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Widgety s uživatelsky definovným vzhledem</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12-ukazkova-aplikace.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Ukázková komplexnější aplikace</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summary.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Summary</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -180,7 +190,7 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./appendix.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Model-View</span></a>
+  <a href="./appendix.html" class="sidebar-item-text sidebar-link">Funkce GDAL</a>
   </div>
 </li>
     </ul>
@@ -292,7 +302,7 @@ Modifikace prvků GUI
 </section>
 <section id="samostatná-okna" class="level2" data-number="4.3">
 <h2 data-number="4.3" class="anchored" data-anchor-id="samostatná-okna"><span class="header-section-number">4.3</span> Samostatná okna</h2>
-<p>Aplikace mohou vytvářet další doplňková okna, která napomáhají uživateli interagovat s programem. Jedná se obvykle o prvky odvozené od třídy <a href="https://doc.qt.io/qt-5/qdialog.html" class="documentation" title="QDialog"><code>QDialog</code></a>, byť je možné i použití jiné třídy, či přímo <a href="https://doc.qt.io/qt-5/qwidget.html" class="documentation" title="QWidget"><code>QWidget</code></a>. Tato třída poskytuje základní funkcionalitu pro tvorbu doplňkových oken. Doplňková okna lze rozdělit na dva typy: okna, která blokují hlavní aplikaci a musí být ukončena, pro návrat do hlavní okna (v terminologii Qt{.software} <strong>modeless dialogs</strong>), a okna, která existují samostatně a mohou být otevřena současně s dalšími okny (v terminologii Qt{.software} <strong>modal dialogs</strong>). Rozdíl mezi těmito okny je v tom, jakou funkcí se spouští, zatímco okna typu <strong>modeless</strong> se spouští funkcí <code>exec()</code>, která převezme hlavní běhovou smyčku programu a je nutné toto okno zavřít, aby byla předána zpět rodičovskému oknu, okna typue <strong>modal</strong> se pouze zobrazují funkcí <code>show()</code>, což umožní jejich souběh s dalšími okny.</p>
+<p>Aplikace mohou vytvářet další doplňková okna, která napomáhají uživateli interagovat s programem. Jedná se obvykle o prvky odvozené od třídy <a href="https://doc.qt.io/qt-5/qdialog.html" class="documentation" title="QDialog"><code>QDialog</code></a>, byť je možné i použití jiné třídy, či přímo <a href="https://doc.qt.io/qt-5/qwidget.html" class="documentation" title="QWidget"><code>QWidget</code></a>. Tato třída poskytuje základní funkcionalitu pro tvorbu doplňkových oken. Doplňková okna lze rozdělit na dva typy: okna, která blokují hlavní aplikaci a musí být ukončena, pro návrat do hlavní okna (v terminologii <span class="sw">Qt</span> <em>modeless dialogs</em>), a okna, která existují samostatně a mohou být otevřena současně s dalšími okny (v terminologii <span class="sw">Qt</span> <em>modal dialogs</em>). Rozdíl mezi těmito okny je v tom, jakou funkcí se spouští, zatímco okna typu <em>modeless</em> se spouští funkcí <code>exec()</code>, která převezme hlavní běhovou smyčku programu a je nutné toto okno zavřít, aby byla předána zpět rodičovskému oknu, okna typu <em>modal</em> se pouze zobrazují funkcí <code>show()</code>, což umožní jejich souběh s dalšími okny.</p>
 <div>
 <div class="callout-qgis callout callout-style-default callout-captioned">
   <div class="callout-header d-flex align-content-center">

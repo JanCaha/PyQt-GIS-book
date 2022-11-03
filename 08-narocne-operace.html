@@ -233,7 +233,17 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./summary.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Summary</span></a>
+  <a href="./11-widgety-vykreslenim.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Widgety s uživatelsky definovným vzhledem</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./12-ukazkova-aplikace.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Ukázková komplexnější aplikace</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./summary.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Summary</span></a>
   </div>
 </li>
         <li class="sidebar-item">
@@ -243,7 +253,7 @@ div.csl-indent {
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./appendix.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Model-View</span></a>
+  <a href="./appendix.html" class="sidebar-item-text sidebar-link">Funkce GDAL</a>
   </div>
 </li>
     </ul>
@@ -301,7 +311,7 @@ div.csl-indent {
 <section id="spouštení-procesu-bez-blokace-gui" class="level2" data-number="8.1">
 <h2 data-number="8.1" class="anchored" data-anchor-id="spouštení-procesu-bez-blokace-gui"><span class="header-section-number">8.1</span> Spouštení procesu bez blokace GUI</h2>
 <p>Základním krokem je vytvoření objektu, který odvodíme z třídy <a href="https://doc.qt.io/qt-5/qrunnable.html" class="documentation" title="QRunnable"><code>QRunnable</code></a>. Tato třída vytváří objekty, obsahující komplexní úlohy, které je možné snadno spouštět. Klíčovou roli hraje funkce <code>run</code> třídy <a href="https://doc.qt.io/qt-5/qrunnable.html" class="documentation" title="QRunnable"><code>QRunnable</code></a>, která se spouští a měla by obsahovat dlouho běžící úlohu.</p>
-<p>V příkladu pod odstavcem vytvoříme třídu <code>Worker</code>, pro kterou vytvoříme konstruktor, abychom demonstrovali, jak je možné do úlohy předat data. Mimo to v této třídě vytvoříme tři signály, s ohledem na omezení kombinace <span class="software">Pythonu</span> a [PyQt]]{.software} nelze signály vytvořit přímo na objektu <a href="https://doc.qt.io/qt-5/qrunnable.html" class="documentation" title="QRunnable"><code>QRunnable</code></a>. Je nutné pro signály vytvořit vlastní třídu a tu následně použít jako proměnnou ve třídě odvozené od <a href="https://doc.qt.io/qt-5/qrunnable.html" class="documentation" title="QRunnable"><code>QRunnable</code></a> <span class="citation" data-cites="Fitzpatrick2021">(<a href="literatura.html#ref-Fitzpatrick2021" role="doc-biblioref">Fitzpatrick 2021</a>)</span>. Jeden informuje o ukončení této úlohy, druhý předává výslednou hodnotu a třetí slouží pro informování kolik procent úlohy už je zpracováno a název <code>Worker</code>, který běží. V tomto případě používáme jako vstup i výstup jednoduché texty, ale lze takto předávat i komplexnější data či celé objekty. <code>Worker</code> v ukázkovém příkladu nic specifického nevykonává, pouze 10 krát jednu sekundu vyčkává, abychom demonstrovali dlouho běžící process.</p>
+<p>V příkladu pod odstavcem vytvoříme třídu <code>Worker</code>, pro kterou vytvoříme konstruktor, abychom demonstrovali, jak je možné do úlohy předat data. Mimo to v této třídě vytvoříme tři signály, s ohledem na omezení kombinace <span class="software">Pythonu</span> a <span class="sw">PyQt</span> nelze signály vytvořit přímo na objektu <a href="https://doc.qt.io/qt-5/qrunnable.html" class="documentation" title="QRunnable"><code>QRunnable</code></a>. Je nutné pro signály vytvořit vlastní třídu a tu následně použít jako proměnnou ve třídě odvozené od <a href="https://doc.qt.io/qt-5/qrunnable.html" class="documentation" title="QRunnable"><code>QRunnable</code></a> <span class="citation" data-cites="Fitzpatrick2021">(<a href="literatura.html#ref-Fitzpatrick2021" role="doc-biblioref">Fitzpatrick 2021</a>)</span>. Jeden informuje o ukončení této úlohy, druhý předává výslednou hodnotu a třetí slouží pro informování kolik procent úlohy už je zpracováno a název <code>Worker</code>, který běží. V tomto případě používáme jako vstup i výstup jednoduché texty, ale lze takto předávat i komplexnější data či celé objekty. <code>Worker</code> v ukázkovém příkladu nic specifického nevykonává, pouze 10 krát jednu sekundu vyčkává, abychom demonstrovali dlouho běžící process.</p>
 <div class="cell" data-execution_count="1">
 <details>
 <summary>Zdrojový kód</summary>
