@@ -40,7 +40,7 @@ class CopyLayerDialog(QDialog):
         self.button_box.rejected.connect(self.reject)
         self.button_box.button(QDialogButtonBox.Ok).setDisabled(True)
 
-        layout.addRow("Název nove vrstvy:", self.new_layer_name)
+        layout.addRow("Název nové vrstvy:", self.new_layer_name)
         layout.addRow("SQL dotaz:", self.sql_query)
         layout.addRow("Typ SQL:", self.sql_type)
         layout.addRow("Chyba SQL:", self.sql_error)

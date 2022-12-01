@@ -61,7 +61,7 @@ class MainWidget(QWidget):
 
         layout.addRow("Zvolte soubor:", self.file_select)
         layout.addRow("Identifikovaný GDAL/OGR driver:", self.driver_name)
-        layout.addRow("Počet prvků v datové sadě:", self.elements_count)
+        layout.addRow("Počet vrstev v datové sadě:", self.elements_count)
 
         return self.widget_datasource
 
