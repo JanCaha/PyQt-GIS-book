@@ -1,4 +1,4 @@
-# Summary
+# Souhrnné informace
 
 Tato kniha byla sestavena s použitím následujících verzí knihoven.
 
