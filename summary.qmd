@@ -1,6 +1,6 @@
 # Summary
 
-In summary, this book has no content whatsoever.
+Tato kniha byla sestavena s použitím následujících verzí knihoven.
 
 ```{python}
 from platform import python_version
