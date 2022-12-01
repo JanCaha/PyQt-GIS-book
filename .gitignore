@@ -2,3 +2,4 @@
 *.bib.bak
 /.quarto/
 _book/
+/.luarc.json
