@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.1.251">
+<meta name="generator" content="quarto-1.2.269">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -168,11 +168,6 @@ ul.task-list li input[type="checkbox"] {
   <a href="./literatura.html" class="sidebar-item-text sidebar-link">Literatura</a>
   </div>
 </li>
-        <li class="sidebar-item">
-  <div class="sidebar-item-container"> 
-  <a href="./appendix.html" class="sidebar-item-text sidebar-link">Funkce GDAL</a>
-  </div>
-</li>
     </ul>
     </div>
 </nav>
@@ -193,13 +188,37 @@ ul.task-list li input[type="checkbox"] {
 <div class="quarto-title-meta">
 
     
+  
     
   </div>
   
 
 </header>
 
-<p><a href="https://github.com/JanCaha/PyQt-GIS-book/tree/main/examples/application" class="example" title="application">application</a></p>
+<p>Všechny dosud demonstrované složky aplikací s GUI použijeme na finální ukázce. Jedná se o aplikaci, která načte zvolený soubor, pakliže se jedná o vektorová data, která <span class="sw">OGR</span> identifikuje, zobrazí informace o driveru souboru a počtu vrstev. Mimo to aplikace umí v separátní záložce hlavního okna zobrazit informace o jednotlivých vrstvách v souboru (souřadnicový systém, atributy a jejich typ a počet prvků). Aplikace také umožňuje provádět tři operace: vytvořit kopii vrstvy pomocí <span class="sw">GDAL SQL</span> dotazu, smazat vybrané vrstvy a exportovat vybranou vrstvu do souboru.</p>
+<p>Aplikace je postavená na standardním <a href="https://doc.qt.io/qt-5/qmainwindow.html" class="documentation" title="QMainWindow"><code>QMainWindow</code></a> a využívá jak menu, hlavní widget, tak i stavový řádek. V oblasti hlavního widgetu používá aplikace <a href="https://doc.qt.io/qt-5/qtabwidget.html" class="documentation" title="QTabWidget"><code>QTabWidget</code></a>, který umožňuje zobrazení několik dílčích oken pomocí tzv. záložek. Základní záložka umožňuje volbu souboru a zobrazuje základní informace o něm (viz <a href="#fig-app-complex-1">Obr.&nbsp;<span>12.1</span></a>).</p>
+<div id="fig-app-complex-1" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="./figures/app_complex_1.png" class="img-fluid figure-img" style="width:75.0%"></p>
+<p></p><figcaption class="figure-caption">Obr.&nbsp;12.1: Základní okno aplikace</figcaption><p></p>
+</figure>
+</div>
+<p>Druhým oknem, které existuje jakou součást hlavního widgetu je okno s informace o vrstvě. Zde se po výběru vrstvy zobrazení základní informace o této vrstvě (viz <a href="#fig-app-complex-2">Obr.&nbsp;<span>12.2</span></a>).</p>
+<div id="fig-app-complex-2" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="./figures/app_complex_2.png" class="img-fluid figure-img" style="width:75.0%"></p>
+<p></p><figcaption class="figure-caption">Obr.&nbsp;12.2: Widget s informace o vrstvě</figcaption><p></p>
+</figure>
+</div>
+<p>Mimo tyto dvě okna lze z menu <span class="settings">Operace</span> vybrat některou ze tří výše popsaných operací. Každá z těchto operací otevře vlastní dialogové okno, které se zobrazuje nad hlavní aplikací. Příkladem operace může být např. kopírování vrstvy pomocí <span class="sw">SQL</span> dotazu (viz <a href="#fig-app-complex-3">Obr.&nbsp;<span>12.3</span></a>). Tato operace má nejkomplexnější uživatelské rozhraní. Uživatel musí specifikovat název nové vrstvy a <span class="sw">SQL</span> dotaz, jehož výsledkem je nová vrstva. Mimo to lze specifikovat, zda-li se má použít základní verze SQL dostupná s <span class="sw">OGR</span> a nebo použít komplexnější verzi SQL ze <span class="sw">SQLite</span>, čímž má uživatel možnost ovlivnit jaká SQL funkcionalita bude dostupná. Dva prvky GUI pak uživateli poskytují zpětnou vazbu, jednak prvek, který zobrazuje případné chyby vzniklé vyhodnocováním SQL a počet prvků, které SQL dotaz vybral.</p>
+<div id="fig-app-complex-3" class="quarto-figure quarto-figure-center anchored">
+<figure class="figure">
+<p><img src="./figures/app_complex_3.png" class="img-fluid figure-img" style="width:75.0%"></p>
+<p></p><figcaption class="figure-caption">Obr.&nbsp;12.3: Okno s operací pro kopírování vrstvy</figcaption><p></p>
+</figure>
+</div>
+<p>Výsledná aplikace je dostupná v ukázkových souborech ve složce <a href="https://github.com/JanCaha/PyQt-GIS-book/tree/main/examples/application" class="example" title="application">application</a>. Jednou ze zajímavých položek může být rozdělení aplikace do dílčích souborů a složek, aby nedocházelo k tomu, že bude některá část aplikace (soubor) příliš objemná a náročná na orientaci. Zejména je vhodné zmínit kompletní oddělení GUI od dat a operací s nimi. Management dat a operací s nimi má na starosti zvláštní třída, se kterou GUI interaguje, ale jejíž struktura je od GUI oddělená. To jednak umožňuje např. výměnu této komponenty v aplikaci či použití této komponenty ve zcela jiné aplikaci.</p>
+<p>Na této ukázkové aplikaci byly demonstrovány všechny základní koncepty tvorby aplikací s GUI, které jsme v rámci tohoto textu probrali.</p>
 
 
 
@@ -245,7 +264,24 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     button.classList.add('code-copy-button-checked');
     var currentTitle = button.getAttribute("title");
     button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
     setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
       button.setAttribute("title", currentTitle);
       button.classList.remove('code-copy-button-checked');
     }, 1000);
@@ -281,24 +317,42 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
   var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
   for (var i=0; i<bibliorefs.length; i++) {
     const ref = bibliorefs[i];
-    const cites = ref.parentNode.getAttribute('data-cites').split(' ');
-    tippyHover(ref, function() {
-      var popup = window.document.createElement('div');
-      cites.forEach(function(cite) {
-        var citeDiv = window.document.createElement('div');
-        citeDiv.classList.add('hanging-indent');
-        citeDiv.classList.add('csl-entry');
-        var biblioDiv = window.document.getElementById('ref-' + cite);
-        if (biblioDiv) {
-          citeDiv.innerHTML = biblioDiv.innerHTML;
-        }
-        popup.appendChild(citeDiv);
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
       });
-      return popup.innerHTML;
-    });
+    }
   }
 });
 </script>
