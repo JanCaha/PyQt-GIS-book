@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "Tvorba GUI aplikací pro geoinformatiku",
     "section": "",
-    "text": "Základní informace\nTato publikace slouží jako základní studijní opora k předmětu Programování IV vyučovaném na katedře Geoinformatiky VŠB-TUO v zimním semestru 2022/2023.\nPublikace se věnuje základům vytváření aplikací s uživatelským rozhraním v jazyce Python s použitím knihovny PyQt.\nVerze 0.1 knihy."
+    "text": "Základní informace\nTato publikace slouží jako základní studijní opora k předmětu Programování IV vyučovaném na katedře Geoinformatiky VŠB-TUO v zimním semestru 2022/2023.\nPublikace se věnuje základům vytváření aplikací s uživatelským rozhraním v jazyce Python s použitím knihovny PyQt.\nVerze 0.5 knihy."
   },
   {
     "objectID": "01-uvod.html#předpoklady",
@@ -142,7 +142,7 @@
   {
     "objectID": "summary.html",
     "href": "summary.html",
-    "title": "13  Summary",
+    "title": "13  Souhrnné informace",
     "section": "",
     "text": "Tato kniha byla sestavena s použitím následujících verzí knihoven.\n\nfrom platform import python_version\nfrom PyQt5.QtCore import QT_VERSION_STR\nfrom PyQt5.Qt import PYQT_VERSION_STR\nfrom sip import SIP_VERSION_STR\nfrom osgeo import gdal\n\nprint(\"Python version:\", python_version())\nprint(\"Qt version:\", QT_VERSION_STR)\nprint(\"SIP version:\", SIP_VERSION_STR)\nprint(\"PyQt version:\", PYQT_VERSION_STR)\nprint(\"GDAL version:\", gdal.__version__)\n\nPython version: 3.10.6\nQt version: 5.15.2\nSIP version: 6.6.2\nPyQt version: 5.15.7\nGDAL version: 3.4.3"
   },
