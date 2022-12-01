@@ -1,3 +1,19 @@
 # Ukázková komplexnější aplikace
 
-{{< example-code application >}}
+Všechny dosud demonstrované složky aplikací s GUI použijeme na finální ukázce. Jedná se o aplikaci, která načte zvolený soubor, pakliže se jedná o vektorová data, která [OGR]{.sw} identifikuje, zobrazí informace o driveru souboru a počtu vrstev. Mimo to aplikace umí v separátní záložce hlavního okna zobrazit informace o jednotlivých vrstvách v souboru (souřadnicový systém, atributy a jejich typ a počet prvků). Aplikace také umožňuje provádět tři operace: vytvořit kopii vrstvy pomocí [GDAL SQL]{.sw} dotazu, smazat vybrané vrstvy a exportovat vybranou vrstvu do souboru. 
+
+Aplikace je postavená na standardním {{< qt-class QMainWindow >}} a využívá jak menu, hlavní widget, tak i stavový řádek. V oblasti hlavního widgetu používá aplikace {{< qt-class QTabWidget >}}, který umožňuje zobrazení několik dílčích oken pomocí tzv. záložek. Základní záložka umožňuje volbu souboru a zobrazuje základní informace o něm (viz @fig-app-complex-1).
+
+![Základní okno aplikace](./figures/app_complex_1.png){#fig-app-complex-1 width=75% fig-align="center"}
+
+Druhým oknem, které existuje jakou součást hlavního widgetu je okno s informace o vrstvě. Zde se po výběru vrstvy zobrazení základní informace o této vrstvě (viz @fig-app-complex-2).
+
+![Widget s informace o vrstvě](./figures/app_complex_2.png){#fig-app-complex-2 width=75% fig-align="center"}
+
+Mimo tyto dvě okna lze z menu [Operace]{.settings} vybrat některou ze tří výše popsaných operací. Každá z těchto operací otevře vlastní dialogové okno, které se zobrazuje nad hlavní aplikací. Příkladem operace může být např. kopírování vrstvy pomocí [SQL]{.sw} dotazu (viz @fig-app-complex-3). Tato operace má nejkomplexnější uživatelské rozhraní. Uživatel musí specifikovat název nové vrstvy a [SQL]{.sw} dotaz, jehož výsledkem je nová vrstva. Mimo to lze specifikovat, zda-li se má použít základní verze SQL dostupná s [OGR]{.sw} a nebo použít komplexnější verzi SQL ze [SQLite]{.sw}, čímž má uživatel možnost ovlivnit jaká SQL funkcionalita bude dostupná. Dva prvky GUI pak uživateli poskytují zpětnou vazbu, jednak prvek, který zobrazuje případné chyby vzniklé vyhodnocováním SQL a počet prvků, které SQL dotaz vybral.
+
+![Okno s operací pro kopírování vrstvy](./figures/app_complex_3.png){#fig-app-complex-3 width=75% fig-align="center"}
+
+Výsledná aplikace je dostupná v ukázkových souborech ve složce {{< example-code application >}}. Jednou ze zajímavých položek může být rozdělení aplikace do dílčích souborů a složek, aby nedocházelo k tomu, že bude některá část aplikace (soubor) příliš objemná a náročná na orientaci. Zejména je vhodné zmínit kompletní oddělení GUI od dat a operací s nimi. Management dat a operací s nimi má na starosti zvláštní třída, se kterou GUI interaguje, ale jejíž struktura je od GUI oddělená. To jednak umožňuje např. výměnu této komponenty v aplikaci či použití této komponenty ve zcela jiné aplikaci.
+
+Na této ukázkové aplikaci byly demonstrovány všechny základní koncepty tvorby aplikací s GUI, které jsme v rámci tohoto textu probrali.
