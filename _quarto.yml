@@ -27,7 +27,7 @@ book:
     - 12-ukazkova-aplikace.qmd
     - summary.qmd
     - literatura.qmd
-    - appendix.qmd
+    #- appendix.qmd
 
 jupyter: python3
 
